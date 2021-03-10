@@ -5,7 +5,7 @@ public class HelloSep {
             + "\nDBS is the best"
             + "\nSuper duper ding dong");
 
-        System.out.println("Hello from a branch");
+        System.out.println("Hello from a branch ---");
     }
 
 }
