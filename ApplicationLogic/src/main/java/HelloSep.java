@@ -1,5 +1,8 @@
 public class HelloSep {
     public static void main(String[] args) {
-        System.out.println("Hello sep");
+        System.out.println("Roses are red"
+            + "\nMurder is wrong"
+            + "\nDBS is the best"
+            + "\nSuper duper ding dong");
     }
 }
