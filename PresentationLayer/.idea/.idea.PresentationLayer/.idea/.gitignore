@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/.idea.PresentationLayer.iml
+/modules.xml
+/projectSettingsUpdater.xml
+/contentModel.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../../../../:\Users\ionut\Documents\MEGAsync\University\Sem3\SEP3\Sep3\PresentationLayer\.idea\.idea.PresentationLayer\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
