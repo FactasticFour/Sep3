@@ -20,12 +20,12 @@ public class UserDAOImpl implements UserDAO {
     public UserDAOImpl() {
         mapper = new ObjectMapper();
         usersList = new ArrayList<>();
+        readUsers(usersFilePath);
     }
 
     private void readUsers(String file) {
-        File usersFile = new File(file);
         try {
-            usersList = mapper.readValue(usersFile, new TypeReference<>() {
+            usersList = mapper.readValue(new File(file), new TypeReference<>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
