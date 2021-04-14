@@ -1,0 +1,16 @@
+﻿@page "/GetUsers"
+@using PresentationLayer.Data
+@using Models
+@inject IUserService UserService
+
+<h3>GetUsers</h3>
+
+@code {
+    private User user;
+    protected async override Task OnInitializedAsync()
+    {
+        user = await UserService.GetUserByIdAsync(5);
+        
+    }
+
+}
