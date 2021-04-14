@@ -3,11 +3,13 @@ package dk.via.sep3.group1.applicationlogic.model.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Service
 public class UserDAOImpl implements UserDAO {
 
     private String usersFilePath = "users.json";
