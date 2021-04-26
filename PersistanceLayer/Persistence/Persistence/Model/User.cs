@@ -7,5 +7,6 @@ namespace Persistence.Model
         [Key] public int IdUser { get; set; }
         [Required] public string Name { get; set; }
         [Required] public string Password { get; set; }
+        
     }
 }
