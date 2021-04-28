@@ -15,6 +15,7 @@ namespace PersistenceServer
             Console.WriteLine("------");
             
             // takes care of shutting down the database
+            /*
             using DataContext dataContext = new DataContext();
             dataContext.Users.Add(new User
             {
@@ -22,7 +23,7 @@ namespace PersistenceServer
                 Password = "12345"
             });
             dataContext.SaveChanges();
-
+*/
             Console.WriteLine("------");
         }
     }

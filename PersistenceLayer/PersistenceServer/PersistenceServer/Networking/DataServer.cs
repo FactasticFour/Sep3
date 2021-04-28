@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -21,6 +22,7 @@ namespace PersistenceServer.Networking
                 TcpClient acceptTcpClient = listener.AcceptTcpClient();
                 ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
                 new Thread(() => handleClientConnection(serverHandler)).Start();
+                Console.WriteLine("Server connected client");
             }
         }
 

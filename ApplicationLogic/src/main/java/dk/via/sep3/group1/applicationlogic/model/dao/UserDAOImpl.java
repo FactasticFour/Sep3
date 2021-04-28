@@ -24,8 +24,9 @@ public class UserDAOImpl implements UserDAO {
     public UserDAOImpl() {
         mapper = new ObjectMapper();
         usersList = new ArrayList<>();
-        readUsers(usersFilePath);
+        //readUsers(usersFilePath);
     }
+
 
     private void readUsers(String file) {
         try {
@@ -35,6 +36,8 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     public User getUserById(int id) {

@@ -3,10 +3,20 @@
 @using Models
 @inject IUserService UserService
 
+@if (user == null)
+{
+    <p>User not found</p>
+}
+else
+{
+    <p>@user.Name</p>
+}
+
 <h3>GetUsers</h3>
 
 @code {
     private User user;
+    
     protected async override Task OnInitializedAsync()
     {
         user = await UserService.GetUserByIdAsync(1);

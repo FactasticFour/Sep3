@@ -23,6 +23,7 @@ public class DataClientImpl implements DataClient {
             socket = new Socket("127.0.0.1", 12345);
             outputStream = socket.getOutputStream();
             inputStream = socket.getInputStream();
+            System.out.println("client has connected to server");
 
         } catch (IOException e) {
             e.printStackTrace();
