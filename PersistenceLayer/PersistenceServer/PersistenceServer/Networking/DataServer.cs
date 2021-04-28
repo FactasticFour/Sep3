@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace PersistenceServer.Networking
 {
@@ -17,10 +18,15 @@ namespace PersistenceServer.Networking
 
             while (true)
             {
-                
+                TcpClient acceptTcpClient = listener.AcceptTcpClient();
+                ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
+                new Thread(() => handleClientConnection(serverHandler)).Start();
             }
         }
 
-
+        private void handleClientConnection(ServerHandler serverHandler)
+        {
+            serverHandler.AddUser();
+        }
     }
 }
