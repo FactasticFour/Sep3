@@ -28,6 +28,7 @@ namespace PersistenceServer.Networking
                 using DataContext dataContext = new DataContext();
                 byte[] dataFromClient = new byte[1024];
                 int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
+                Console.WriteLine(bytesRead);
                 string userString = Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
                 User user = JsonSerializer.Deserialize<User>(userString, new JsonSerializerOptions()
                 {
@@ -55,6 +56,8 @@ namespace PersistenceServer.Networking
             IQueryable<User> queryable = dataContext.Users.Where(user => user.UserId == intFromClient);
             User firstOrDefault = queryable.FirstOrDefault(user => user.UserId == intFromClient);
 
+            Console.WriteLine($"User found in db before serialization: {firstOrDefault.UserName}");
+
             string toSendToClient = JsonSerializer.Serialize(firstOrDefault, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -62,6 +65,7 @@ namespace PersistenceServer.Networking
 
             byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
             stream.Write(bytesToSend);
+            stream.Close();
         }
     }
 }
