@@ -11,7 +11,7 @@ namespace PersistenceServer.Networking
     {
         private TcpClient client;
         private NetworkStream stream;
-        private DataContext context;
+        // TODO add DAO
 
         public ServerHandler(TcpClient client)
         {
@@ -23,6 +23,7 @@ namespace PersistenceServer.Networking
         {
             if (stream.CanRead)
             {
+                using DataContext dataContext = new DataContext();
                 byte[] dataFromClient = new byte[1024];
                 int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
                 string userString = Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
@@ -32,7 +33,7 @@ namespace PersistenceServer.Networking
                 });
                 if (user != null)
                 {
-                    context.Users.Add(user);
+                    dataContext.Users.Add(user);
                 }
             }
         }

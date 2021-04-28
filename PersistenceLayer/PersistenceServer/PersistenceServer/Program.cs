@@ -14,8 +14,8 @@ namespace PersistenceServer
 
             Console.WriteLine("------");
             
-                        
-            DataContext dataContext = new DataContext();
+            // takes care of shutting down the database
+            using DataContext dataContext = new DataContext();
             dataContext.Users.Add(new User
             {
                 UserName = "John",
