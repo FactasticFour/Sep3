@@ -26,7 +26,7 @@ namespace PersistenceServer.Networking
 
         private void handleClientConnection(ServerHandler serverHandler)
         {
-            serverHandler.AddUser();
+            serverHandler.GetUserById();
         }
     }
 }

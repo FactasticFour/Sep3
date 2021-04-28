@@ -2,17 +2,15 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 public class User {
     private int id;
-    private String name;
-    private String email;
+    private String userName;
     private String password;
 
     public User() {
     }
 
-    public User(int id, String name, String email, String password) {
+    public User(int id, String name,String password) {
         this.id = id;
-        this.name = name;
-        this.email = email;
+        this.userName = name;
         this.password = password;
     }
 
@@ -25,19 +23,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return userName;
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.userName = name;
     }
 
     public String getPassword() {
