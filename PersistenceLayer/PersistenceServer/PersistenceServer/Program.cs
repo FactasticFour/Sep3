@@ -2,6 +2,7 @@
 using PersistenceServer.Data;
 using PersistenceServer.Models;
 using PersistenceServer.Networking;
+using PersistenceServer.Repository;
 
 namespace PersistenceServer
 {
@@ -9,7 +10,8 @@ namespace PersistenceServer
     {
         static void Main(string[] args)
         {
-            DataServer dataServer = new DataServer();
+            IUserRepository repository = new UserRepositoryImpl();
+            DataServer dataServer = new DataServer(repository);
             dataServer.Start();
 
             Console.WriteLine("------");

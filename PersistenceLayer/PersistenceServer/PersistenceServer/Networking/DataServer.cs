@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using PersistenceServer.Repository;
 
 namespace PersistenceServer.Networking
 {
@@ -10,6 +11,13 @@ namespace PersistenceServer.Networking
         private NetworkStream networkStream;
         private TcpListener listener;
         private IPAddress ipAddress;
+
+        private IUserRepository repository;
+
+        public DataServer(IUserRepository repository)
+        {
+            this.repository = repository;
+        }
 
         public void Start()
         {
@@ -20,7 +28,7 @@ namespace PersistenceServer.Networking
             while (true)
             {
                 TcpClient acceptTcpClient = listener.AcceptTcpClient();
-                ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
+                ServerHandler serverHandler = new ServerHandler(acceptTcpClient, repository);
                 new Thread(() => handleClientConnection(serverHandler)).Start();
                 Console.WriteLine("Server connected client");
             }
