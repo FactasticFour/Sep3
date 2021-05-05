@@ -18,17 +18,18 @@ public class DataClientImpl implements DataClient {
     private InputStream inputStream;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public void start() {
+    public DataClientImpl() {
         try {
             socket = new Socket("127.0.0.1", 12345);
-            outputStream = socket.getOutputStream();
             inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
             System.out.println("client has connected to server");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public User getUser(int id) {
@@ -38,7 +39,9 @@ public class DataClientImpl implements DataClient {
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(Integer.parseInt(String.valueOf(id)));
             outputStream.write(valueAsBytes);
             byte[] readAllBytes = inputStream.readAllBytes();
-            user = objectMapper.readValue(readAllBytes, User.class);
+            String stringBytes = new String(readAllBytes);
+            System.out.println(stringBytes);
+            user = objectMapper.readValue(stringBytes, User.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

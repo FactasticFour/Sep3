@@ -1,25 +1,30 @@
 package dk.via.sep3.group1.applicationlogic.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
-    private int id;
+    @JsonProperty("userId")
+    private int userId;
+    @JsonProperty("userName")
     private String userName;
+    @JsonProperty("password")
     private String password;
 
     public User() {
     }
 
-    public User(int id, String name,String password) {
-        this.id = id;
+    public User(int userId, String name, String password) {
+        this.userId = userId;
         this.userName = name;
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {

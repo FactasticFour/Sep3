@@ -11,8 +11,8 @@ public class ApplicationLogicApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApplicationLogicApplication.class, args);
 
-        DataClientImpl client = new DataClientImpl();
-        client.start();
+//        DataClientImpl client = new DataClientImpl();
+//        client.start();
     }
 
 }
