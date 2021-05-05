@@ -7,94 +7,72 @@ using System.Threading.Tasks;
 using PersistenceServer.Data;
 using PersistenceServer.Models;
 using PersistenceServer.Repository;
+using PersistenceServer.shared;
 
 namespace PersistenceServer.Networking
 {
     public class ServerHandler
     {
-        private TcpClient client;
         private NetworkStream stream;
 
         private IUserRepository repository;
 
         public ServerHandler(TcpClient client, IUserRepository repository)
         {
-            this.client = client;
             stream = client.GetStream();
             this.repository = repository;
-            //TODO Ask Troels dependency injection
         }
 
-        public void AddUser()
+        public void PerformRequest()
         {
-            if (stream.CanRead)
-            {
-                using DataContext dataContext = new DataContext();
-                byte[] dataFromClient = new byte[1024];
-                int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
-                Console.WriteLine(bytesRead);
-                string userString = Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
-                User user = JsonSerializer.Deserialize<User>(userString, new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-                if (user != null)
-                {
-                    dataContext.Users.Add(user);
-                }
-            }
-        }
+            string requestAsString = ReadFromStream();
 
-        public void GetUserById()
-        {
-            byte[] dataFromClient = new byte[1024];
-            int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
-            string userString = Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
-            
-            int intFromClient = JsonSerializer.Deserialize<int>(userString, new JsonSerializerOptions()
+            Request requestFromClient = JsonSerializer.Deserialize<Request>(requestAsString, new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
             });
 
-            User result = repository.GetUserByIdAsync(intFromClient).GetAwaiter().GetResult();
-
-            Console.WriteLine(result);
+            String requestType = requestFromClient.Type;
+            //TODO Possible null exception
             
-            string toSendToClient = JsonSerializer.Serialize(result, new JsonSerializerOptions()
+            if (requestType.Equals("getUserById"))
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-
-            byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
-            stream.Write(bytesToSend);
+                 int id = JsonSerializer.Deserialize<int>(requestFromClient.Argument, new JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                 
+                 User result = repository.GetUserByIdAsync(id).GetAwaiter().GetResult();
+                 
+                 string toSendToClient = JsonSerializer.Serialize(result, new JsonSerializerOptions()
+                 {
+                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                 });
+                 
+                 SendToStream(toSendToClient);
+            }
+            else
+            {
+                throw new Exception("id is null");
+            }
+            
             stream.Close();
         }
 
-        // public void GetUserById()
-        // {
-        //     using DataContext dataContext = new DataContext();
-        //     byte[] dataFromClient = new byte[1024];
-        //     int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
-        //     string userString = Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
-        //
-        //     int intFromClient = JsonSerializer.Deserialize<int>(userString, new JsonSerializerOptions()
-        //     {
-        //         PropertyNameCaseInsensitive = true
-        //     });
-        //
-        //     IQueryable<User> queryable = dataContext.Users.Where(user => user.UserId == intFromClient);
-        //     User firstOrDefault = queryable.FirstOrDefault(user => user.UserId == intFromClient);
-        //
-        //     Console.WriteLine($"User found in db before serialization: {firstOrDefault.UserName}");
-        //
-        //     string toSendToClient = JsonSerializer.Serialize(firstOrDefault, new JsonSerializerOptions()
-        //     {
-        //         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        //     });
-        //
-        //     byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
-        //     stream.Write(bytesToSend);
-        //     stream.Close();
-        // }
+        private string ReadFromStream()
+        {
+            //TODO exception? maybe, hopefully not
+            byte[] dataFromClient = new byte[1024];
+            int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
+            return Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
+        }
+
+        private void SendToStream(string toSendToClient)
+        {
+            //TODO exception? byte my ass
+            byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
+            stream.Write(bytesToSend);
+        }
+        
     }
 }
