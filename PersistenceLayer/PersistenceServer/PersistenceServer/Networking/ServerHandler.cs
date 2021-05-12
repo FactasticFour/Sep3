@@ -69,7 +69,7 @@ namespace PersistenceServer.Networking
 
         private void SendToStream(string toSendToClient)
         {
-            //TODO exception? byte my ass
+            //TODO exception
             byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
             stream.Write(bytesToSend);
         }
