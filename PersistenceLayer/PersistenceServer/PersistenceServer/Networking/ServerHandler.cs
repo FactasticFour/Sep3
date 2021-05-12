@@ -73,6 +73,14 @@ namespace PersistenceServer.Networking
             byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
             stream.Write(bytesToSend);
         }
+
+        // we can use it for deserialization of common objects
+        private T ToObject<T>(JsonElement element)
+        {
+            var json = element.GetRawText();
+            var deserializeResult = JsonSerializer.Deserialize<T>(json);
+            return deserializeResult;
+        }
         
     }
 }
