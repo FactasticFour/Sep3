@@ -8,7 +8,6 @@ namespace PersistenceServer.Networking
 {
     public class DataServer
     {
-        private NetworkStream networkStream;
         private TcpListener listener;
         private IPAddress ipAddress;
 
