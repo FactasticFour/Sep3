@@ -28,7 +28,7 @@ namespace PersistenceServer.Networking
 
         private void handleClientConnection(ServerHandler serverHandler)
         {
-            serverHandler.PerformRequest();
+            serverHandler.HandleRequest();
         }
     }
 }

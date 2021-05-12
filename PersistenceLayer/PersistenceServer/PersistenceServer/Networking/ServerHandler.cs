@@ -14,7 +14,6 @@ namespace PersistenceServer.Networking
     public class ServerHandler
     {
         private NetworkStream stream;
-
         private IUserRepository repository;
 
         public ServerHandler(TcpClient client)
@@ -23,45 +22,28 @@ namespace PersistenceServer.Networking
             repository = new UserRepositoryImpl();
         }
 
-        public void PerformRequest()
+        public void HandleRequest()
         {
-            string requestAsString = ReadFromStream();
+            string readFromStream = ReadFromStream();
+            Request requestFromClient = ToObject<Request>(readFromStream);
 
-            Request requestFromClient = JsonSerializer.Deserialize<Request>(requestAsString, new JsonSerializerOptions()
+            switch (requestFromClient.Type)
             {
-                PropertyNameCaseInsensitive = true
-            });
+                case "getUserById":
+                    User result = repository.GetUserByIdAsync(ToObject<int>((JsonElement) requestFromClient.Argument))
+                        .GetAwaiter().GetResult();
 
-            String requestType = requestFromClient.Type;
-            //TODO Possible null exception
-            
-            if (requestType.Equals("getUserById"))
-            {
-                 int id = JsonSerializer.Deserialize<int>(requestFromClient.Argument, new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-                 
-                 User result = repository.GetUserByIdAsync(id).GetAwaiter().GetResult();
-                 
-                 string toSendToClient = JsonSerializer.Serialize(result, new JsonSerializerOptions()
-                 {
-                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                 });
-                 
-                 SendToStream(toSendToClient);
+                    string toSendToClient = ToJson(result);
+                    SendToStream(toSendToClient);
+                    break;
             }
-            else
-            {
-                throw new Exception("id is null");
-            }
-            
+
             stream.Close();
         }
 
         private string ReadFromStream()
         {
-            //TODO exception? maybe, hopefully not
+            //TODO exception
             byte[] dataFromClient = new byte[1024];
             int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
             return Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
@@ -69,19 +51,40 @@ namespace PersistenceServer.Networking
 
         private void SendToStream(string toSendToClient)
         {
-            //TODO exception
             byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
             stream.Write(bytesToSend);
         }
 
-        // we can use it for deserialization of common objects
+        // overloaded methods for deserialization of common objects
         private T ToObject<T>(JsonElement element)
         {
             var json = element.GetRawText();
-            var deserializeResult = JsonSerializer.Deserialize<T>(json);
+            Console.WriteLine($"--{json}");
+            var deserializeResult = JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            Console.WriteLine($"--{deserializeResult}");
             return deserializeResult;
-            
         }
-        
+
+        private T ToObject<T>(String element)
+        {
+            var deserializeResult = JsonSerializer.Deserialize<T>(element, new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return deserializeResult;
+        }
+
+        private string ToJson<T>(T objToSerialize)
+        {
+            string serialized = JsonSerializer.Serialize(objToSerialize, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            return serialized;
+        }
     }
 }
