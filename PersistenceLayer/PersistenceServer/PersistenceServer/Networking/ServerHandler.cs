@@ -80,6 +80,7 @@ namespace PersistenceServer.Networking
             var json = element.GetRawText();
             var deserializeResult = JsonSerializer.Deserialize<T>(json);
             return deserializeResult;
+            
         }
         
     }
