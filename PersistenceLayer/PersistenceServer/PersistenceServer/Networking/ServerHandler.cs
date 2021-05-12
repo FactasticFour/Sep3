@@ -17,10 +17,10 @@ namespace PersistenceServer.Networking
 
         private IUserRepository repository;
 
-        public ServerHandler(TcpClient client, IUserRepository repository)
+        public ServerHandler(TcpClient client)
         {
             stream = client.GetStream();
-            this.repository = repository;
+            repository = new UserRepositoryImpl();
         }
 
         public void PerformRequest()

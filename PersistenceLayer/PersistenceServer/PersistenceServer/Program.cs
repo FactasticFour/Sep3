@@ -10,11 +10,10 @@ namespace PersistenceServer
     {
         static void Main(string[] args)
         {
-            IUserRepository repository = new UserRepositoryImpl();
-            DataServer dataServer = new DataServer(repository);
+            DataServer dataServer = new DataServer();
             dataServer.Start();
 
-            Console.WriteLine("------");
+            Console.WriteLine("1------");
             
             // takes care of shutting down the database
             /*
@@ -26,7 +25,7 @@ namespace PersistenceServer
             });
             dataContext.SaveChanges();
 */
-            Console.WriteLine("------");
+            Console.WriteLine("2------");
         }
     }
 }

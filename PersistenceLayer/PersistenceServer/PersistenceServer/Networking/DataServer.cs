@@ -11,13 +11,6 @@ namespace PersistenceServer.Networking
         private TcpListener listener;
         private IPAddress ipAddress;
 
-        private IUserRepository repository;
-
-        public DataServer(IUserRepository repository)
-        {
-            this.repository = repository;
-        }
-
         public void Start()
         {
             ipAddress = IPAddress.Parse("127.0.0.1");
@@ -27,7 +20,7 @@ namespace PersistenceServer.Networking
             while (true)
             {
                 TcpClient acceptTcpClient = listener.AcceptTcpClient();
-                ServerHandler serverHandler = new ServerHandler(acceptTcpClient, repository);
+                ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
                 new Thread(() => handleClientConnection(serverHandler)).Start();
                 Console.WriteLine("Server connected client");
             }
