@@ -6,7 +6,7 @@ public class Request {
     private String type; //TODO make enums
     private Object argument;
 
-    public Request(String type, String argument)
+    public Request(String type, Object argument)
     {
         this.type = type;
         this.argument = argument;
