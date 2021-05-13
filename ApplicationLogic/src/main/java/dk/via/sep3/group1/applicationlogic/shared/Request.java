@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Request {
     private String type; //TODO make enums
-    private Object argument;
+    private String argument;
 
-    public Request(String type, Object argument)
+    public Request(String type, String argument)
     {
         this.type = type;
         this.argument = argument;
@@ -24,7 +24,7 @@ public class Request {
         return argument;
     }
 
-    public void setArgument(Object argument) {
+    public void setArgument(String argument) {
         this.argument = argument;
     }
 }

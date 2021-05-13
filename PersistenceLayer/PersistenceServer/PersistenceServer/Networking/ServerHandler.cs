@@ -30,7 +30,7 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 case "getUserById":
-                    User result = repository.GetUserByIdAsync(ToObject<int>((JsonElement) requestFromClient.Argument))
+                    User result = repository.GetUserByIdAsync(ToObject<int>(requestFromClient.Argument))
                         .GetAwaiter().GetResult();
 
                     string toSendToClient = ToJson(result);
@@ -59,12 +59,10 @@ namespace PersistenceServer.Networking
         private T ToObject<T>(JsonElement element)
         {
             var json = element.GetRawText();
-            Console.WriteLine($"--{json}");
             var deserializeResult = JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
             });
-            Console.WriteLine($"--{deserializeResult}");
             return deserializeResult;
         }
 
