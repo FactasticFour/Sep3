@@ -41,6 +41,7 @@ namespace PersistenceServer.Networking
         private string ReadFromStream()
         {
             //TODO exception
+            
             byte[] dataFromClient = new byte[1024];
             int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
             return Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
