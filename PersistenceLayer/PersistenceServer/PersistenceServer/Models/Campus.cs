@@ -14,6 +14,7 @@ namespace PersistenceServer.Models
 
         [Required, StringLength(10, ErrorMessage = "Invalid postcode"), Column("postcode")]
         public string PostCode { get; set; }
+        //todo what is the default postcode lenght?
 
         [Required, MaxLength(256)]
         public string Name { get; set; }

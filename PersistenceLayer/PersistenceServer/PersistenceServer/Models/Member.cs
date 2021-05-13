@@ -10,7 +10,7 @@ namespace PersistenceServer.Models
         public int ViaId { get; set; }
         [MaxLength(256), Required, Column("fname")]
         public String FirstName { get; set; }
-        [MaxLength(256), Required, Column("fname")]
+        [MaxLength(256), Required, Column("lname")]
         public String LastName { get; set; }
         [MinLength(8), Required]
         public String Password { get; set; }
