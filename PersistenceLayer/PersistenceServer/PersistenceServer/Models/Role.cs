@@ -7,7 +7,7 @@ namespace PersistenceServer.Models
     {
         [Key, Required]
         public int RoleId { get; set; }
-        [Required, Range(typeof(String), "Admin", "Admin")]
+        [Required] // i think we just have to check this constraint in the business logic
         public String RoleType { get; set; }
         
     }
