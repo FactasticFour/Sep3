@@ -32,12 +32,10 @@ namespace PersistenceServer.Networking
                 case "getUserById":
                     User result = repository.GetUserByIdAsync(ToObject<int>(requestFromClient.Argument))
                         .GetAwaiter().GetResult();
-
                     string toSendToClient = ToJson(result);
                     SendToStream(toSendToClient);
                     break;
             }
-
             stream.Close();
         }
 
