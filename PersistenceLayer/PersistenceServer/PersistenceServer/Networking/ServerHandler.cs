@@ -22,7 +22,7 @@ namespace PersistenceServer.Networking
             this.repositoryFactory = repositoryFactory;
         }
 
-        public void HandleRequest()
+        public async Task HandleRequest()
         {
             string readFromStream = ReadFromStream();
             Request requestFromClient = ToObject<Request>(readFromStream);
@@ -30,7 +30,7 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 case "getUserById":
-                    User result = repositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Argument)).GetAwaiter().GetResult();
+                    User result = await repositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Argument));
                     string toSendToClient = ToJson(result);
                     SendToStream(toSendToClient);
                     break;
