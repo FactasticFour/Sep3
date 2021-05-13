@@ -52,17 +52,6 @@ namespace PersistenceServer.Networking
             stream.Write(bytesToSend);
         }
 
-        // overloaded methods for deserialization of common objects
-        private T ToObject<T>(JsonElement element)
-        {
-            var json = element.GetRawText();
-            var deserializeResult = JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
-            return deserializeResult;
-        }
-
         private T ToObject<T>(String element)
         {
             var deserializeResult = JsonSerializer.Deserialize<T>(element, new JsonSerializerOptions()
