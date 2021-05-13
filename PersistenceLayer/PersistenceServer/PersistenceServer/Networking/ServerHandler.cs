@@ -14,12 +14,12 @@ namespace PersistenceServer.Networking
     public class ServerHandler
     {
         private NetworkStream stream;
-        private IUserRepository repository;
+        private RepositoryFactory repositoryFactory;
 
-        public ServerHandler(TcpClient client)
+        public ServerHandler(TcpClient client, RepositoryFactory repositoryFactory)
         {
             stream = client.GetStream();
-            repository = new UserRepositoryImpl();
+            this.repositoryFactory = repositoryFactory;
         }
 
         public void HandleRequest()
@@ -30,8 +30,7 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 case "getUserById":
-                    User result = repository.GetUserByIdAsync(ToObject<int>(requestFromClient.Argument))
-                        .GetAwaiter().GetResult();
+                    User result = repositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Argument)).GetAwaiter().GetResult();
                     string toSendToClient = ToJson(result);
                     SendToStream(toSendToClient);
                     break;

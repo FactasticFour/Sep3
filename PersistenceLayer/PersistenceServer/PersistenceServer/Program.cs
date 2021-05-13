@@ -1,5 +1,6 @@
 ﻿using System;
 using PersistenceServer.Networking;
+using PersistenceServer.Repository;
 
 
 namespace PersistenceServer
@@ -8,7 +9,8 @@ namespace PersistenceServer
     {
         static void Main(string[] args)
         {
-            DataServer dataServer = new DataServer();
+            RepositoryFactory repositoryFactory = new RepositoryFactory();
+            DataServer dataServer = new DataServer(repositoryFactory);
             dataServer.Start();
 
             Console.WriteLine("1------");
