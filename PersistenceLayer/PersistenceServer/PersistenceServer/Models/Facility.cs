@@ -17,5 +17,6 @@ namespace PersistenceServer.Models
         public string PostCode { get; set; }
 
         public Campus Campus { get; set; }
+        public Account Account { get; set; }
     }
 }
