@@ -9,6 +9,7 @@ namespace PersistenceServer.Models
         [ForeignKey("senderId"), Required, Range(0, 9999999, ErrorMessage = "Invalid VIA ID")]
         public int SenderViaId { get; set; }
         
+        
         [ForeignKey("receivedId"), Required, Range(0, 9999999, ErrorMessage = "Invalid VIA ID")]
         public int ReceiverViaId { get; set; }
 

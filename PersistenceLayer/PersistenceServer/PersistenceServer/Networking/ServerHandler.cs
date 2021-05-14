@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.CompilerServices;
 using PersistenceServer.Data;
 using PersistenceServer.Models;
 using PersistenceServer.Repository;
@@ -22,9 +23,23 @@ namespace PersistenceServer.Networking
 
         public async Task HandleRequest()
         {
-            string readFromStream = ReadFromStream();
-            Request requestFromClient = ToObject<Request>(readFromStream);
+            // TODO consider making a bad request 
+            Request requestFromClient = new Request()
+            {
+                Type = "Bad Request",
+                Argument = "No Argument"
+            };
             
+            try
+            {
+                string readFromStream = ReadFromStream();
+                requestFromClient = ToObject<Request>(readFromStream);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e}Bytes from stream could not be read and converted to an Request Object");
+                throw new IncompleteInitialization();
+            }
 
             switch (requestFromClient.Type)
             {
@@ -34,13 +49,12 @@ namespace PersistenceServer.Networking
                     SendToStream(toSendToClient);
                     break;
             }
+            // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
         }
 
         private string ReadFromStream()
         {
-            //TODO exception
-            
             byte[] dataFromClient = new byte[1024];
             int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
             return Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);

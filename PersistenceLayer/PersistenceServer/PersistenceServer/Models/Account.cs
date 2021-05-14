@@ -18,7 +18,6 @@ namespace PersistenceServer.Models
         [Required, ForeignKey("viaId")]
         public ViaEntity ViaEntity { get; set; }
         
-        [ForeignKey("creditCardNumber")]
         public CreditCard CreditCard { get; set; }
     }
 }

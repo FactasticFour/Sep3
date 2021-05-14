@@ -6,7 +6,14 @@ namespace PersistenceServer.Data
     public class DataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<Member> Members { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Campus> Campuses { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=hattie.db.elephantsql.com;Port=5432;Database=ezeateiy;Username=ezeateiy;Password=6uR8rdvQCc5r8Eho5SZbxjEcWhxtIUWE",
