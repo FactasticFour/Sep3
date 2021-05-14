@@ -10,6 +10,7 @@ namespace PersistenceServer.Models
         [Key, Required]
         public int AccountId { get; set; }
         
+        
         public IList<Account> Account1 { get; set; }
         public IList<Account> Account2 { get; set; }
         
