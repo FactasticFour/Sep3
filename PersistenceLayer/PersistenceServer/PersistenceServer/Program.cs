@@ -11,6 +11,7 @@ namespace PersistenceServer
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hey Ionut");
             RepositoryFactory repositoryFactory = new RepositoryFactory();
             DataServer dataServer = new DataServer();
             dataServer.Start();
