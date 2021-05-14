@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PersistenceServer.Migrations
 {
-    public partial class S02Models : Migration
+    public partial class S02Models01 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,20 +36,6 @@ namespace PersistenceServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CreditCards", x => x.CreditCardNumber);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transfers",
-                columns: table => new
-                {
-                    SenderViaId = table.Column<int>(type: "integer", nullable: false),
-                    ReceiverViaId = table.Column<int>(type: "integer", nullable: false),
-                    transferAmount = table.Column<int>(type: "integer", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "timestamp without time zone", rowVersion: true, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transfers", x => new { x.ReceiverViaId, x.SenderViaId });
                 });
 
             migrationBuilder.CreateTable(
@@ -118,6 +103,30 @@ namespace PersistenceServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AccountAccount",
+                columns: table => new
+                {
+                    Account1AccountId = table.Column<int>(type: "integer", nullable: false),
+                    Account2AccountId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountAccount", x => new { x.Account1AccountId, x.Account2AccountId });
+                    table.ForeignKey(
+                        name: "FK_AccountAccount_Accounts_Account1AccountId",
+                        column: x => x.Account1AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountAccount_Accounts_Account2AccountId",
+                        column: x => x.Account2AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -138,6 +147,11 @@ namespace PersistenceServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountAccount_Account2AccountId",
+                table: "AccountAccount",
+                column: "Account2AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CreditCardNumber",
                 table: "Accounts",
                 column: "CreditCardNumber");
@@ -156,13 +170,13 @@ namespace PersistenceServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AccountAccount");
+
+            migrationBuilder.DropTable(
                 name: "Campuses");
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Transfers");
 
             migrationBuilder.DropTable(
                 name: "Users");

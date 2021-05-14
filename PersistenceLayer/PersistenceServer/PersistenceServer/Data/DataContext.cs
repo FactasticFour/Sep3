@@ -12,7 +12,6 @@ namespace PersistenceServer.Data
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Transfer> Transfers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,12 +27,6 @@ namespace PersistenceServer.Data
                 c.City,
                 c.Street,
                 c.PostCode
-            });
-
-            modelBuilder.Entity<Transfer>().HasKey(t => new
-            {
-                t.ReceiverViaId,
-                t.SenderViaId
             });
         }
     }
