@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PersistenceServer.Models
 {
@@ -7,7 +8,11 @@ namespace PersistenceServer.Models
     {
         [Key, Required]
         public int RoleId { get; set; }
-        [Required] // i think we just have to check this constraint in the business logic
+        
+        [Required, ForeignKey("accountId")]
+        public Account Account { get; set; }
+        
+        [Required]
         public String RoleType { get; set; }
         
     }

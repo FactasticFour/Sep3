@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PersistenceServer.Models
 {
-    public class Member
+    public class Member : ViaEntity
     {
-        [Key, Required, Range(0, 9999999, ErrorMessage = "Invalid VIA ID")]
-        public int ViaId { get; set; }
+        
         [MaxLength(256), Required, Column("fname")]
         public String FirstName { get; set; }
         [MaxLength(256), Required, Column("lname")]
