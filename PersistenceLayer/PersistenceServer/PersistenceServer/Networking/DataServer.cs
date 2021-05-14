@@ -10,13 +10,6 @@ namespace PersistenceServer.Networking
     {
         private TcpListener listener;
         private IPAddress ipAddress;
-        
-        private RepositoryFactory repositoryFactory;
-
-        public DataServer(RepositoryFactory repositoryFactory)
-        {
-            this.repositoryFactory = repositoryFactory;
-        }
 
         public void Start()
         {
@@ -27,7 +20,7 @@ namespace PersistenceServer.Networking
             while (true)
             {
                 TcpClient acceptTcpClient = listener.AcceptTcpClient();
-                ServerHandler serverHandler = new ServerHandler(acceptTcpClient, repositoryFactory);
+                ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
                 new Thread(() => handleClientConnection(serverHandler)).Start();
                 Console.WriteLine("Server connected client");
             }

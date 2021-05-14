@@ -2,16 +2,9 @@
 {
     public class RepositoryFactory
     {
-        private IUserRepository userRepository;
-
-        public IUserRepository GetUserRepository()
+        public static IUserRepository GetUserRepository()
         {
-            if (userRepository == null)
-            {
-                userRepository = new UserRepositoryImpl();
-            }
-
-            return userRepository;
+            return new UserRepositoryImpl();
         }
     }
 }
