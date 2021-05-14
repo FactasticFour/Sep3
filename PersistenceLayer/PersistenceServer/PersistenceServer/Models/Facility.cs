@@ -5,7 +5,6 @@ namespace PersistenceServer.Models
 {
     public class Facility : ViaEntity
     {
-        
         [Required, MaxLength(256)]
         public string Name { get; set; }
         [Required, MinLength(8)]
@@ -16,5 +15,7 @@ namespace PersistenceServer.Models
         public string Street { get; set; }
         [Required, StringLength(4, ErrorMessage = "Invalid postcode"), Column("postcode")]
         public string PostCode { get; set; }
+
+        public Campus Campus { get; set; }
     }
 }

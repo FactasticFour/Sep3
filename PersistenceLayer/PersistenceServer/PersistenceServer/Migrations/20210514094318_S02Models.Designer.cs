@@ -9,8 +9,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210514090240_S02Models01")]
-    partial class S02Models01
+    [Migration("20210514094318_S02Models")]
+    partial class S02Models
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,15 +176,9 @@ namespace PersistenceServer.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("ViaId");
 
                     b.ToTable("ViaEntity");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ViaEntity");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>
@@ -203,8 +197,7 @@ namespace PersistenceServer.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Facility_Password");
+                        .HasColumnType("text");
 
                     b.Property<string>("PostCode")
                         .IsRequired()
@@ -217,7 +210,7 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.HasDiscriminator().HasValue("Facility");
+                    b.ToTable("Facilities");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Member", b =>
@@ -244,7 +237,7 @@ namespace PersistenceServer.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasDiscriminator().HasValue("Member");
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("AccountAccount", b =>
@@ -288,6 +281,24 @@ namespace PersistenceServer.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("PersistenceServer.Models.Facility", b =>
+                {
+                    b.HasOne("PersistenceServer.Models.ViaEntity", null)
+                        .WithOne()
+                        .HasForeignKey("PersistenceServer.Models.Facility", "ViaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PersistenceServer.Models.Member", b =>
+                {
+                    b.HasOne("PersistenceServer.Models.ViaEntity", null)
+                        .WithOne()
+                        .HasForeignKey("PersistenceServer.Models.Member", "ViaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

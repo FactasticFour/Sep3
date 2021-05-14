@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PersistenceServer.Migrations
 {
-    public partial class S02Models01 : Migration
+    public partial class S02Models : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,17 +57,7 @@ namespace PersistenceServer.Migrations
                 columns: table => new
                 {
                     ViaId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Discriminator = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Facility_Password = table.Column<string>(type: "text", nullable: true),
-                    City = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Street = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    postcode = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: true),
-                    fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true),
-                    Cpr = table.Column<int>(type: "integer", maxLength: 10, nullable: true)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 },
                 constraints: table =>
                 {
@@ -97,6 +87,51 @@ namespace PersistenceServer.Migrations
                     table.ForeignKey(
                         name: "FK_Accounts_ViaEntity_viaId",
                         column: x => x.viaId,
+                        principalTable: "ViaEntity",
+                        principalColumn: "ViaId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Facilities",
+                columns: table => new
+                {
+                    ViaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Street = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    postcode = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Facilities", x => x.ViaId);
+                    table.ForeignKey(
+                        name: "FK_Facilities_ViaEntity_ViaId",
+                        column: x => x.ViaId,
+                        principalTable: "ViaEntity",
+                        principalColumn: "ViaId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Members",
+                columns: table => new
+                {
+                    ViaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Cpr = table.Column<int>(type: "integer", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Members", x => x.ViaId);
+                    table.ForeignKey(
+                        name: "FK_Members_ViaEntity_ViaId",
+                        column: x => x.ViaId,
                         principalTable: "ViaEntity",
                         principalColumn: "ViaId",
                         onDelete: ReferentialAction.Cascade);
@@ -174,6 +209,12 @@ namespace PersistenceServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Campuses");
+
+            migrationBuilder.DropTable(
+                name: "Facilities");
+
+            migrationBuilder.DropTable(
+                name: "Members");
 
             migrationBuilder.DropTable(
                 name: "Roles");
