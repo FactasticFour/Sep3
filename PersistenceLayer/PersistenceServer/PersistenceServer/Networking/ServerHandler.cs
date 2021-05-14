@@ -24,6 +24,7 @@ namespace PersistenceServer.Networking
         {
             string readFromStream = ReadFromStream();
             Request requestFromClient = ToObject<Request>(readFromStream);
+            
 
             switch (requestFromClient.Type)
             {
