@@ -6,5 +6,10 @@
         {
             return new UserRepositoryImpl();
         }
+
+        public static IDbSeedingRepository GetDbSeedingRepository()
+        {
+            return new DbSeedingRepositoryImpl();
+        }
     }
 }

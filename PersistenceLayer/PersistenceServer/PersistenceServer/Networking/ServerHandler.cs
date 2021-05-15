@@ -48,6 +48,9 @@ namespace PersistenceServer.Networking
                     string toSendToClient = ToJson(result);
                     SendToStream(toSendToClient);
                     break;
+                case "seedDatabase":
+                    RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
+                    break;
             }
             // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
