@@ -1,4 +1,6 @@
-﻿namespace PersistenceServer.Repository
+﻿using PersistenceServer.Repository.Impl;
+
+namespace PersistenceServer.Repository
 {
     public class RepositoryFactory
     {
