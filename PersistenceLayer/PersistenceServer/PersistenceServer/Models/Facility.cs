@@ -12,6 +12,7 @@ namespace PersistenceServer.Models
         public string Password { get; set; }
 
         public Campus Campus { get; set; }
+        
         public Account Account { get; set; }
     }
 }
