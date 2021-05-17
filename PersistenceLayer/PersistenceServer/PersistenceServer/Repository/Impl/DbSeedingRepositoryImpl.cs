@@ -29,7 +29,7 @@ namespace PersistenceServer.Repository.Impl
         private async Task PopulateDatabase()
         {
             await PopulateMembers();
-            await PopulateCampuses();
+            //await PopulateCampuses();
             await PopulateFacilities();
         }
 
@@ -73,7 +73,6 @@ namespace PersistenceServer.Repository.Impl
 
         private async Task PopulateLists()
         {
-
             membersList = new List<Member>()
             {
                 new Member()
@@ -305,241 +304,232 @@ namespace PersistenceServer.Repository.Impl
                     ViaId = 12458,
                     Name = "Horsens Library",
                     Password = "kVh1dIKpPcu",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens")),
-                    City = "Horsens",
-                    Street = "Chr M Østergaards Vej",
-                    PostCode = "8700"
+                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
                 },
                 new Facility()
                 {
                     ViaId = 53654,
                     Name = "Horsens Canteen",
                     Password = "eGbRmMu",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens")),
-                    City = "Horsens",
-                    Street = "Chr M Østergaards Vej",
-                    PostCode = "8700"
+                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
                 },
                 new Facility()
                 {
                     ViaId = 120336,
                     Name = "Horsens Music Room",
                     Password = "GlGttQy8qK",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens")),
-                    City = "Horsens",
-                    Street = "Chr M Østergaards Vej",
-                    PostCode = "8700"
+                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
                 },
-                new Facility()
-                {
-                    ViaId = 55236,
-                    Name = "Aarhus C Library",
-                    Password = "1Ay6rbas5",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C")),
-                    City = "Aarhus",
-                    Street = "Ceresbyen",
-                    PostCode = "8000"
-                },
-                new Facility()
-                {
-                    ViaId = 4585,
-                    Name = "Aarhus C Canteen",
-                    Password = "oa8x5AAy",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C")),
-                    City = "Aarhus",
-                    Street = "Ceresbyen",
-                    PostCode = "8000"
-                },
-                new Facility()
-                {
-                    ViaId = 102236,
-                    Name = "Aarhus C Cafe",
-                    Password = "AHaZiZ",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C")),
-                    City = "Aarhus",
-                    Street = "Ceresbyen",
-                    PostCode = "8000"
-                },
-                new Facility()
-                {
-                    ViaId = 15429,
-                    Name = "Aarhus N Library",
-                    Password = "NWiaDlL83M",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N")),
-                    City = "Aarhus",
-                    Street = "Hedeager",
-                    PostCode = "8200"
-                },
-                new Facility()
-                {
-                    ViaId = 12333,
-                    Name = "Aarhus C Canteen",
-                    Password = "QLnlvqTzHzK",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N")),
-                    City = "Aarhus",
-                    Street = "Hedeager",
-                    PostCode = "8200"
-                },
-                new Facility()
-                {
-                    ViaId = 45782,
-                    Name = "Aarhus C Cafe",
-                    Password = "naARC532A9i",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N")),
-                    City = "Aarhus",
-                    Street = "Hedeager",
-                    PostCode = "8200"
-                },
-                new Facility()
-                {
-                    ViaId = 125864,
-                    Name = "Herning Library",
-                    Password = "ffnkQG",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning")),
-                    City = "Herning",
-                    Street = "Birk Centerpark",
-                    PostCode = "7400"
-                },
-                new Facility()
-                {
-                    ViaId = 129365,
-                    Name = "Herning Canteen",
-                    Password = "vQCRTfRhm",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning")),
-                    City = "Herning",
-                    Street = "Birk Centerpark",
-                    PostCode = "7400"
-                },
-                new Facility()
-                {
-                    ViaId = 150325,
-                    Name = "Herning Cafe",
-                    Password = "STmtp3",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning")),
-                    City = "Herning",
-                    Street = "Birk Centerpark",
-                    PostCode = "7400"
-                },
-                new Facility()
-                {
-                    ViaId = 195000,
-                    Name = "Holstebro Library",
-                    Password = "YhnWfWJ",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro")),
-                    City = "Holstebro",
-                    Street = "Gl Struervej",
-                    PostCode = "7500"
-                },
-                new Facility()
-                {
-                    ViaId = 199123,
-                    Name = "Holstebro Canteen",
-                    Password = "fZyi3k0CMU",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro")),
-                    City = "Holstebro",
-                    Street = "Gl Struervej",
-                    PostCode = "7500"
-                },
-                new Facility()
-                {
-                    ViaId = 198752,
-                    Name = "Holstebro Cafe",
-                    Password = "SWsWY472VSN6",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro")),
-                    City = "Holstebro",
-                    Street = "Gl Struervej",
-                    PostCode = "7500"
-                },
-                new Facility()
-                {
-                    ViaId = 52368,
-                    Name = "Randers Library",
-                    Password = "vJu2WVv9",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Randers")),
-                    City = "Randers",
-                    Street = "Jens Otto Krags",
-                    PostCode = "8900"
-                },
-                new Facility()
-                {
-                    ViaId = 55364,
-                    Name = "Randers Canteen",
-                    Password = "9m1csXMx",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Randers")),
-                    City = "Randers",
-                    Street = "Jens Otto Krags",
-                    PostCode = "8900"
-                },
-                new Facility()
-                {
-                    ViaId = 55421,
-                    Name = "Randers Cafe",
-                    Password = "fCy94zxbI6",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Randers")),
-                    City = "Randers",
-                    Street = "Jens Otto Krags",
-                    PostCode = "8900"
-                },
-                new Facility()
-                {
-                    ViaId = 95456,
-                    Name = "Silkeborg Library",
-                    Password = "YRT99g",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Silkeborg")),
-                    City = "Silkeborg",
-                    Street = "Nattergalevej",
-                    PostCode = "8600"
-                },
-                new Facility()
-                {
-                    ViaId = 96128,
-                    Name = "Silkeborg Canteen",
-                    Password = "sNRkyoULDeF",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Silkeborg")),
-                    City = "Silkeborg",
-                    Street = "Nattergalevej",
-                    PostCode = "8600"
-                },
-                new Facility()
-                {
-                    ViaId = 97855,
-                    Name = "Silkeborg Cafe",
-                    Password = "eA7nC3Gsk",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Silkeborg")),
-                    City = "Silkeborg",
-                    Street = "Nattergalevej",
-                    PostCode = "8600"
-                },
-                new Facility()
-                {
-                    ViaId = 32555,
-                    Name = "Viborg Library",
-                    Password = "jYSljNk628D",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg")),
-                    City = "Viborg",
-                    Street = "Prinsens Alle",
-                    PostCode = "8800"
-                },
-                new Facility()
-                {
-                    ViaId = 33784,
-                    Name = "Viborg Canteen",
-                    Password = "6XQBY6",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg")),
-                    City = "Viborg",
-                    Street = "Prinsens Alle",
-                    PostCode = "8800"
-                },
-                new Facility()
-                {
-                    ViaId = 36591,
-                    Name = "Viborg Cafe",
-                    Password = "lXIwo5XPprCg",
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg")),
-                    City = "Viborg",
-                    Street = "Prinsens Alle",
-                    PostCode = "8800"
-                }
+                // new Facility()
+                // {
+                //     ViaId = 55236,
+                //     Name = "Aarhus C Library",
+                //     Password = "1Ay6rbas5",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C")),
+                //     City = "Aarhus",
+                //     Street = "Ceresbyen",
+                //     PostCode = "8000"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 4585,
+                //     Name = "Aarhus C Canteen",
+                //     Password = "oa8x5AAy",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C")),
+                //     City = "Aarhus",
+                //     Street = "Ceresbyen",
+                //     PostCode = "8000"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 102236,
+                //     Name = "Aarhus C Cafe",
+                //     Password = "AHaZiZ",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C")),
+                //     City = "Aarhus",
+                //     Street = "Ceresbyen",
+                //     PostCode = "8000"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 15429,
+                //     Name = "Aarhus N Library",
+                //     Password = "NWiaDlL83M",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N")),
+                //     City = "Aarhus",
+                //     Street = "Hedeager",
+                //     PostCode = "8200"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 12333,
+                //     Name = "Aarhus C Canteen",
+                //     Password = "QLnlvqTzHzK",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N")),
+                //     City = "Aarhus",
+                //     Street = "Hedeager",
+                //     PostCode = "8200"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 45782,
+                //     Name = "Aarhus C Cafe",
+                //     Password = "naARC532A9i",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N")),
+                //     City = "Aarhus",
+                //     Street = "Hedeager",
+                //     PostCode = "8200"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 125864,
+                //     Name = "Herning Library",
+                //     Password = "ffnkQG",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning")),
+                //     City = "Herning",
+                //     Street = "Birk Centerpark",
+                //     PostCode = "7400"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 129365,
+                //     Name = "Herning Canteen",
+                //     Password = "vQCRTfRhm",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning")),
+                //     City = "Herning",
+                //     Street = "Birk Centerpark",
+                //     PostCode = "7400"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 150325,
+                //     Name = "Herning Cafe",
+                //     Password = "STmtp3",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning")),
+                //     City = "Herning",
+                //     Street = "Birk Centerpark",
+                //     PostCode = "7400"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 195000,
+                //     Name = "Holstebro Library",
+                //     Password = "YhnWfWJ",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro")),
+                //     City = "Holstebro",
+                //     Street = "Gl Struervej",
+                //     PostCode = "7500"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 199123,
+                //     Name = "Holstebro Canteen",
+                //     Password = "fZyi3k0CMU",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro")),
+                //     City = "Holstebro",
+                //     Street = "Gl Struervej",
+                //     PostCode = "7500"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 198752,
+                //     Name = "Holstebro Cafe",
+                //     Password = "SWsWY472VSN6",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro")),
+                //     City = "Holstebro",
+                //     Street = "Gl Struervej",
+                //     PostCode = "7500"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 52368,
+                //     Name = "Randers Library",
+                //     Password = "vJu2WVv9",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Randers")),
+                //     City = "Randers",
+                //     Street = "Jens Otto Krags",
+                //     PostCode = "8900"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 55364,
+                //     Name = "Randers Canteen",
+                //     Password = "9m1csXMx",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Randers")),
+                //     City = "Randers",
+                //     Street = "Jens Otto Krags",
+                //     PostCode = "8900"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 55421,
+                //     Name = "Randers Cafe",
+                //     Password = "fCy94zxbI6",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Randers")),
+                //     City = "Randers",
+                //     Street = "Jens Otto Krags",
+                //     PostCode = "8900"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 95456,
+                //     Name = "Silkeborg Library",
+                //     Password = "YRT99g",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Silkeborg")),
+                //     City = "Silkeborg",
+                //     Street = "Nattergalevej",
+                //     PostCode = "8600"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 96128,
+                //     Name = "Silkeborg Canteen",
+                //     Password = "sNRkyoULDeF",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Silkeborg")),
+                //     City = "Silkeborg",
+                //     Street = "Nattergalevej",
+                //     PostCode = "8600"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 97855,
+                //     Name = "Silkeborg Cafe",
+                //     Password = "eA7nC3Gsk",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Silkeborg")),
+                //     City = "Silkeborg",
+                //     Street = "Nattergalevej",
+                //     PostCode = "8600"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 32555,
+                //     Name = "Viborg Library",
+                //     Password = "jYSljNk628D",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg")),
+                //     City = "Viborg",
+                //     Street = "Prinsens Alle",
+                //     PostCode = "8800"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 33784,
+                //     Name = "Viborg Canteen",
+                //     Password = "6XQBY6",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg")),
+                //     City = "Viborg",
+                //     Street = "Prinsens Alle",
+                //     PostCode = "8800"
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 36591,
+                //     Name = "Viborg Cafe",
+                //     Password = "lXIwo5XPprCg",
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg")),
+                //     City = "Viborg",
+                //     Street = "Prinsens Alle",
+                //     PostCode = "8800"
+                // }
             };
         }
     }
