@@ -10,9 +10,8 @@ namespace PersistenceServer.Models
         [Key, Required]
         public int AccountId { get; set; }
         
-        
-        public IList<Account> Account1 { get; set; }
-        public IList<Account> Account2 { get; set; }
+        public IList<Account> Sender { get; set; }
+        public IList<Account> Receiver { get; set; }
         
         [Required, StringLength(64)]
         public String ApplicationPassword { get; set; }

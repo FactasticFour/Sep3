@@ -27,6 +27,7 @@ namespace PersistenceServer.Models
         [Required,Range(0, 9000000)]
         public int AmountOfMoney { get; set; }
 
-        public Account AccountId { get; set; }
+        [ForeignKey("accountId")]
+        public Account Account { get; set; }
     }
 }

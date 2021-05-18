@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PersistenceServer.Migrations
 {
-    public partial class S02InitialCreate_02 : Migration
+    public partial class AccountTransaction : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,23 +19,6 @@ namespace PersistenceServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Campuses", x => new { x.City, x.Street, x.postcode });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CreditCards",
-                columns: table => new
-                {
-                    CreditCardNumber = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    ExpirationMonth = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
-                    ExpirationYear = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
-                    SecurityCode = table.Column<int>(type: "integer", nullable: false),
-                    AmountOfMoney = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CreditCards", x => x.CreditCardNumber);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +40,8 @@ namespace PersistenceServer.Migrations
                 columns: table => new
                 {
                     ViaId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Password = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,20 +54,13 @@ namespace PersistenceServer.Migrations
                 {
                     AccountId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ApplicationPassword = table.Column<string>(type: "text", nullable: false),
+                    ApplicationPassword = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Balance = table.Column<int>(type: "integer", nullable: false),
-                    viaId = table.Column<int>(type: "integer", nullable: false),
-                    CreditCardNumber = table.Column<string>(type: "character varying(16)", nullable: true)
+                    viaId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.AccountId);
-                    table.ForeignKey(
-                        name: "FK_Accounts_CreditCards_CreditCardNumber",
-                        column: x => x.CreditCardNumber,
-                        principalTable: "CreditCards",
-                        principalColumn: "CreditCardNumber",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Accounts_ViaEntity_viaId",
                         column: x => x.viaId,
@@ -96,24 +73,48 @@ namespace PersistenceServer.Migrations
                 name: "AccountAccount",
                 columns: table => new
                 {
-                    Account1AccountId = table.Column<int>(type: "integer", nullable: false),
-                    Account2AccountId = table.Column<int>(type: "integer", nullable: false)
+                    ReceiverAccountId = table.Column<int>(type: "integer", nullable: false),
+                    SenderAccountId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountAccount", x => new { x.Account1AccountId, x.Account2AccountId });
+                    table.PrimaryKey("PK_AccountAccount", x => new { x.ReceiverAccountId, x.SenderAccountId });
                     table.ForeignKey(
-                        name: "FK_AccountAccount_Accounts_Account1AccountId",
-                        column: x => x.Account1AccountId,
+                        name: "FK_AccountAccount_Accounts_ReceiverAccountId",
+                        column: x => x.ReceiverAccountId,
                         principalTable: "Accounts",
                         principalColumn: "AccountId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AccountAccount_Accounts_Account2AccountId",
-                        column: x => x.Account2AccountId,
+                        name: "FK_AccountAccount_Accounts_SenderAccountId",
+                        column: x => x.SenderAccountId,
                         principalTable: "Accounts",
                         principalColumn: "AccountId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CreditCards",
+                columns: table => new
+                {
+                    CreditCardNumber = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
+                    fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    ExpirationMonth = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
+                    ExpirationYear = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
+                    SecurityCode = table.Column<int>(type: "integer", nullable: false),
+                    AmountOfMoney = table.Column<int>(type: "integer", nullable: false),
+                    accountId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CreditCards", x => x.CreditCardNumber);
+                    table.ForeignKey(
+                        name: "FK_CreditCards_Accounts_accountId",
+                        column: x => x.accountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,7 +124,6 @@ namespace PersistenceServer.Migrations
                     ViaId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
                     CampusCity = table.Column<string>(type: "character varying(256)", nullable: true),
                     CampusStreet = table.Column<string>(type: "character varying(256)", nullable: true),
                     CampusPostCode = table.Column<string>(type: "character varying(4)", nullable: true),
@@ -160,8 +160,7 @@ namespace PersistenceServer.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    Cpr = table.Column<int>(type: "integer", maxLength: 10, nullable: false),
+                    Cpr = table.Column<long>(type: "bigint", maxLength: 10, nullable: false),
                     AccountId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -202,19 +201,19 @@ namespace PersistenceServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountAccount_Account2AccountId",
+                name: "IX_AccountAccount_SenderAccountId",
                 table: "AccountAccount",
-                column: "Account2AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_CreditCardNumber",
-                table: "Accounts",
-                column: "CreditCardNumber");
+                column: "SenderAccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_viaId",
                 table: "Accounts",
                 column: "viaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CreditCards_accountId",
+                table: "CreditCards",
+                column: "accountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Facilities_AccountId",
@@ -243,6 +242,9 @@ namespace PersistenceServer.Migrations
                 name: "AccountAccount");
 
             migrationBuilder.DropTable(
+                name: "CreditCards");
+
+            migrationBuilder.DropTable(
                 name: "Facilities");
 
             migrationBuilder.DropTable(
@@ -259,9 +261,6 @@ namespace PersistenceServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Accounts");
-
-            migrationBuilder.DropTable(
-                name: "CreditCards");
 
             migrationBuilder.DropTable(
                 name: "ViaEntity");
