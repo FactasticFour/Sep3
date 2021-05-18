@@ -7,10 +7,6 @@ namespace PersistenceServer.Models
     {
         [Required, MaxLength(256)]
         public string Name { get; set; }
-        
-        [Required, MinLength(8)]
-        public string Password { get; set; }
-
         public Campus Campus { get; set; }
         
         public Account Account { get; set; }
