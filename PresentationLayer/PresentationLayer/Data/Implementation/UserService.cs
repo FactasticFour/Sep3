@@ -13,12 +13,14 @@ namespace PresentationLayer.Data.Implementation
             HttpClient client = new HttpClient();
             HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/users/{id}");
 
+            Console.WriteLine(responseMessage);
             if (!responseMessage.IsSuccessStatusCode)
             {
                 throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
             }
 
             string result = await responseMessage.Content.ReadAsStringAsync();
+            
 
             User user = JsonSerializer.Deserialize<User>(result, new JsonSerializerOptions
             {

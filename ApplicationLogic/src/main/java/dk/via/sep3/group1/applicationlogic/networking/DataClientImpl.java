@@ -19,12 +19,14 @@ public class DataClientImpl implements DataClient {
     private InputStream inputStream;
     private ObjectMapper objectMapper = new ObjectMapper();
 
+
     public DataClientImpl() {
         try {
             socket = new Socket("127.0.0.1", 12345);
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             System.out.println("client has connected to server");
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,9 +49,11 @@ public class DataClientImpl implements DataClient {
 
 
         if (user != null) {
+
             return user;
         } else
             throw new RuntimeException("User is null");
+
     }
 
     @Override
@@ -81,6 +85,7 @@ public class DataClientImpl implements DataClient {
     public <T> T deserialize(String objectToDeserialize, Class<T> tClass){
         T object = null;
         try {
+
             object = objectMapper.readValue(objectToDeserialize, tClass);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

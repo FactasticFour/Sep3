@@ -17,6 +17,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public User getUserById(@PathVariable int id){
+        System.out.println(userService.getUserById(id).toString());
         return userService.getUserById(id);
     }
 }

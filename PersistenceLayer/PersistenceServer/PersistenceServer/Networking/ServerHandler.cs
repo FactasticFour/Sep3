@@ -33,7 +33,9 @@ namespace PersistenceServer.Networking
             try
             {
                 string readFromStream = ReadFromStream();
+                Console.WriteLine(readFromStream);
                 requestFromClient = ToObject<Request>(readFromStream);
+                
             }
             catch (Exception e)
             {
@@ -46,6 +48,7 @@ namespace PersistenceServer.Networking
                 case "getUserById":
                     User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Argument));
                     string toSendToClient = ToJson(result);
+                    Console.WriteLine(toSendToClient);
                     SendToStream(toSendToClient);
                     break;
                 case "seedDatabase":

@@ -112,6 +112,7 @@ using Models;
     protected async override Task OnInitializedAsync()
     {
         user = await UserService.GetUserByIdAsync(1);
+        Console.WriteLine(user.Name);
         
     }
 
