@@ -11,5 +11,14 @@ namespace PresentationLayer.Models
         public int Payload { get; set; }
         public DateTime Timestamp { get; set; }
 
+        public Transaction(Account receiverAccount, Account senderAccount, string comment, string type, int payload, DateTime timestamp)
+        {
+            ReceiverAccount = receiverAccount;
+            SenderAccount = senderAccount;
+            Comment = comment;
+            Type = type;
+            Payload = payload;
+            Timestamp = timestamp;
+        }
     }
 }
