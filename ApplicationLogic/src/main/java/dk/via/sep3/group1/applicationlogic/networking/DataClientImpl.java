@@ -37,11 +37,14 @@ public class DataClientImpl implements DataClient {
 
             String payload = serialize(id);
             Request request = new Request("getUserById", payload);
-            String serializedRequest = serialize(request);
-            writeBytes(serializedRequest);
 
-            String stringToDeserialize = readBytes();
-            User user = deserialize(stringToDeserialize, User.class);
+            // String serializedRequest = serialize(request);
+      //  System.out.println(serializedRequest);
+            writeBytes(request);
+
+             String stringToDeserialize = readBytes();
+             User user = deserialize(stringToDeserialize, User.class);
+
 
         if (user != null) {
             return user;
@@ -86,7 +89,7 @@ public class DataClientImpl implements DataClient {
     }
 
     public String readBytes() {
-        byte[] readAllBytes = new byte[0];
+        byte[] readAllBytes = new byte[1024];
         try {
             readAllBytes = inputStream.readAllBytes();
         } catch (IOException e) {
@@ -96,10 +99,11 @@ public class DataClientImpl implements DataClient {
     }
 
 
-    public void writeBytes(String stringToSend) {
+    public void writeBytes(Object objectToSend) {
         byte[] valueAsBytesTest;
+        System.out.println(objectToSend);
         try {
-            valueAsBytesTest = objectMapper.writeValueAsBytes(stringToSend);
+            valueAsBytesTest = objectMapper.writeValueAsBytes(objectToSend);
             outputStream.write(valueAsBytesTest);
 
         } catch (IOException e) {
