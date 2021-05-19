@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import org.springframework.stereotype.Service;
-
+import java.util.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,24 +34,15 @@ public class DataClientImpl implements DataClient {
 
     @Override
     public User getUser(int id) {
-        User user = null;
 
-        try {
-            String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
+            String payload = serialize(id);
             Request request = new Request("getUserById", payload);
+            String serializedRequest = serialize(request);
+            writeBytes(serializedRequest);
 
-            byte[] valueAsBytesTest = objectMapper.writeValueAsBytes(request);
-            outputStream.write(valueAsBytesTest);
+            String stringToDeserialize = readBytes();
+            User user = deserialize(stringToDeserialize, User.class);
 
-            byte[] readAllBytes = inputStream.readAllBytes();
-            String stringBytes = new String(readAllBytes);
-
-            System.out.println(stringBytes);
-
-            user = objectMapper.readValue(stringBytes, User.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         if (user != null) {
             return user;
         } else
@@ -59,7 +50,7 @@ public class DataClientImpl implements DataClient {
     }
 
     @Override
-    public void seedDatabase(){
+    public void seedDatabase() {
         try {
             String payload = "";
             Request request = new Request("seedDatabase", payload);
@@ -71,5 +62,49 @@ public class DataClientImpl implements DataClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public <T> String serialize(T objectToSerialize){
+        String serializedString = "";
+        try {
+            serializedString = objectMapper.writeValueAsString(objectToSerialize);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+         return serializedString;
+    }
+
+
+    public <T> T deserialize(String objectToDeserialize, Class<T> tClass){
+        T object = null;
+        try {
+            object = objectMapper.readValue(objectToDeserialize, tClass);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    public String readBytes() {
+        byte[] readAllBytes = new byte[0];
+        try {
+            readAllBytes = inputStream.readAllBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new String(readAllBytes);
+    }
+
+
+    public void writeBytes(String stringToSend) {
+        byte[] valueAsBytesTest;
+        try {
+            valueAsBytesTest = objectMapper.writeValueAsBytes(stringToSend);
+            outputStream.write(valueAsBytesTest);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
