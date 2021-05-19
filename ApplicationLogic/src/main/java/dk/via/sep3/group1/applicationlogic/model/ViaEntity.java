@@ -4,16 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor @Getter @Setter
-public class User {
-    @JsonProperty("userId")
-    private int userId;
-    @JsonProperty("userName")
-    private String userName;
+@Getter @Setter @SuperBuilder
+public class ViaEntity {
+    @JsonProperty("viaId")
+    public int viaId;
     @JsonProperty("password")
-    private String password;
-
-
+    public String password;
 
 }
