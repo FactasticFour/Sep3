@@ -4,11 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.networking.DataClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Service
+@Repository
 public class UserDAOImpl implements UserDAO {
 
     private String usersFilePath = "users.json";
