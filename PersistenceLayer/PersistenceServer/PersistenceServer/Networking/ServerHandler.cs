@@ -51,6 +51,10 @@ namespace PersistenceServer.Networking
                 case "seedDatabase":
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
+                case "addCreditCardToAccount":
+                    await RepositoryFactory.GetCreditCardRepository()
+                        .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Argument));
+                    break;
             }
             // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
