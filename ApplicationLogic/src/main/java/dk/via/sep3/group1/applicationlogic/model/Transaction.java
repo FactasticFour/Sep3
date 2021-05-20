@@ -2,9 +2,7 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 import java.sql.Timestamp;
-
 
 public class Transaction {
     @JsonProperty("receiverAccount")

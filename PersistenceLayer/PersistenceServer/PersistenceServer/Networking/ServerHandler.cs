@@ -23,13 +23,12 @@ namespace PersistenceServer.Networking
 
         public async Task HandleRequest()
         {
-            // TODO consider making a bad request 
             Request requestFromClient = new Request()
             {
-                Type = "Bad Request",
-                Argument = "No Argument"
+                Payload = "",
+                Type = ""
             };
-            
+
             try
             {
                 string readFromStream = ReadFromStream();
@@ -43,20 +42,28 @@ namespace PersistenceServer.Networking
 
             switch (requestFromClient.Type)
             {
-                case "getUserById":
-                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Argument));
-                    string toSendToClient = ToJson(result);
+
+                case "GET_USER_BY_ID":
+                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
+
+                    string payload = ToJson(result);
+                    Reply reply = new Reply("SEND_USER", payload);
+                    string toSendToClient = ToJson(reply);
                     SendToStream(toSendToClient);
                     break;
-                case "seedDatabase":
+                case "SEED_DATABASE":
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
                 case "addCreditCardToAccount":
                     await RepositoryFactory.GetCreditCardRepository()
                         .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Argument));
                     break;
+                default:
+                    Reply badRequestReply = new Reply("BAD_REQUEST", "Bad Request");
+                    String replySerialized = ToJson(badRequestReply);
+                    SendToStream(replySerialized);
+                    break;
             }
-            // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
         }
 
