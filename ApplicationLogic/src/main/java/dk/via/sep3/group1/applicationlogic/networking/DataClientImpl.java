@@ -3,6 +3,7 @@ package dk.via.sep3.group1.applicationlogic.networking;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.via.sep3.group1.applicationlogic.model.CreditCard;
 import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import org.springframework.stereotype.Service;
@@ -72,4 +73,21 @@ public class DataClientImpl implements DataClient {
             e.printStackTrace();
         }
     }
+    @Override
+    public void addCreditCardToAccount(CreditCard creditCard) {
+        try {
+            System.out.println("a");
+            String payload = objectMapper.writeValueAsString(creditCard);
+            System.out.println("b");
+            Request request = new Request("addCreditCardToAccount", payload);
+            System.out.println(request.getType() + "\n" + request.getArgument().toString());
+            byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
+            System.out.println("d");
+            outputStream.write(valueAsBytes);
+            System.out.println("e");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
