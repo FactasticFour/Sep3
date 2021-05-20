@@ -10,8 +10,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210514110706_S02Models")]
-    partial class S02Models
+    [Migration("20210518131339_AccountTransaction")]
+    partial class AccountTransaction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,15 +23,15 @@ namespace PersistenceServer.Migrations
 
             modelBuilder.Entity("AccountAccount", b =>
                 {
-                    b.Property<int>("Account1AccountId")
+                    b.Property<int>("ReceiverAccountId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Account2AccountId")
+                    b.Property<int>("SenderAccountId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Account1AccountId", "Account2AccountId");
+                    b.HasKey("ReceiverAccountId", "SenderAccountId");
 
-                    b.HasIndex("Account2AccountId");
+                    b.HasIndex("SenderAccountId");
 
                     b.ToTable("AccountAccount");
                 });
@@ -45,20 +45,16 @@ namespace PersistenceServer.Migrations
 
                     b.Property<string>("ApplicationPassword")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<int>("Balance")
                         .HasColumnType("integer");
-
-                    b.Property<string>("CreditCardNumber")
-                        .HasColumnType("character varying(16)");
 
                     b.Property<int>("viaId")
                         .HasColumnType("integer");
 
                     b.HasKey("AccountId");
-
-                    b.HasIndex("CreditCardNumber");
 
                     b.HasIndex("viaId");
 
@@ -124,7 +120,12 @@ namespace PersistenceServer.Migrations
                     b.Property<int>("SecurityCode")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("accountId")
+                        .HasColumnType("integer");
+
                     b.HasKey("CreditCardNumber");
+
+                    b.HasIndex("accountId");
 
                     b.ToTable("CreditCards");
                 });
@@ -177,6 +178,11 @@ namespace PersistenceServer.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
                     b.HasKey("ViaId");
 
                     b.ToTable("ViaEntity");
@@ -198,27 +204,7 @@ namespace PersistenceServer.Migrations
                     b.Property<string>("CampusStreet")
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PostCode")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("character varying(4)")
-                        .HasColumnName("postcode");
-
-                    b.Property<string>("Street")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -237,9 +223,9 @@ namespace PersistenceServer.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Cpr")
+                    b.Property<long>("Cpr")
                         .HasMaxLength(10)
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -253,10 +239,6 @@ namespace PersistenceServer.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("lname");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasIndex("AccountId");
 
                     b.ToTable("Members");
@@ -266,32 +248,35 @@ namespace PersistenceServer.Migrations
                 {
                     b.HasOne("PersistenceServer.Models.Account", null)
                         .WithMany()
-                        .HasForeignKey("Account1AccountId")
+                        .HasForeignKey("ReceiverAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PersistenceServer.Models.Account", null)
                         .WithMany()
-                        .HasForeignKey("Account2AccountId")
+                        .HasForeignKey("SenderAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Account", b =>
                 {
-                    b.HasOne("PersistenceServer.Models.CreditCard", "CreditCard")
-                        .WithMany()
-                        .HasForeignKey("CreditCardNumber");
-
                     b.HasOne("PersistenceServer.Models.ViaEntity", "ViaEntity")
                         .WithMany()
                         .HasForeignKey("viaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CreditCard");
-
                     b.Navigation("ViaEntity");
+                });
+
+            modelBuilder.Entity("PersistenceServer.Models.CreditCard", b =>
+                {
+                    b.HasOne("PersistenceServer.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("accountId");
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Role", b =>

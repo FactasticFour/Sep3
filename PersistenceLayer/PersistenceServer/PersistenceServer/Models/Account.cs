@@ -10,11 +10,10 @@ namespace PersistenceServer.Models
         [Key, Required]
         public int AccountId { get; set; }
         
+        public IList<Account> Sender { get; set; }
+        public IList<Account> Receiver { get; set; }
         
-        public IList<Account> Account1 { get; set; }
-        public IList<Account> Account2 { get; set; }
-        
-        [Required, MinLength(8)]
+        [Required, StringLength(64)]
         public String ApplicationPassword { get; set; }
         
         [Required,Range(0, 9000000)]
@@ -23,6 +22,5 @@ namespace PersistenceServer.Models
         [Required, ForeignKey("viaId")]
         public ViaEntity ViaEntity { get; set; }
         
-        public CreditCard CreditCard { get; set; }
     }
 }
