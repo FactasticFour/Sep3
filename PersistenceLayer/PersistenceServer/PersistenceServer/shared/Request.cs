@@ -2,7 +2,7 @@
 {
     public class Request
     {
-        public string Type { get; set; }
+        public RequestType Type { get; set; }
         public string Payload { get; set; }
     }
 }

@@ -2,10 +2,10 @@
 {
     public class Reply
     {
-        public string Type { get; set; }
+        public ReplyType Type { get; set; }
         public string Payload { get; set; }
 
-        public Reply(string type, string payload)
+        public Reply(ReplyType type, string payload)
         {
             Type = type;
             Payload = payload;
