@@ -1,20 +1,27 @@
 package dk.via.sep3.group1.applicationlogic.shared;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Reply {
-    public ReplyType type;
+    @JsonProperty("type")
+    public String type;
+    @JsonProperty("payload")
     public String payload;
 
-    public Reply(ReplyType type, String payload) {
-        this.type = type;
-        this.payload = payload;
+    public Reply() {
     }
 
-    public ReplyType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ReplyType type) {
+    public void setType(String type) {
         this.type = type;
+    }
+
+    public Reply(String type, String payload) {
+        this.type = type;
+        this.payload = payload;
     }
 
     public String getPayload() {

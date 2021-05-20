@@ -23,14 +23,16 @@ namespace PersistenceServer.Networking
 
         public async Task HandleRequest()
         {
-            Request requestFromClient = new Request();
+            Request requestFromClient = new Request()
+            {
+                Payload = "",
+                Type = ""
+            };
 
             try
             {
                 string readFromStream = ReadFromStream();
-                Console.WriteLine(readFromStream);
                 requestFromClient = ToObject<Request>(readFromStream);
-                Console.WriteLine(requestFromClient);
             }
             catch (Exception e)
             {
@@ -41,19 +43,19 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 
-                case RequestType.GET_USER_BY_ID:
+                case "getUserById":
                     User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
-                    Reply reply = new Reply(ReplyType.USER_BY_ID, payload);
+                    Reply reply = new Reply("User", payload);
                     string toSendToClient = ToJson(reply);
                     SendToStream(toSendToClient);
                     break;
-                case RequestType.SEED_DATABASE:
+                case "seedDatabase":
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
                 default:
-                    Reply badRequestReply = new Reply(ReplyType.BAD_REQUEST, "Bad request");
+                    Reply badRequestReply = new Reply("Bad Request", "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
                     SendToStream(replySerialized);
                     break;

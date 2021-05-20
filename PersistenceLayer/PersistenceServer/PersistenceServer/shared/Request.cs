@@ -2,10 +2,10 @@
 {
     public class Request
     {
-        public RequestType Type { get; set; }
+        public string Type { get; set; }
         public string Payload { get; set; }
 
-        public Request(RequestType type, string payload)
+        public Request(string type, string payload)
         {
             Type = type;
             Payload = payload;
