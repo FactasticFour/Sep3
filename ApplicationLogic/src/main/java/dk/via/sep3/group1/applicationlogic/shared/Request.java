@@ -3,24 +3,21 @@ package dk.via.sep3.group1.applicationlogic.shared;
 import java.io.Serializable;
 
 public class Request {
-    private String type; //TODO make enums
+    private RequestType type;
     private String payload;
 
 
-
-
-    public Request(String type, String payload)
-    {
-        this.type = type;
-        this.payload = payload;
-    }
-
-    public String getType() {
+    public RequestType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(RequestType type) {
         this.type = type;
+    }
+
+    public Request(RequestType type, String payload) {
+        this.type = type;
+        this.payload = payload;
     }
 
     public String getPayload() {

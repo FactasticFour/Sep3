@@ -1,19 +1,19 @@
 package dk.via.sep3.group1.applicationlogic.shared;
 
 public class Reply {
-    public String type;
+    public ReplyType type;
     public String payload;
 
-    public Reply(String type, String payload) {
+    public Reply(ReplyType type, String payload) {
         this.type = type;
         this.payload = payload;
     }
 
-    public String getType() {
+    public ReplyType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ReplyType type) {
         this.type = type;
     }
 

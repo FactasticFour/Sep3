@@ -3,7 +3,10 @@ package dk.via.sep3.group1.applicationlogic.networking;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
+import dk.via.sep3.group1.applicationlogic.shared.Reply;
+import dk.via.sep3.group1.applicationlogic.shared.ReplyType;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
+import dk.via.sep3.group1.applicationlogic.shared.RequestType;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -33,12 +36,20 @@ public class DataClientImpl implements DataClient {
     @Override
     public User getUser(int id) {
 
+        User user = null;
         String payload = serialize(id);
-        Request request = new Request("getUserById", payload);
+        Request request = new Request(RequestType.GET_USER_BY_ID, payload);
         writeBytes(request);
 
         String stringToDeserialize = readBytes();
-        User user = deserialize(stringToDeserialize, User.class);
+        Reply replyDeserialized = deserialize(stringToDeserialize, Reply.class);
+        if(replyDeserialized.type == ReplyType.USER_BY_ID){
+            user = deserialize(replyDeserialized.payload, User.class);
+        }
+        else if (replyDeserialized.type == ReplyType.BAD_REQUEST){
+            throw new NullPointerException(replyDeserialized.payload);
+        }
+
         if (user != null) {
             return user;
         } else
@@ -51,7 +62,7 @@ public class DataClientImpl implements DataClient {
     public void seedDatabase() {
         try {
             String payload = "";
-            Request request = new Request("seedDatabase", payload);
+            Request request = new Request(RequestType.SEED_DATABASE, payload);
 
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
             outputStream.write(valueAsBytes);
