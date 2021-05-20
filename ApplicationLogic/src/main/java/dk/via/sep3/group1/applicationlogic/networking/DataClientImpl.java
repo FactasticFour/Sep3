@@ -35,7 +35,7 @@ public class DataClientImpl implements DataClient {
 
     @Override
     public User getUser(int id) {
-        User user = null;
+        User user;
 
         String payload = serialize(id);
         Request request = new Request("getUserById", payload);
@@ -69,7 +69,7 @@ public class DataClientImpl implements DataClient {
             System.out.println("a");
             String payload = objectMapper.writeValueAsString(creditCard);
             System.out.println("b");
-            Request request = new Request("addCreditCardToAccount", payload);
+            Request request = new Request("ADD_CREDIT_CARD_TO_ACCOUNT", payload);
             System.out.println(request.getType() + "\n" + request.getArgument().toString());
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
             System.out.println("d");
