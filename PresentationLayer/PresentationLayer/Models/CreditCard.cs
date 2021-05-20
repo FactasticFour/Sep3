@@ -2,25 +2,30 @@
 {
     public class CreditCard
     {
-       public string CreditCardNumber { get; set; }
-       public string FirstName { get; set; }
-       public string LastName { get; set; }
-       public string ExpirationMonth { get; set; }
-       public string ExpirationYear { get; set; }
-       public int SecurityCode { get; set; }
-       public int AmountOfMoney { get; set; }
-       public Account Account { get; set; }
+       public string creditCardNumber { get; set; }
+       public string firstName { get; set; }
+       public string lastName { get; set; }
+       public string expirationMonth { get; set; }
+       public string expirationYear { get; set; }
+       public int securityCode { get; set; }
+       public int amountOfMoney { get; set; }
+       public Account account { get; set; }
 
        public CreditCard(string creditCardNumber, string firstName, string lastName, string expirationMonth, string expirationYear, int securityCode, int amountOfMoney, Account account)
        {
-           CreditCardNumber = creditCardNumber;
-           FirstName = firstName;
-           LastName = lastName;
-           ExpirationMonth = expirationMonth;
-           ExpirationYear = expirationYear;
-           SecurityCode = securityCode;
-           AmountOfMoney = amountOfMoney;
-           Account = account;
+           this.creditCardNumber = creditCardNumber;
+           this.firstName = firstName;
+           this.lastName = lastName;
+           this.expirationMonth = expirationMonth;
+           this.expirationYear = expirationYear;
+           this.securityCode = securityCode;
+           this.amountOfMoney = amountOfMoney;
+           this.account = account;
+       }
+
+       public CreditCard()
+       {
+           
        }
     }
 }

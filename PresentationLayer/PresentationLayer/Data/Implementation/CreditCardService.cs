@@ -11,12 +11,10 @@ namespace PresentationLayer.Data.Implementation
         public async Task AddCreditCardToAccount(CreditCard creditCard)
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcards/{creditCard}");
-
-            if (!responseMessage.IsSuccessStatusCode)
-            {
-                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
-            }
+            String creditCard1 = JsonSerializer.Serialize(creditCard);
+            HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcards/{creditCard1}");
+Console.WriteLine(responseMessage);
+            Console.WriteLine(creditCard.creditCardNumber);
             string result = await responseMessage.Content.ReadAsStringAsync();
             
         }

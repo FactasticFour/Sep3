@@ -93,16 +93,16 @@
         {
             creditcardnumberlabel = "Field cannot be shorter than 16 numbers!";
         }
-        else if (creditcardnumber.Any(x => !char.IsLetter(x)))
-        {
-            creditcardnumberlabel = "Field can only contain numbers!";
-        }
+        // else if (creditcardnumber.Any(x => !char.IsLetter(x)))
+        // {
+        //     creditcardnumberlabel = "Field can only contain numbers!";
+        // }
         if (securitycode < 100 || securitycode > 999)
         {
             securitycodelabel = "Field can only contain 3 digits!";
         }
 
-        Account account = new Account(1, "123456778", 0, null);
+        Account account = new Account(4, "123456778", 0, null);
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
         await CreditCardService.AddCreditCardToAccount(creditCard);
 

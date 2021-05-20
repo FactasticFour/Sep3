@@ -2,13 +2,13 @@
 {
     public class ViaEntity
     {
-        public int ViaId { get; set; }
-        public string Password { get; set; }
+        public int viaId { get; set; }
+        public string password { get; set; }
 
         public ViaEntity(int viaId, string password)
         {
-            ViaId = viaId;
-            Password = password;
+            this.viaId = viaId;
+            this.password = password;
         }
     }
 }
