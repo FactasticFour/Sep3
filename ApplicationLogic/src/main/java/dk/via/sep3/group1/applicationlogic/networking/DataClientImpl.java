@@ -38,7 +38,7 @@ public class DataClientImpl implements DataClient {
 
         User user = null;
         String payload = serialize(id);
-        Request request = new Request(RequestType.GET_USER_BY_ID, payload);
+        Request request = new Request(RequestType.TEST, payload);
         writeBytes(request);
 
         String stringToDeserialize = readBytes();
