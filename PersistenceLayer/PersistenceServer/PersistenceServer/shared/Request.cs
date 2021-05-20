@@ -3,6 +3,6 @@
     public class Request
     {
         public string Type { get; set; }
-        public string Argument { get; set; }
+        public string Payload { get; set; }
     }
 }

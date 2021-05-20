@@ -27,7 +27,7 @@ namespace PersistenceServer.Networking
             Request requestFromClient = new Request()
             {
                 Type = "Bad Request",
-                Argument = "No Argument"
+                Payload = "No Argument"
             };
             
             try
@@ -44,7 +44,7 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 case "getUserById":
-                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Argument));
+                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
                     string toSendToClient = ToJson(result);
                     SendToStream(toSendToClient);
                     break;
