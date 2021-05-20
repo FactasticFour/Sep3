@@ -37,22 +37,12 @@ public class DataClientImpl implements DataClient {
     public User getUser(int id) {
         User user = null;
 
-        try {
-            String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
-            Request request = new Request("getUserById", payload);
+        String payload = serialize(id);
+        Request request = new Request("getUserById", payload);
+        writeBytes(request);
 
-            byte[] valueAsBytesTest = objectMapper.writeValueAsBytes(request);
-            outputStream.write(valueAsBytesTest);
-
-            byte[] readAllBytes = inputStream.readAllBytes();
-            String stringBytes = new String(readAllBytes);
-
-            System.out.println(stringBytes);
-
-            user = objectMapper.readValue(stringBytes, User.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String  readString = readBytes();
+        user = deserialize(readString, User.class);
         if (user != null) {
             return user;
         } else
@@ -89,5 +79,48 @@ public class DataClientImpl implements DataClient {
             e.printStackTrace();
         }
     }
+    public <T> String serialize(T objectToSerialize){
+        String serializedString = "";
+        try {
+            serializedString = objectMapper.writeValueAsString(objectToSerialize);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return serializedString;
+    }
 
+
+    public <T> T deserialize(String objectToDeserialize, Class<T> tClass){
+        T object = null;
+        try {
+
+            object = objectMapper.readValue(objectToDeserialize, tClass);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    public String readBytes() {
+        byte[] readAllBytes = new byte[1024];
+        try {
+            readAllBytes = inputStream.readAllBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new String(readAllBytes);
+    }
+
+
+    public void writeBytes(Object objectToSend) {
+        byte[] valueAsBytesTest;
+        System.out.println(objectToSend);
+        try {
+            valueAsBytesTest = objectMapper.writeValueAsBytes(objectToSend);
+            outputStream.write(valueAsBytesTest);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

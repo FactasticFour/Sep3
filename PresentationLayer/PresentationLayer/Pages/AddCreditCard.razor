@@ -27,7 +27,12 @@
         for (int i = 1; i < 13; i++)
         {
             string b = "";
-            if (i < 10)
+            if (i == 1)
+            {
+                b = "0" + i.ToString();
+                <option selected value="@b">@b</option>
+            }
+            else if (i < 10)
             {
                 b = "0" + i.ToString();
                 <option value="@b">@b</option>
@@ -47,8 +52,17 @@
         string a = "";
         for (int i = 21; i < 27; i++)
         {
-            a = i.ToString();
-            <option value="@i">@i</option>
+            if (i == 1)
+            {
+                a = i.ToString();
+                <option selected value="@i">@i</option>
+            }
+            else
+            {
+                a = i.ToString();
+                <option value="@i">@i</option>
+            }
+           
         }
     }
 </select>
@@ -77,7 +91,7 @@
 
     string cardadded = "";
     
-    private bool isAdded;
+    private bool isAdded =true;
 
     async Task addCreditCardToAccount()
     {
@@ -102,13 +116,13 @@
             securitycodelabel = "Field can only contain 3 digits!";
         }
 
-        Account account = new Account(4, "123456778", 0, null);
+        Account account = new Account(4, "123456778", 0, null); //TODO get user that is logged in
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
         await CreditCardService.AddCreditCardToAccount(creditCard);
 
         if (isAdded)
         {
-            cardadded = "Card successfully added!"; 
+            cardadded = "Card successfully added!";  //TODO verify if added
         }
         Console.WriteLine(fname);
         Console.WriteLine(lname);
