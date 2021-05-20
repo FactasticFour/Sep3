@@ -25,6 +25,7 @@ namespace PresentationLayer.Data.Implementation
                 PropertyNameCaseInsensitive = true
             });
             
+            
             return user;
         }
     }
