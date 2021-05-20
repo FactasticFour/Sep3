@@ -65,6 +65,7 @@ public class DataClientImpl implements DataClient {
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
             outputStream.write(valueAsBytes);
 
+
             System.out.println("sent seeding request to third tier");
         } catch (IOException e) {
             e.printStackTrace();
