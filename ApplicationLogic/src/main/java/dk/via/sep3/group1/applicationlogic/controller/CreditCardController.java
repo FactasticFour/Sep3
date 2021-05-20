@@ -1,5 +1,7 @@
 package dk.via.sep3.group1.applicationlogic.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.CreditCard;
 import dk.via.sep3.group1.applicationlogic.model.User;
@@ -17,10 +19,20 @@ public class CreditCardController {
 
     @Autowired
     CreditCardService creditCardService;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @GetMapping("{creditCard}")
-    public void addCreditCardToAccount(@PathVariable CreditCard creditCard){
-        creditCardService.addCreditCardToAccount(creditCard);
+    @GetMapping("{creditCard1}")
+    public void addCreditCardToAccount(@PathVariable String creditCard1){
+        try {
+            System.out.println(creditCard1);
+           CreditCard deserialized = objectMapper.readValue(creditCard1, CreditCard.class);
+            System.out.println(deserialized);
+            creditCardService.addCreditCardToAccount(deserialized);
+            System.out.println(deserialized.getCreditCardNumber());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
