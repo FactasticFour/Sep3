@@ -1,13 +1,9 @@
 package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@AllArgsConstructor @Getter @Setter
 public class Transaction {
     @JsonProperty("receiverAccount")
     public Account receiverAccountId;
