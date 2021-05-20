@@ -36,15 +36,15 @@ public class DataClientImpl implements DataClient {
 
         User user = null;
         String payload = serialize(id);
-        Request request = new Request("getUserById", payload);
+        Request request = new Request("GET_USER_BY_ID", payload);
         writeBytes(request);
 
         String stringToDeserialize = readBytes();
         Reply replyDeserialized = deserialize(stringToDeserialize, Reply.class);
-        if(replyDeserialized.type.equals("User")){
+        if(replyDeserialized.type.equals("SEND_USER")){
             user = deserialize(replyDeserialized.payload, User.class);
         }
-        else if (replyDeserialized.type.equals("Bad Request")){
+        else if (replyDeserialized.type.equals("BAD_REQUEST")){
             throw new NullPointerException(replyDeserialized.payload);
         }
 
@@ -60,7 +60,7 @@ public class DataClientImpl implements DataClient {
     public void seedDatabase() {
         try {
             String payload = "";
-            Request request = new Request("seedDatabase", payload);
+            Request request = new Request("SEED_DATABASE", payload);
 
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
             outputStream.write(valueAsBytes);

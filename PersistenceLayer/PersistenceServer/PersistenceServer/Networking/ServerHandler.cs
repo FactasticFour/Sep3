@@ -43,19 +43,19 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 
-                case "getUserById":
+                case "GET_USER_BY_ID":
                     User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
-                    Reply reply = new Reply("User", payload);
+                    Reply reply = new Reply("SEND_USER", payload);
                     string toSendToClient = ToJson(reply);
                     SendToStream(toSendToClient);
                     break;
-                case "seedDatabase":
+                case "SEED_DATABASE":
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
                 default:
-                    Reply badRequestReply = new Reply("Bad Request", "Bad Request");
+                    Reply badRequestReply = new Reply("BAD_REQUEST", "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
                     SendToStream(replySerialized);
                     break;
