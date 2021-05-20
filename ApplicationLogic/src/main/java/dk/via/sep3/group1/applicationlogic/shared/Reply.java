@@ -1,16 +1,10 @@
 package dk.via.sep3.group1.applicationlogic.shared;
 
-import java.io.Serializable;
+public class Reply {
+    public String type;
+    public String payload;
 
-public class Request {
-    private String type; //TODO make enums
-    private String payload;
-
-
-
-
-    public Request(String type, String payload)
-    {
+    public Reply(String type, String payload) {
         this.type = type;
         this.payload = payload;
     }
