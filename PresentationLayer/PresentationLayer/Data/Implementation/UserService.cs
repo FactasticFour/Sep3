@@ -24,7 +24,8 @@ namespace PresentationLayer.Data.Implementation
             {
                 PropertyNameCaseInsensitive = true
             });
-            
+
+            Console.WriteLine(user.Id);
             return user;
         }
     }
