@@ -13,7 +13,4 @@ public class User {
     private String userName;
     @JsonProperty("password")
     private String password;
-
-
-
 }
