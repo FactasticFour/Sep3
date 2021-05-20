@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor @Getter @Setter
-public class User {
-    @JsonProperty("userId")
-    private int userId;
-    @JsonProperty("userName")
-    private String userName;
-    @JsonProperty("password")
-    private String password;
+public class Account {
 
-
+    @JsonProperty("accountId")
+    public int accountId;
+    @JsonProperty("applicationPassword")
+    public String applicationPassword;
+    @JsonProperty("balance")
+    public int balance = 0;
 
 }

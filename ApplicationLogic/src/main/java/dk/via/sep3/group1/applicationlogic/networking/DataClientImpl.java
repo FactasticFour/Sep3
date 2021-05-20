@@ -57,4 +57,19 @@ public class DataClientImpl implements DataClient {
         } else
             throw new RuntimeException("User is null");
     }
+
+    @Override
+    public void seedDatabase(){
+        try {
+            String payload = "";
+            Request request = new Request("seedDatabase", payload);
+
+            byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
+            outputStream.write(valueAsBytes);
+
+            System.out.println("sent seeding request to third tier");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
