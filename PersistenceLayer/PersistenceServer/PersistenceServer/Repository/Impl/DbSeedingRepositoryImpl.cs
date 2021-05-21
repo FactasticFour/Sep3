@@ -15,14 +15,16 @@ namespace PersistenceServer.Repository.Impl
         private List<Member> membersList;
         private List<Campus> campusList;
         private List<Facility> facilitiesList;
+        private List<Account> accountsList;
         public async void SeedDatabase()
         {
             Console.WriteLine("Seeding Database");
-
+            
             await PopulateLists();
             Console.WriteLine(membersList.Count);
             Console.WriteLine(campusList.Count);
             Console.WriteLine(facilitiesList.Count);
+            Console.WriteLine(accountsList.Count);
 
             await EmptyDatabase();
 
@@ -33,7 +35,17 @@ namespace PersistenceServer.Repository.Impl
         {
             await PopulateMembers();
             //await PopulateCampuses();
-            await PopulateFacilities();
+            //await PopulateFacilities();
+            await PopulateAccounts();
+        }
+        
+        private async Task PopulateAccounts()
+        {
+            using (DataContext dataContext = new DataContext())
+            {
+                await dataContext.Accounts.AddRangeAsync(accountsList);
+                await dataContext.SaveChangesAsync();
+            }
         }
 
         private async Task PopulateFacilities()
@@ -79,54 +91,54 @@ namespace PersistenceServer.Repository.Impl
         {
             membersList = new List<Member>()
             {
-                new Member()
-                {
-                    ViaId = 297111,
-                    FirstName = "Ionut",
-                    LastName = "Grosu",
-                    Password = GetHash("pB8NtLP0d3I"),
-                    Cpr = 1234567890
-                },
-                new Member()
-                {
-                    ViaId = 297112,
-                    FirstName = "Claudiu",
-                    LastName = "Hornet",
-                    Password = GetHash("CTxG88wsH"),
-                    Cpr = 1238547856
-                },
-                new Member()
-                {
-                    ViaId = 263458,
-                    FirstName = "Maria",
-                    LastName = "Asenova",
-                    Password = GetHash("wUIyex7HqS9C"),
-                    Cpr = 1352468756
-                },
-                new Member()
-                {
-                    ViaId = 275986,
-                    FirstName = "Cezary",
-                    LastName = "Korenczuk",
-                    Password = GetHash("GPKX9CZeHn"),
-                    Cpr = 1314568752
-                },
-                new Member()
-                {
-                    ViaId = 297109,
-                    FirstName = "Bogdan",
-                    LastName = "Cirstoiu",
-                    Password = GetHash("2FYYbokA"),
-                    Cpr = 1238569657
-                },
-                new Member()
-                {
-                    ViaId = 297110,
-                    FirstName = "Mihail",
-                    LastName = "Constantin",
-                    Password = GetHash("fNbJcNdf"),
-                    Cpr = 1458524562
-                },
+                // new Member()
+                // {
+                //     ViaId = 297111,
+                //     FirstName = "Ionut",
+                //     LastName = "Grosu",
+                //     Password = GetHash("pB8NtLP0d3I"),
+                //     Cpr = 1234567890
+                // },
+                // new Member()
+                // {
+                //     ViaId = 297112,
+                //     FirstName = "Claudiu",
+                //     LastName = "Hornet",
+                //     Password = GetHash("CTxG88wsH"),
+                //     Cpr = 1238547856
+                // },
+                // new Member()
+                // {
+                //     ViaId = 263458,
+                //     FirstName = "Maria",
+                //     LastName = "Asenova",
+                //     Password = GetHash("wUIyex7HqS9C"),
+                //     Cpr = 1352468756
+                // },
+                // new Member()
+                // {
+                //     ViaId = 275986,
+                //     FirstName = "Cezary",
+                //     LastName = "Korenczuk",
+                //     Password = GetHash("GPKX9CZeHn"),
+                //     Cpr = 1314568752
+                // },
+                // new Member()
+                // {
+                //     ViaId = 297109,
+                //     FirstName = "Bogdan",
+                //     LastName = "Cirstoiu",
+                //     Password = GetHash("2FYYbokA"),
+                //     Cpr = 1238569657
+                // },
+                // new Member()
+                // {
+                //     ViaId = 297110,
+                //     FirstName = "Mihail",
+                //     LastName = "Constantin",
+                //     Password = GetHash("fNbJcNdf"),
+                //     Cpr = 1458524562
+                // },
                 new Member()
                 {
                     ViaId = 154856,
@@ -303,13 +315,13 @@ namespace PersistenceServer.Repository.Impl
 
             facilitiesList = new List<Facility>()
             {
-                new Facility()
-                {
-                    ViaId = 12458,
-                    Name = "Horsens Library",
-                    Password = GetHash("kVh1dIKpPcu"),
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
-                },
+                // new Facility()
+                // {
+                //     ViaId = 12458,
+                //     Name = "Horsens Library",
+                //     Password = GetHash("kVh1dIKpPcu"),
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
+                // },
                 new Facility()
                 {
                     ViaId = 53654,
@@ -324,20 +336,20 @@ namespace PersistenceServer.Repository.Impl
                     Password = GetHash("GlGttQy8qK"),
                     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
                 },
-                new Facility()
-                {
-                    ViaId = 55236,
-                    Name = "Aarhus C Library",
-                    Password = GetHash("1Ay6rbas5"),
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
-                },
-                new Facility()
-                {
-                    ViaId = 4585,
-                    Name = "Aarhus C Canteen",
-                    Password = GetHash("oa8x5AAy"),
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
-                },
+                // new Facility()
+                // {
+                //     ViaId = 55236,
+                //     Name = "Aarhus C Library",
+                //     Password = GetHash("1Ay6rbas5"),
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
+                // },
+                // new Facility()
+                // {
+                //     ViaId = 4585,
+                //     Name = "Aarhus C Canteen",
+                //     Password = GetHash("oa8x5AAy"),
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
+                // },
                 new Facility()
                 {
                     ViaId = 102236,
@@ -352,13 +364,13 @@ namespace PersistenceServer.Repository.Impl
                     Password = GetHash("NWiaDlL83M"),
                     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N"))
                 },
-                new Facility()
-                {
-                    ViaId = 12333,
-                    Name = "Aarhus C Canteen",
-                    Password = GetHash("QLnlvqTzHzK"),
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N"))
-                },
+                // new Facility()
+                // {
+                //     ViaId = 12333,
+                //     Name = "Aarhus C Canteen",
+                //     Password = GetHash("QLnlvqTzHzK"),
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N"))
+                // },
                 new Facility()
                 {
                     ViaId = 45782,
@@ -366,13 +378,13 @@ namespace PersistenceServer.Repository.Impl
                     Password = GetHash("naARC532A9i"),
                     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N"))
                 },
-                new Facility()
-                {
-                    ViaId = 125864,
-                    Name = "Herning Library",
-                    Password = GetHash("ffnkQG"),
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning"))
-                },
+                // new Facility()
+                                    // {
+                                    //     ViaId = 125864,
+                                    //     Name = "Herning Library",
+                                    //     Password = GetHash("ffnkQG"),
+                                    //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning"))
+                                    // },
                 new Facility()
                 {
                     ViaId = 129365,
@@ -387,13 +399,13 @@ namespace PersistenceServer.Repository.Impl
                     Password = GetHash("STmtp3"),
                     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning"))
                 },
-                new Facility()
-                {
-                    ViaId = 195000,
-                    Name = "Holstebro Library",
-                    Password = GetHash("YhnWfWJ"),
-                    Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro"))
-                },
+                // new Facility()
+                // {
+                //     ViaId = 195000,
+                //     Name = "Holstebro Library",
+                //     Password = GetHash("YhnWfWJ"),
+                //     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro"))
+                // },
                 new Facility()
                 {
                     ViaId = 199123,
@@ -470,6 +482,160 @@ namespace PersistenceServer.Repository.Impl
                     Name = "Viborg Cafe",
                     Password = GetHash("lXIwo5XPprCg"),
                     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg"))
+                }
+            };
+
+            accountsList = new List<Account>()
+            {
+                new Account()
+                {
+                    ApplicationPassword = GetHash("CL88dHp"),
+                    Balance = 0,
+                    ViaEntity = new Member()
+                    {
+                        ViaId = 297111,
+                        FirstName = "Ionut",
+                        LastName = "Grosu",
+                        Password = GetHash("pB8NtLP0d3I"),
+                        Cpr = 1234567890
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("Ck8WGN88"),
+                    Balance = 389,
+                    ViaEntity = new Member()
+                    {
+                        ViaId = 297112,
+                        FirstName = "Claudiu",
+                        LastName = "Hornet",
+                        Password = GetHash("CTxG88wsH"),
+                        Cpr = 1238547856
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("HigY0wZjXT"),
+                    Balance = 425,
+                    ViaEntity = new Member()
+                    {
+                        ViaId = 263458,
+                        FirstName = "Maria",
+                        LastName = "Asenova",
+                        Password = GetHash("wUIyex7HqS9C"),
+                        Cpr = 1352468756
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("FaA7nLnJm"),
+                    Balance = 123456789,
+                    ViaEntity = new Member()
+                    {
+                        ViaId = 275986,
+                        FirstName = "Cezary",
+                        LastName = "Korenczuk",
+                        Password = GetHash("GPKX9CZeHn"),
+                        Cpr = 1314568752
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("mGjlSt7"),
+                    Balance = 696,
+                    ViaEntity = new Member()
+                    {
+                        ViaId = 297109,
+                        FirstName = "Bogdan",
+                        LastName = "Cirstoiu",
+                        Password = GetHash("2FYYbokA"),
+                        Cpr = 1238569657
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("07IsE2"),
+                    Balance = 12345,
+                    ViaEntity = new Member()
+                    {
+                        ViaId = 297110,
+                        FirstName = "Mihail",
+                        LastName = "Constantin",
+                        Password = GetHash("fNbJcNdf"),
+                        Cpr = 1458524562
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("BiGlwiN9"),
+                    Balance = 5000,
+                    ViaEntity = new Facility()
+                    {
+                        ViaId = 12458,
+                        Name = "Horsens Library",
+                        Password = GetHash("kVh1dIKpPcu"),
+                        Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("3BfZl3F"),
+                    Balance = 3250,
+                    ViaEntity = new Facility()
+                    {
+                        ViaId = 55236,
+                        Name = "Aarhus C Library",
+                        Password = GetHash("1Ay6rbas5"),
+                        Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("qYZ7BCgh"),
+                    Balance = 7899,
+                    ViaEntity = new Facility()
+                    {
+                        ViaId = 4585,
+                        Name = "Aarhus C Canteen",
+                        Password = GetHash("oa8x5AAy"),
+                        Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("tUde7XWfoRC"),
+                    Balance = 5622,
+                    ViaEntity = new Facility()
+                    {
+                        ViaId = 12333,
+                        Name = "Aarhus C Canteen",
+                        Password = GetHash("QLnlvqTzHzK"),
+                        Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N"))
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("b00VleG3"),
+                    Balance = 3333,
+                    ViaEntity = new Facility()
+                    {
+                        ViaId = 125864,
+                        Name = "Herning Library",
+                        Password = GetHash("ffnkQG"),
+                        Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning"))
+                    }
+                },
+                new Account()
+                {
+                    ApplicationPassword = GetHash("I3zMiZpp"),
+                    Balance = 15000,
+                    ViaEntity = new Facility()
+                    {
+                        ViaId = 195000,
+                        Name = "Holstebro Library",
+                        Password = GetHash("YhnWfWJ"),
+                        Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro"))
+                    }
                 }
             };
         }
