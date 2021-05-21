@@ -13,7 +13,14 @@ public class CreditCardServiceImpl implements CreditCardService{
     CreditCardDAO creditCardDAO;
 
     @Override
-    public void addCreditCardToAccount(CreditCard creditCard) {
-        creditCardDAO.addCreditCardToAccount(creditCard);
+    public boolean addCreditCardToAccount(CreditCard creditCard) {
+        if(creditCard.creditCardNumber.length() != 16 || creditCard.firstName == null || creditCard.lastName == null ||
+                  creditCard.securityCode < 100 || creditCard.securityCode > 999){
+return false;
+        }
+        else {
+            creditCardDAO.addCreditCardToAccount(creditCard);
+            return true;
+        }
     }
 }

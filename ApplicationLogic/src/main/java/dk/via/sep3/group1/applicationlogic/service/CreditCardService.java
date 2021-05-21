@@ -4,5 +4,5 @@ import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.CreditCard;
 
 public interface CreditCardService {
-    void addCreditCardToAccount(CreditCard creditCard);
+    boolean addCreditCardToAccount(CreditCard creditCard);
 }
