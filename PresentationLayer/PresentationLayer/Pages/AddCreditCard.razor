@@ -119,24 +119,21 @@
 
         Account account = new Account(4, "null", 0, null); //TODO get user that is logged in
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
-        await CreditCardService.AddCreditCardToAccount(creditCard);
+        isAdded = await CreditCardService.AddCreditCardToAccount(creditCard);
 
         if (isAdded)
         {
             cardadded = "Card successfully added!";  
+            fname = "";
+            lname = "";
+            creditcardnumber = "";
+            securitycode = 0;
         }
         else
         {
             cardnotadded = "Card not added!";
         }
 
-        fname = "";
-        lname = "";
-        creditcardnumber = "";
-        securitycode = 0;
-        
-        
-       
     }
 
 }
