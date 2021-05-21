@@ -124,55 +124,10 @@ public class DataClientImpl implements DataClient {
             String payload = objectMapper.writeValueAsString(creditCard);
             System.out.println("b");
             Request request = new Request("ADD_CREDIT_CARD_TO_ACCOUNT", payload);
-            System.out.println(request.getType() + "\n" + request.getArgument().toString());
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
             System.out.println("d");
             outputStream.write(valueAsBytes);
             System.out.println("e");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public <T> String serialize(T objectToSerialize){
-        String serializedString = "";
-        try {
-            serializedString = objectMapper.writeValueAsString(objectToSerialize);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return serializedString;
-    }
-
-
-    public <T> T deserialize(String objectToDeserialize, Class<T> tClass){
-        T object = null;
-        try {
-
-            object = objectMapper.readValue(objectToDeserialize, tClass);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
-
-    public String readBytes() {
-        byte[] readAllBytes = new byte[1024];
-        try {
-            readAllBytes = inputStream.readAllBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new String(readAllBytes);
-    }
-
-
-    public void writeBytes(Object objectToSend) {
-        byte[] valueAsBytesTest;
-        System.out.println(objectToSend);
-        try {
-            valueAsBytesTest = objectMapper.writeValueAsBytes(objectToSend);
-            outputStream.write(valueAsBytesTest);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

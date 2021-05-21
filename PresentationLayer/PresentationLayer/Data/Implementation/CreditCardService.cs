@@ -8,14 +8,28 @@ namespace PresentationLayer.Data.Implementation
 {
     public class CreditCardService : ICreditCardService
     {
-        public async Task AddCreditCardToAccount(CreditCard creditCard)
+        public async Task<bool> AddCreditCardToAccount(CreditCard creditCard)
         {
             HttpClient client = new HttpClient();
             String creditCard1 = JsonSerializer.Serialize(creditCard);
             HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcards/{creditCard1}");
-Console.WriteLine(responseMessage);
-            Console.WriteLine(creditCard.creditCardNumber);
+            
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
             string result = await responseMessage.Content.ReadAsStringAsync();
+
+            bool ifAdded = JsonSerializer.Deserialize<bool>(result, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            
+            
+            return ifAdded;
+            
+            
             
         }
     }

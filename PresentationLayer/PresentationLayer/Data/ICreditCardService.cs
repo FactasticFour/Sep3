@@ -5,6 +5,6 @@ namespace PresentationLayer.Data
 {
     public interface ICreditCardService
     {
-        Task AddCreditCardToAccount(CreditCard creditCard);
+        Task<bool> AddCreditCardToAccount(CreditCard creditCard);
     }
 }

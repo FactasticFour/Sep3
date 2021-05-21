@@ -54,9 +54,9 @@ namespace PersistenceServer.Networking
                 case "SEED_DATABASE":
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
-                case "addCreditCardToAccount":
+                case "ADD_CREDIT_CARD_TO_ACCOUNT":
                     await RepositoryFactory.GetCreditCardRepository()
-                        .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Argument));
+                        .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
                     break;
                 default:
                     Reply badRequestReply = new Reply("BAD_REQUEST", "Bad Request");

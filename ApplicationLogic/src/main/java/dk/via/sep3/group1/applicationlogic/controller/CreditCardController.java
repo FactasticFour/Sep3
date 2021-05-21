@@ -19,16 +19,13 @@ public class CreditCardController {
 
     @Autowired
     CreditCardService creditCardService;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper;
 
     @GetMapping("{creditCard1}")
     public void addCreditCardToAccount(@PathVariable String creditCard1){
         try {
-            System.out.println(creditCard1);
            CreditCard deserialized = objectMapper.readValue(creditCard1, CreditCard.class);
-            System.out.println(deserialized);
-            creditCardService.addCreditCardToAccount(deserialized);
-            System.out.println(deserialized.getCreditCardNumber());
+           creditCardService.addCreditCardToAccount(deserialized);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -74,7 +74,7 @@
 <label style="color:red">@securitycodelabel</label>
 <br>
 <button @onclick="addCreditCardToAccount">Save</button>
-<label style="color:green">@cardadded</label>
+<label style="color:green">@cardadded</label><label style="color:red">@cardnotadded</label>
 
 @code {
     private string fname;
@@ -90,6 +90,7 @@
     private string securitycodelabel = "";
 
     string cardadded = "";
+    string cardnotadded = "";
     
     private bool isAdded =true;
 
@@ -107,35 +108,34 @@
         {
             creditcardnumberlabel = "Field cannot be shorter than 16 numbers!";
         }
-        // else if (creditcardnumber.Any(x => !char.IsLetter(x)))
-        // {
-        //     creditcardnumberlabel = "Field can only contain numbers!";
-        // }
+        else if (creditcardnumber.Any(x => !char.IsLetter(x)))
+        {
+            creditcardnumberlabel = "Field can only contain numbers!";
+        }
         if (securitycode < 100 || securitycode > 999)
         {
             securitycodelabel = "Field can only contain 3 digits!";
         }
 
-        Account account = new Account(4, "123456778", 0, null); //TODO get user that is logged in
+        Account account = new Account(4, "null", 0, null); //TODO get user that is logged in
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
         await CreditCardService.AddCreditCardToAccount(creditCard);
 
         if (isAdded)
         {
-            cardadded = "Card successfully added!";  //TODO verify if added
+            cardadded = "Card successfully added!";  
         }
-        Console.WriteLine(fname);
-        Console.WriteLine(lname);
-        Console.WriteLine(creditcardnumber);
-        Console.WriteLine(securitycode);
-        Console.WriteLine(expirationmonth);
-        Console.WriteLine(expirationyear);
-        
+        else
+        {
+            cardnotadded = "Card not added!";
+        }
 
         fname = "";
         lname = "";
         creditcardnumber = "";
         securitycode = 0;
+        
+        
        
     }
 
