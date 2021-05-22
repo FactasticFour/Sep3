@@ -1,7 +1,8 @@
-package dk.via.sep3.group1.applicationlogic.model.dao;
+package dk.via.sep3.group1.applicationlogic.model.dao.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
+import dk.via.sep3.group1.applicationlogic.model.dao.UserDAO;
 import dk.via.sep3.group1.applicationlogic.networking.DataClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

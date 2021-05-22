@@ -5,9 +5,9 @@ using System.Text;
 
 namespace PresentationLayer.Utils
 {
-    public class HashingUtils
+    public static class HashingUtils
     {
-        private static string GetHash(string input)
+        public static string GetHash(string input)
         {
             using SHA256 hashAlgorithm = SHA256.Create();
             byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -22,7 +22,7 @@ namespace PresentationLayer.Utils
             return sBuilder.ToString();
         }
 
-        private static bool VerifyHash(string input, string hash)
+        public static bool VerifyHash(string input, string hash)
         {
             using SHA256 hashAlgorithm = SHA256.Create();
             // Hash the input.

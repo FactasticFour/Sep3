@@ -1,11 +1,8 @@
 package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
-@AllArgsConstructor @Getter @Setter
+
 public class CreditCard {
 
     @JsonProperty("creditCardNumber")
@@ -26,4 +23,78 @@ public class CreditCard {
     public Account account;
 
 
+    public CreditCard(String creditCardNumber, String firstName, String lastName, String expirationMonth, String expirationYear, int securityCode, int amountOfMoney, Account account) {
+        this.creditCardNumber = creditCardNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.expirationMonth = expirationMonth;
+        this.expirationYear = expirationYear;
+        this.securityCode = securityCode;
+        this.amountOfMoney = amountOfMoney;
+        this.account = account;
+    }
+
+    public String getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public void setCreditCardNumber(String creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getExpirationMonth() {
+        return expirationMonth;
+    }
+
+    public void setExpirationMonth(String expirationMonth) {
+        this.expirationMonth = expirationMonth;
+    }
+
+    public String getExpirationYear() {
+        return expirationYear;
+    }
+
+    public void setExpirationYear(String expirationYear) {
+        this.expirationYear = expirationYear;
+    }
+
+    public int getSecurityCode() {
+        return securityCode;
+    }
+
+    public void setSecurityCode(int securityCode) {
+        this.securityCode = securityCode;
+    }
+
+    public int getAmountOfMoney() {
+        return amountOfMoney;
+    }
+
+    public void setAmountOfMoney(int amountOfMoney) {
+        this.amountOfMoney = amountOfMoney;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

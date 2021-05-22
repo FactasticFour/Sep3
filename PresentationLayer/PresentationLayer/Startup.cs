@@ -25,6 +25,7 @@ namespace PresentationLayer
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
