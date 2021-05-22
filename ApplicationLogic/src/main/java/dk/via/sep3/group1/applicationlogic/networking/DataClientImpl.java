@@ -1,9 +1,9 @@
 package dk.via.sep3.group1.applicationlogic.networking;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
+import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +70,34 @@ public class DataClientImpl implements DataClient {
             System.out.println("sent seeding request to third tier");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public ViaEntity getViaEntityById(int id){
+        ViaEntity viaEntity = null;
+
+        try{
+            String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
+            Request request = new Request("getViaEntityById", payload);
+
+            byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
+            outputStream.write(valueAsBytes);
+
+            byte[] bytesFromServer = inputStream.readAllBytes();
+            String bytesAsString = new String(bytesFromServer);
+
+            viaEntity = objectMapper.readValue(bytesAsString, ViaEntity.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+        if (viaEntity != null){
+            return viaEntity;
+        } else {
+            throw new RuntimeException("Via Entity is null");
         }
     }
 }
