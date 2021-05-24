@@ -108,7 +108,7 @@
         {
             creditcardnumberlabel = "Field cannot be shorter than 16 numbers!";
         }
-        else if (creditcardnumber.Any(x => !char.IsLetter(x)))
+        else if (creditcardnumber.Any(x => char.IsLetter(x)))
         {
             creditcardnumberlabel = "Field can only contain numbers!";
         }
@@ -117,7 +117,7 @@
             securitycodelabel = "Field can only contain 3 digits!";
         }
 
-        Account account = new Account(4, "null", 0, null); //TODO get user that is logged in
+        Account account = new Account(77, "null", 0, null); //TODO get user that is logged in
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
         isAdded = await CreditCardService.AddCreditCardToAccount(creditCard);
 
