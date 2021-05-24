@@ -23,7 +23,7 @@ namespace PersistenceServer.Networking
                 TcpClient acceptTcpClient = listener.AcceptTcpClient();
                 ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
                 new Thread(async () => await handleClientConnection(serverHandler)).Start();
-                Console.WriteLine("Server connected client");
+                Console.WriteLine($"Server connected client, connection status: {acceptTcpClient.Connected}");
             }
         }
 

@@ -33,7 +33,6 @@ public class DataClientImpl implements DataClient {
 
     @Override
     public User getUser(int id) {
-
         User user = null;
         String payload = serialize(id);
         Request request = new Request("GET_USER_BY_ID", payload);
