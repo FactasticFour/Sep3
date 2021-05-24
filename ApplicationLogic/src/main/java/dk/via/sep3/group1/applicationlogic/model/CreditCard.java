@@ -72,7 +72,7 @@ public class CreditCard {
         this.securityCode = securityCode;
     }
 
-    public int getAmountOfMoney() {
+    public float getAmountOfMoney() {
         return amountOfMoney;
     }
 

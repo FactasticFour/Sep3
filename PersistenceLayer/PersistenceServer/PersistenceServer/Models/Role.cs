@@ -11,6 +11,5 @@ namespace PersistenceServer.Models
 
         [Required]
         public String RoleType { get; set; }
-        
     }
 }
