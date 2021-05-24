@@ -12,7 +12,5 @@ namespace PersistenceServer.Models
         public String LastName { get; set; }
         [Required, StringLength(10, ErrorMessage = "Invalid CPR")]
         public long Cpr { get; set; }
-
-        public Account Account { get; set; }
     }
 }

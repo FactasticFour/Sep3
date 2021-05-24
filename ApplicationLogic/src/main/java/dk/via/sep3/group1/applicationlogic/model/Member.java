@@ -9,8 +9,31 @@ public class Member extends ViaEntity{
     public String lastName;
     @JsonProperty("cpr")
     public long cpr;
-    @JsonProperty("account")
-    public Account account;
 
+    public Member() {
+    }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public long getCpr() {
+        return cpr;
+    }
+
+    public void setCpr(long cpr) {
+        this.cpr = cpr;
+    }
 }
