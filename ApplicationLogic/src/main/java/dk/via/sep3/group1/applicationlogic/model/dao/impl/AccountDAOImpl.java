@@ -1,5 +1,7 @@
 package dk.via.sep3.group1.applicationlogic.model.dao.impl;
 
+import dk.via.sep3.group1.applicationlogic.model.Facility;
+import dk.via.sep3.group1.applicationlogic.model.Member;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.model.dao.AccountDAO;
 import dk.via.sep3.group1.applicationlogic.networking.DataClient;
@@ -15,6 +17,17 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public ViaEntity getViaEntityWithId(int id) {
         System.out.println("account dao in action babeh");
-        return null;
+        return dataClient.getViaEntityById(id);
     }
+
+    @Override
+    public Member getViaMemberById(int id) {
+        return dataClient.getViaMemberById(id);
+    }
+
+    @Override
+    public Facility getViaFacilityById(int id) {
+        return dataClient.getViaFacilityById(id);
+    }
+
 }

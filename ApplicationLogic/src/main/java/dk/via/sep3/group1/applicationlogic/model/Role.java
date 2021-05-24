@@ -11,6 +11,9 @@ public class Role {
     @JsonProperty("roleType")
     public  String roleType;
 
+    public Role() {
+    }
+
     public Role(int roleId, Account account, String roleType) {
         this.roleId = roleId;
         this.account = account;
@@ -39,5 +42,14 @@ public class Role {
 
     public void setRoleType(String roleType) {
         this.roleType = roleType;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "roleId=" + roleId +
+                ", account=" + account +
+                ", roleType='" + roleType + '\'' +
+                '}';
     }
 }

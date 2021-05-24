@@ -5,6 +5,8 @@ namespace PresentationLayer.Data
 {
     public interface IAccountService
     {
-        Task<ViaEntity> CheckViaAccount(ViaEntity entityToCheck);
+        Task<ViaEntity> CheckViaAccountAsync(ViaEntity entityToCheck);
+
+        Task<Role> CreateAccountAsync(Role role);
     }
 }

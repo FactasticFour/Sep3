@@ -10,6 +10,9 @@ public class ViaEntity {
     @JsonProperty("password")
     public String password;
 
+    public ViaEntity() {
+    }
+
     public ViaEntity(int viaId, String password) {
         this.viaId = viaId;
         this.password = password;

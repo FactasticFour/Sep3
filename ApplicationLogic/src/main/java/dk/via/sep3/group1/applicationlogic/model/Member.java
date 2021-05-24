@@ -13,6 +13,10 @@ public class Member extends ViaEntity{
     @JsonProperty("account")
     public Account account;
 
+    public Member(){
+
+    }
+
     public Member(int viaId, String password, String firstName, String lastName, long cpr, Account account) {
         super(viaId, password);
         this.firstName = firstName;

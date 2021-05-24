@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PresentationLayer.Models;
@@ -9,7 +10,7 @@ namespace PresentationLayer.Data.Implementation
 {
     public class AccountService : IAccountService
     {
-        public async Task<ViaEntity> CheckViaAccount(ViaEntity entityToCheck)
+        public async Task<ViaEntity> CheckViaAccountAsync(ViaEntity entityToCheck)
         {
             Console.WriteLine("writing to tier2");
 
@@ -17,7 +18,7 @@ namespace PresentationLayer.Data.Implementation
             
             HttpClient client = new HttpClient();
             HttpResponseMessage responseMessage =
-                await client.GetAsync($"http://localhost:8080/account/verify?id={entityToCheck.ViaId}&password={hashedPassword}");
+                await client.GetAsync($"http://localhost:8080/account?id={entityToCheck.ViaId}&password={hashedPassword}");
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -25,13 +26,54 @@ namespace PresentationLayer.Data.Implementation
             }
 
             string result = await responseMessage.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
 
-            ViaEntity viaEntity = JsonSerializer.Deserialize<ViaEntity>(result, new JsonSerializerOptions
+            ViaEntity viaEntity = null;
+            if (result.Contains("cpr"))
             {
-                PropertyNameCaseInsensitive = true
-            });
+                viaEntity = JsonSerializer.Deserialize<Member>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            else
+            {
+                viaEntity = JsonSerializer.Deserialize<Facility>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
 
             return viaEntity;
+        }
+
+        public async Task<Role> CreateAccountAsync(Role role)
+        {
+            Role roleToSend = role;
+            roleToSend.Account.ApplicationPassword = HashingUtils.GetHash(role.Account.ApplicationPassword);
+
+            HttpClient client = new HttpClient();
+
+            string roleAsJson = JsonSerializer.Serialize(roleToSend);
+
+            Console.WriteLine(roleAsJson);
+
+            StringContent content = new StringContent(
+                roleAsJson,
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage responseMessage = await client.PostAsync("http://localhost:8080/account", content);
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            else
+            {
+                return role;
+            }
         }
     }
     

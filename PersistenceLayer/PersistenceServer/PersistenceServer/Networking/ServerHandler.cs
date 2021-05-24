@@ -51,6 +51,30 @@ namespace PersistenceServer.Networking
                 case "seedDatabase":
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
+                case "getViaEntityById":
+                    Console.WriteLine("--server handler--");
+                    ViaEntity viaEntity = await RepositoryFactory.GetAccountRepository()
+                        .GetViaEntityByIdAsync(ToObject<int>(requestFromClient.Argument));
+                    string viaEntityAsString = ToJson(viaEntity);
+                    Console.WriteLine(viaEntityAsString);
+                    SendToStream(viaEntityAsString);
+                    break;
+                case "getViaMemberById":
+                    Member viaMember = await RepositoryFactory.GetAccountRepository()
+                        .GetViaMemberByIdAsync(ToObject<int>(requestFromClient.Argument));
+
+                    string viaMemberAsString = ToJson(viaMember);
+                    Console.WriteLine(viaMemberAsString);
+                    SendToStream(viaMemberAsString);
+                    break;
+                case "getViaFacilityById":
+                    Facility viaFacility = await RepositoryFactory.GetAccountRepository()
+                        .GetViaFacilityByIdAsync(ToObject<int>(requestFromClient.Argument));
+
+                    string viaFacilityAsString = ToJson(viaFacility);
+                    Console.WriteLine(viaFacilityAsString);
+                    SendToStream(viaFacilityAsString);
+                    break;
             }
             // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
@@ -67,6 +91,7 @@ namespace PersistenceServer.Networking
         {
             byte[] bytesToSend = Encoding.ASCII.GetBytes(toSendToClient);
             stream.Write(bytesToSend);
+            stream.Close();
         }
 
         private T ToObject<T>(String element)

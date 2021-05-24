@@ -11,6 +11,10 @@ public class Facility extends ViaEntity {
     @JsonProperty("account")
     public Account account;
 
+    public Facility(){
+
+    }
+
     public Facility(int viaId, String password, String name, Campus campus, Account account) {
         super(viaId, password);
         this.name = name;

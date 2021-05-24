@@ -2,6 +2,8 @@ package dk.via.sep3.group1.applicationlogic.networking;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.via.sep3.group1.applicationlogic.model.Facility;
+import dk.via.sep3.group1.applicationlogic.model.Member;
 import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
@@ -59,7 +61,7 @@ public class DataClientImpl implements DataClient {
     }
 
     @Override
-    public void seedDatabase(){
+    public void seedDatabase() {
         try {
             String payload = "";
             Request request = new Request("seedDatabase", payload);
@@ -74,10 +76,11 @@ public class DataClientImpl implements DataClient {
     }
 
     @Override
-    public ViaEntity getViaEntityById(int id){
+    public ViaEntity getViaEntityById(int id) {
         ViaEntity viaEntity = null;
+        System.out.println("--data client--");
 
-        try{
+        try {
             String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
             Request request = new Request("getViaEntityById", payload);
 
@@ -86,18 +89,71 @@ public class DataClientImpl implements DataClient {
 
             byte[] bytesFromServer = inputStream.readAllBytes();
             String bytesAsString = new String(bytesFromServer);
+            System.out.println(bytesAsString);
 
             viaEntity = objectMapper.readValue(bytesAsString, ViaEntity.class);
-        } catch (JsonProcessingException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
         }
 
-        if (viaEntity != null){
+        if (viaEntity != null) {
             return viaEntity;
         } else {
             throw new RuntimeException("Via Entity is null");
+        }
+    }
+
+    @Override
+    public Member getViaMemberById(int id) {
+        Member viaMember = null;
+
+        try {
+            String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
+            Request request = new Request("getViaMemberById", payload);
+
+            byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
+            outputStream.write(valueAsBytes);
+
+            byte[] bytesFromServer = inputStream.readAllBytes();
+            String bytesAsString = new String(bytesFromServer);
+            System.out.println(bytesAsString);
+
+            viaMember = objectMapper.readValue(bytesAsString, Member.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (viaMember != null) {
+            return viaMember;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Facility getViaFacilityById(int id) {
+        Facility viaFacility = null;
+
+        try {
+            String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
+            Request request = new Request("getViaFacilityById", payload);
+
+            byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
+            outputStream.write(valueAsBytes);
+
+            byte[] bytesFromServer = inputStream.readAllBytes();
+            String bytesAsString = new String(bytesFromServer);
+            System.out.println(bytesAsString);
+
+            viaFacility = objectMapper.readValue(bytesAsString, Facility.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (viaFacility != null) {
+            return viaFacility;
+        } else {
+            return null;
         }
     }
 }

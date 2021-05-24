@@ -12,6 +12,18 @@ public class Account {
     @JsonProperty("balance")
     public int balance = 0;
 
+    public Account() {
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId=" + accountId +
+                ", applicationPassword='" + applicationPassword + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
+
     public Account(int accountId, String applicationPassword, int balance) {
         this.accountId = accountId;
         this.applicationPassword = applicationPassword;
