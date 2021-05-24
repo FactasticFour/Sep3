@@ -13,7 +13,8 @@ namespace PersistenceServer.Models
         
         [Required, ForeignKey("viaId")]
         public ViaEntity ViaEntity { get; set; }
-
+        
+        [Required, ForeignKey("type")]
         public Role AccountType { get; set; }
 
         [Required, StringLength(64)]
