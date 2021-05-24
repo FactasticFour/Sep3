@@ -6,9 +6,9 @@ namespace PersistenceServer.Models
     {
         public Account ReceiverAccount { get; set; }
         public Account SenderAccount { get; set; }
+        public float Amount { get; set; }
         public string Comment { get; set; }
         public string Type { get; set; }
-        public int Payload { get; set; }
         public DateTime Timestamp { get; set; }
 
         public Transaction(Account receiverAccount, Account senderAccount, string comment, string type, int payload, DateTime timestamp)
@@ -17,7 +17,7 @@ namespace PersistenceServer.Models
             SenderAccount = senderAccount;
             Comment = comment;
             Type = type;
-            Payload = payload;
+            Amount = payload;
             Timestamp = timestamp;
         }
     }

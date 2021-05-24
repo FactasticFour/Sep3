@@ -9,8 +9,8 @@ public class Transaction {
     public Account receiverAccountId;
     @JsonProperty("senderAccount")
     public Account senderAccountId;
-    @JsonProperty("payload")
-    public int payload;
+    @JsonProperty("amount")
+    public float amount;
     @JsonProperty("comment")
     public String comment;
     @JsonProperty("type")
