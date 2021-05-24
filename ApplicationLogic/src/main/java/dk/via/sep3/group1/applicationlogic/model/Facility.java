@@ -8,8 +8,23 @@ public class Facility extends ViaEntity {
     public String name;
     @JsonProperty("campus")
     public Campus campus;
-    @JsonProperty("account")
-    public Account account;
 
+    public Facility() {
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Campus getCampus() {
+        return campus;
+    }
+
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
 }
