@@ -8,7 +8,7 @@ namespace PresentationLayer.Models
         public Account ReceiverAccount { get; set; }
         [Key]
         public Account SenderAccount { get; set; }
-        [Required, ] 
+        [Required, Range(0, 298000)] 
         public float Amount { get; set; }
         public string Comment { get; set; }
         [Required]
