@@ -19,5 +19,6 @@ namespace PresentationLayer.Models
         
         [Required,Range(0, 9000000)]
         public float Balance { get; set; }
+        
     }
 }
