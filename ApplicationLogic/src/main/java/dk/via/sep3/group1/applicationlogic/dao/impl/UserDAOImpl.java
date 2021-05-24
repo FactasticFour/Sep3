@@ -5,8 +5,6 @@ import dk.via.sep3.group1.applicationlogic.networking.DataClient;
 import dk.via.sep3.group1.applicationlogic.networking.DataClientImpl;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-
 @Repository
 public class UserDAOImpl implements UserDAO {
 
