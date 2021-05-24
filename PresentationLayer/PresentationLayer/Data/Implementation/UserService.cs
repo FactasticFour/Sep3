@@ -28,5 +28,23 @@ namespace PresentationLayer.Data.Implementation
             Console.WriteLine(user.Id);
             return user;
         }
+        private T ToObject<T>(String element)
+        {
+            var deserializeResult = JsonSerializer.Deserialize<T>(element, new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return deserializeResult;
+        }
+
+        private string ToJson<T>(T objToSerialize)
+        {
+            string serialized = JsonSerializer.Serialize(objToSerialize, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            return serialized;
+        }
     }
 }

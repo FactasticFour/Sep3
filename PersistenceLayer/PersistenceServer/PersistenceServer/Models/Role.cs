@@ -8,12 +8,8 @@ namespace PersistenceServer.Models
     {
         [Key, Required]
         public int RoleId { get; set; }
-        
-        [Required, ForeignKey("accountId")]
-        public Account Account { get; set; }
-        
+
         [Required]
         public String RoleType { get; set; }
-        
     }
 }

@@ -2,32 +2,20 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class Account {
 
     @JsonProperty("accountId")
     public int accountId;
+    @JsonProperty("viaEntity")
+    public ViaEntity viaEntity;
+    @JsonProperty("accountType")
+    public Role accountType;
     @JsonProperty("applicationPassword")
     public String applicationPassword;
     @JsonProperty("balance")
-    public int balance = 0;
+    public float balance = 0;
 
     public Account() {
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "accountId=" + accountId +
-                ", applicationPassword='" + applicationPassword + '\'' +
-                ", balance=" + balance +
-                '}';
-    }
-
-    public Account(int accountId, String applicationPassword, int balance) {
-        this.accountId = accountId;
-        this.applicationPassword = applicationPassword;
-        this.balance = balance;
     }
 
     public int getAccountId() {
@@ -38,6 +26,22 @@ public class Account {
         this.accountId = accountId;
     }
 
+    public ViaEntity getViaEntity() {
+        return viaEntity;
+    }
+
+    public void setViaEntity(ViaEntity viaEntity) {
+        this.viaEntity = viaEntity;
+    }
+
+    public Role getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(Role accountType) {
+        this.accountType = accountType;
+    }
+
     public String getApplicationPassword() {
         return applicationPassword;
     }
@@ -46,11 +50,11 @@ public class Account {
         this.applicationPassword = applicationPassword;
     }
 
-    public int getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 }

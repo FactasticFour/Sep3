@@ -2,13 +2,14 @@ package dk.via.sep3.group1.applicationlogic.shared;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class Request {
+public class Reply {
     @JsonProperty("type")
-    private String type;
+    public String type;
     @JsonProperty("payload")
-    private String payload;
+    public String payload;
+
+    public Reply() {
+    }
 
     public String getType() {
         return type;
@@ -18,7 +19,7 @@ public class Request {
         this.type = type;
     }
 
-    public Request(String type, String payload) {
+    public Reply(String type, String payload) {
         this.type = type;
         this.payload = payload;
     }
@@ -29,8 +30,5 @@ public class Request {
 
     public void setPayload(String payload) {
         this.payload = payload;
-    }
-
-    public Request() {
     }
 }

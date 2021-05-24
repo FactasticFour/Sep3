@@ -4,12 +4,11 @@ namespace PresentationLayer.Models
 {
     public class ViaEntity
     {
-        [Required]
-        [Range(0, 9999999, ErrorMessage = "The VIA ID should not be longer than 7 digits")]
-        public int? ViaId { get; set; }
-        
-        [Required]
-        [MinLength(8, ErrorMessage = "VIA password is too short")]
+        [Key, Required, Range(0, 9999999, ErrorMessage = "Invalid VIA ID")]
+        public int ViaId { get; set; }
+        [Required, StringLength(64)]
         public string Password { get; set; }
+
+        public Account Account { get; set; }
     }
 }

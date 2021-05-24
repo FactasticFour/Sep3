@@ -10,8 +10,8 @@ public class Transaction {
     public Account receiverAccountId;
     @JsonProperty("senderAccount")
     public Account senderAccountId;
-    @JsonProperty("payload")
-    public int payload;
+    @JsonProperty("amount")
+    public float amount;
     @JsonProperty("comment")
     public String comment;
     @JsonProperty("type")
@@ -19,13 +19,7 @@ public class Transaction {
     @JsonProperty("timestamp")
     public Timestamp timestamp;
 
-    public Transaction(Account receiverAccountId, Account senderAccountId, int payload, String comment, String type, Timestamp timestamp) {
-        this.receiverAccountId = receiverAccountId;
-        this.senderAccountId = senderAccountId;
-        this.payload = payload;
-        this.comment = comment;
-        this.type = type;
-        this.timestamp = timestamp;
+    public Transaction() {
     }
 
     public Account getReceiverAccountId() {
@@ -44,12 +38,12 @@ public class Transaction {
         this.senderAccountId = senderAccountId;
     }
 
-    public int getPayload() {
-        return payload;
+    public float getAmount() {
+        return amount;
     }
 
-    public void setPayload(int payload) {
-        this.payload = payload;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
     public String getComment() {

@@ -1,5 +1,7 @@
 package dk.via.sep3.group1.applicationlogic.service.impl;
 
+import dk.via.sep3.group1.applicationlogic.dao.DbSeedingDAO;
+import dk.via.sep3.group1.applicationlogic.service.DbSeedingService;
 import dk.via.sep3.group1.applicationlogic.model.dao.DbSeedingDAO;
 import dk.via.sep3.group1.applicationlogic.service.DbSeedingService;
 import org.springframework.beans.factory.annotation.Autowired;

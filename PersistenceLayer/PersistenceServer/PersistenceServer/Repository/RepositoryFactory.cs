@@ -2,7 +2,7 @@
 
 namespace PersistenceServer.Repository
 {
-    public class RepositoryFactory
+    public static class RepositoryFactory
     {
         public static IUserRepository GetUserRepository()
         {

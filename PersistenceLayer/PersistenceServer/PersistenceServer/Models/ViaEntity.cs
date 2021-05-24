@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PersistenceServer.Models
 {
@@ -8,5 +10,8 @@ namespace PersistenceServer.Models
         public int ViaId { get; set; }
         [Required, StringLength(64)]
         public string Password { get; set; }
+
+        [Required, ForeignKey("accountId")]
+        public Account Account { get; set; }
     }
 }

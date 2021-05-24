@@ -12,11 +12,7 @@ public class Campus {
     @JsonProperty("name")
     public String name;
 
-    public Campus(String city, String street, String postCode, String name) {
-        this.city = city;
-        this.street = street;
-        this.postCode = postCode;
-        this.name = name;
+    public Campus() {
     }
 
     public String getCity() {

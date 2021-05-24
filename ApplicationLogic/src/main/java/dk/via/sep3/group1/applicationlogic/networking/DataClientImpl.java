@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.Facility;
 import dk.via.sep3.group1.applicationlogic.model.Member;
 import dk.via.sep3.group1.applicationlogic.model.User;
+import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import org.springframework.stereotype.Service;
@@ -36,40 +37,84 @@ public class DataClientImpl implements DataClient {
 
     @Override
     public User getUser(int id) {
+
         User user = null;
+        String payload = serialize(id);
+        Request request = new Request("GET_USER_BY_ID", payload);
+        writeBytes(request);
 
-        try {
-            String payload = objectMapper.writeValueAsString(Integer.parseInt(String.valueOf(id)));
-            Request request = new Request("getUserById", payload);
-
-            byte[] valueAsBytesTest = objectMapper.writeValueAsBytes(request);
-            outputStream.write(valueAsBytesTest);
-
-            byte[] readAllBytes = inputStream.readAllBytes();
-            String stringBytes = new String(readAllBytes);
-
-            System.out.println(stringBytes);
-
-            user = objectMapper.readValue(stringBytes, User.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String stringToDeserialize = readBytes();
+        Reply replyDeserialized = deserialize(stringToDeserialize, Reply.class);
+        if(replyDeserialized.type.equals("SEND_USER")){
+            user = deserialize(replyDeserialized.payload, User.class);
         }
+        else if (replyDeserialized.type.equals("BAD_REQUEST")){
+            throw new NullPointerException(replyDeserialized.payload);
+        }
+
         if (user != null) {
             return user;
         } else
-            throw new RuntimeException("User is null");
+        {
+            throw new NullPointerException("user is null");
+        }
     }
 
     @Override
-    public void seedDatabase() {
+    public void seedDatabase(){
         try {
             String payload = "";
-            Request request = new Request("seedDatabase", payload);
+            Request request = new Request("SEED_DATABASE", payload);
 
             byte[] valueAsBytes = objectMapper.writeValueAsBytes(request);
             outputStream.write(valueAsBytes);
 
             System.out.println("sent seeding request to third tier");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private  <T> String serialize(T objectToSerialize){
+        String serializedString = "";
+        try {
+            serializedString = objectMapper.writeValueAsString(objectToSerialize);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return serializedString;
+    }
+
+
+    private  <T> T deserialize(String objectToDeserialize, Class<T> tClass){
+        T object = null;
+        try {
+
+            object = objectMapper.readValue(objectToDeserialize, tClass);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    private String readBytes() {
+        byte[] readAllBytes = new byte[1024];
+        try {
+            readAllBytes = inputStream.readAllBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new String(readAllBytes);
+    }
+
+
+    private void writeBytes(Object objectToSend) {
+        byte[] valueAsBytesTest;
+        System.out.println(objectToSend);
+        try {
+            valueAsBytesTest = objectMapper.writeValueAsBytes(objectToSend);
+            outputStream.write(valueAsBytesTest);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

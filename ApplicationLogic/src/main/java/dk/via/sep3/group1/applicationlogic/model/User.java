@@ -2,7 +2,6 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class User {
     @JsonProperty("userId")
     private int userId;
@@ -12,10 +11,7 @@ public class User {
     private String password;
 
 
-    public User(int userId, String userName, String password) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
+    public User() {
     }
 
     public int getUserId() {
