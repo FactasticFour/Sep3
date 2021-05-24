@@ -72,7 +72,7 @@ public class DataClientImpl implements DataClient {
         }
     }
 
-    public <T> String serialize(T objectToSerialize){
+    private  <T> String serialize(T objectToSerialize){
         String serializedString = "";
         try {
             serializedString = objectMapper.writeValueAsString(objectToSerialize);
@@ -83,7 +83,7 @@ public class DataClientImpl implements DataClient {
     }
 
 
-    public <T> T deserialize(String objectToDeserialize, Class<T> tClass){
+    private  <T> T deserialize(String objectToDeserialize, Class<T> tClass){
         T object = null;
         try {
 
@@ -94,7 +94,7 @@ public class DataClientImpl implements DataClient {
         return object;
     }
 
-    public String readBytes() {
+    private String readBytes() {
         byte[] readAllBytes = new byte[1024];
         try {
             readAllBytes = inputStream.readAllBytes();
@@ -105,7 +105,7 @@ public class DataClientImpl implements DataClient {
     }
 
 
-    public void writeBytes(Object objectToSend) {
+    private void writeBytes(Object objectToSend) {
         byte[] valueAsBytesTest;
         System.out.println(objectToSend);
         try {
