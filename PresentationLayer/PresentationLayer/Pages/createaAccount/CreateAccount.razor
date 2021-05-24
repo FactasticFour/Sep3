@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 
 <div class="d-flex flex-column justify-content-around align-items-center">
+    
     <h3>Find your VIA account</h3>
 
     <EditForm Model="viaEntityModel" OnValidSubmit="@CheckEntity">
@@ -11,7 +12,7 @@
         <ValidationSummary/>
         <div class="form-group">
             VIA ID:<br/>
-            <InputNumber  @bind-Value="viaEntityModel.ViaId"/>
+            <InputNumber @bind-Value="viaEntityModel.ViaId"/>
         </div>
         <div class="form-group">
             VIA password:<br/>
