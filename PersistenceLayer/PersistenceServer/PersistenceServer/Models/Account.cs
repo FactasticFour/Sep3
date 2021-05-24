@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PersistenceServer.Models
 {
@@ -9,7 +10,7 @@ namespace PersistenceServer.Models
     {
         [Key, Required]
         public int AccountId { get; set; }
-        
+
         public IList<Account> Sender { get; set; }
         public IList<Account> Receiver { get; set; }
         

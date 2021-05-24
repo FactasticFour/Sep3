@@ -17,5 +17,4 @@ public class Transaction {
     public String type;
     @JsonProperty("timestamp")
     public Timestamp timestamp;
-
 }
