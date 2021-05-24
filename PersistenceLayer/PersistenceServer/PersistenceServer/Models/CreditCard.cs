@@ -25,7 +25,7 @@ namespace PersistenceServer.Models
         public int SecurityCode { get; set; }
 
         [Required,Range(0, 9000000)]
-        public int AmountOfMoney { get; set; }
+        public float AmountOfMoney { get; set; }
 
         [ForeignKey("accountId")]
         public Account Account { get; set; }
