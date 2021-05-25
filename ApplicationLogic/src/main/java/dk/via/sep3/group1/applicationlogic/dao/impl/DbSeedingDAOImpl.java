@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DbSeedingDAOImpl implements DbSeedingDAO {
 
+    @Autowired
+    DataClientImpl dataClient;
+
     @Override
     public void seedDatabase() {
-        DataClient dataClient = new DataClientImpl();
-        dataClient.seedDatabase();
+
     }
 }

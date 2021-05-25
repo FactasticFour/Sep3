@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Role {
     @JsonProperty("roleId")
-    public int roleId;
+    private int roleId;
     @JsonProperty("roleType")
-    public  String roleType;
+    private  String roleType;
 
     public Role() {
     }

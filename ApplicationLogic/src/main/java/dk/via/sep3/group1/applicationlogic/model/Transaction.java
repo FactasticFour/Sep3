@@ -7,17 +7,17 @@ import java.sql.Timestamp;
 
 public class Transaction {
     @JsonProperty("receiverAccount")
-    public Account receiverAccountId;
+    private Account receiverAccountId;
     @JsonProperty("senderAccount")
-    public Account senderAccountId;
+    private Account senderAccountId;
     @JsonProperty("amount")
-    public float amount;
+    private float amount;
     @JsonProperty("comment")
-    public String comment;
+    private String comment;
     @JsonProperty("type")
-    public String type;
+    private String type;
     @JsonProperty("timestamp")
-    public Timestamp timestamp;
+    private Timestamp timestamp;
 
     public Transaction() {
     }

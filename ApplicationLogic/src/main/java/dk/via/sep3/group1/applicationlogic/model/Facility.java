@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Facility extends ViaEntity {
     @JsonProperty("name")
-    public String name;
+    private String name;
     @JsonProperty("campus")
-    public Campus campus;
+    private Campus campus;
 
     public Facility() {
     }

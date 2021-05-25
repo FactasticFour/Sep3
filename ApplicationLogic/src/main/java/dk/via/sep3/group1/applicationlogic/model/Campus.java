@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Campus {
     @JsonProperty("city")
-    public String city;
+    private String city;
     @JsonProperty("street")
-    public String street;
+    private String street;
     @JsonProperty("postCode")
-    public String postCode;
+    private String postCode;
     @JsonProperty("name")
-    public String name;
+    private String name;
 
     public Campus() {
     }
