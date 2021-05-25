@@ -8,5 +8,6 @@ namespace PersistenceServer.Repository
         Task<ViaEntity> GetViaEntityByIdAsync(int id);
         Task<Member> GetViaMemberByIdAsync(int id);
         Task<Facility> GetViaFacilityByIdAsync(int id);
+        
     }
 }
