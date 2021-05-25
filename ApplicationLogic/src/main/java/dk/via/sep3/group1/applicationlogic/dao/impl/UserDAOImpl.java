@@ -25,14 +25,14 @@ DataClientImpl dataClient;
     public User getUserById(int id) {
         Request request = new Request();
         request.setPayload(Serialization.serialize(id));
-        request.setType("GET_USER_BY_ID");
+        request.setType(request.GET_USER_BY_ID);
         Reply reply = dataClient.handleRequest(request);
-        if(reply.type.equals("SEND_USER")){
+        if(reply.getType().equals(reply.SEND_USER)){
             User user = Serialization.deserialize(reply.getPayload(), User.class);
             return user;
         }
         else {
-         throw new NullPointerException("BAD REQUEST");
+         throw new NullPointerException(reply.BAD_REQUEST);
         }
     }
 

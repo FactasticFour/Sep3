@@ -23,11 +23,7 @@ namespace PersistenceServer.Networking
 
         public async Task HandleRequest()
         {
-            Request requestFromClient = new Request()
-            {
-                Payload = "",
-                Type = ""
-            };
+            Request requestFromClient = new Request();
 
             try
             {
@@ -43,21 +39,21 @@ namespace PersistenceServer.Networking
             switch (requestFromClient.Type)
             {
                 
-                case "GET_USER_BY_ID":
+                case Request.GET_USER_BY_ID:
                     User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
                     Console.WriteLine(payload);
-                    Reply reply = new Reply("SEND_USER", payload);
+                    Reply reply = new Reply(Reply.SEND_USER, payload);
                     string toSendToClient = ToJson(reply);
                     
                     SendToStream(toSendToClient);
                     break;
-                case "SEED_DATABASE":
+                case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
                 default:
-                    Reply badRequestReply = new Reply("BAD_REQUEST", "Bad Request");
+                    Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
                     SendToStream(replySerialized);
                     break;
