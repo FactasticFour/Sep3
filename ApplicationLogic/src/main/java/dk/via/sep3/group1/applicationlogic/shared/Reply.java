@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Reply {
     public final String SEND_USER = "SEND_USER";
     public final String BAD_REQUEST = "BAD_REQUEST";
+    public final String ACCOUNT_BY_USERNAME = "ACCOUNT_BY_USERNAME";
+    public final String SEEDING_SUCCESS = "SEEDING_SUCCESS";
+
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

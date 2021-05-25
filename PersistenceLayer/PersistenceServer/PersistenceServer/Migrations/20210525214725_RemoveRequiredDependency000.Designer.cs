@@ -10,8 +10,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210525152752_S04RemoveRequiredViaEntityAccount")]
-    partial class S04RemoveRequiredViaEntityAccount
+    [Migration("20210525214725_RemoveRequiredDependency000")]
+    partial class RemoveRequiredDependency000
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

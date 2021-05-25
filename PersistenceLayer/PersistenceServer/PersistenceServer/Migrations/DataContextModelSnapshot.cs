@@ -201,7 +201,7 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<int>("accountId")
+                    b.Property<int?>("accountId")
                         .HasColumnType("integer");
 
                     b.HasKey("ViaId");
@@ -308,9 +308,7 @@ namespace PersistenceServer.Migrations
                 {
                     b.HasOne("PersistenceServer.Models.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("accountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("accountId");
 
                     b.Navigation("Account");
                 });
