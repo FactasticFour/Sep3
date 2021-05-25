@@ -13,5 +13,10 @@ namespace PersistenceServer.Repository
         {
             return new DbSeedingRepositoryImpl();
         }
+
+        public static IAccountRepository GetAccountRepository()
+        {
+            return new AccountRepository();
+        }
     }
 }

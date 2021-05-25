@@ -5,6 +5,6 @@ namespace PersistenceServer.Repository.Impl
 {
     public interface IAccountRepository
     {
-        Task<Account> GetRoleByUsernameAsync(string username);
+        Task<Account> GetAccountByUsernameAsync(string username);
     }
 }

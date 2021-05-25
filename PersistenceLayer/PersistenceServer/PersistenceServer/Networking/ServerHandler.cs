@@ -53,6 +53,13 @@ namespace PersistenceServer.Networking
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
                 case Request.GET_ACCOUNT_BY_USERNAME:
+                    Account account = await RepositoryFactory.GetAccountRepository()
+                        .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
+                    Console.WriteLine($"Payload json {account}");
+                    string json = ToJson(account);
+                    Console.WriteLine($"Payload json {json}");
+                    SendToStream(json);
+                    break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);

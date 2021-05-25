@@ -14,7 +14,7 @@ namespace PresentationLayer.Data.Implementation
             HttpClient client = new HttpClient();
 
             HttpResponseMessage response =
-                await client.GetAsync($"http://localhost:8080/users?password={username}&username={passwordHashed}");
+                await client.GetAsync($"http://localhost:8080/login?password={username}&username={passwordHashed}");
             
             if (!response.IsSuccessStatusCode)
             {
