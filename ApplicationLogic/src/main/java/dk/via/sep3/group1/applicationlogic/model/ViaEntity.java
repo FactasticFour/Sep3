@@ -4,16 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ViaEntity {
     @JsonProperty("viaId")
-    public int viaId;
+    private int viaId;
     @JsonProperty("password")
-    public String password;
+    private String password;
+    @JsonProperty("account")
+    private Account account;
 
     public ViaEntity() {
-    }
-
-    public ViaEntity(int viaId, String password) {
-        this.viaId = viaId;
-        this.password = password;
     }
 
     public int getViaId() {
@@ -30,5 +27,13 @@ public class ViaEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

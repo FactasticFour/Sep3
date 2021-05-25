@@ -1,18 +1,16 @@
-﻿namespace PresentationLayer.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PresentationLayer.Models
 {
     public class Member : ViaEntity
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [MaxLength(256), Required, Column("fname")]
+        public String FirstName { get; set; }
+        [MaxLength(256), Required, Column("lname")]
+        public String LastName { get; set; }
+        [Required, StringLength(10, ErrorMessage = "Invalid CPR")]
         public long Cpr { get; set; }
-        public Account Account { get; set; }
-
-        public Member(int viaId, string password, string firstName, string lastName, long cpr, Account account) : base(viaId, password)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Cpr = cpr;
-            Account = account;
-        }
     }
 }
