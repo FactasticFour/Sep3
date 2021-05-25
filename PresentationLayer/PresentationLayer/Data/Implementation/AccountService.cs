@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -28,21 +29,10 @@ namespace PresentationLayer.Data.Implementation
             string result = await responseMessage.Content.ReadAsStringAsync();
             Console.WriteLine(result);
 
-            ViaEntity viaEntity = null;
-            if (result.Contains("cpr"))
+            ViaEntity viaEntity = JsonSerializer.Deserialize<ViaEntity>(result, new JsonSerializerOptions
             {
-                viaEntity = JsonSerializer.Deserialize<Member>(result, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-            }
-            else
-            {
-                viaEntity = JsonSerializer.Deserialize<Facility>(result, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-            }
+                PropertyNameCaseInsensitive = true
+            });
 
             return viaEntity;
         }

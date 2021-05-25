@@ -18,5 +18,10 @@ namespace PersistenceServer.Repository
         {
             return new AccountRepositoryImpl();
         }
+
+        public static IRoleRepository GetRoleRepository()
+        {
+            return new RoleRepositoryImpl();
+        }
     }
 }

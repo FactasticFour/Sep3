@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -63,7 +64,17 @@ namespace PersistenceServer.Networking
 
                     SendToStream(ToJson(viaEntityReply));
                     break;
-                
+                case Request.GET_ALL_ACCOUNT_TYPES:
+                    List<string> allAccountTypes =
+                        await RepositoryFactory.GetRoleRepository().GetAllAccountTypesAsync();
+
+                    string allAccountTypesAsString = ToJson(allAccountTypes);
+                    Console.WriteLine(allAccountTypesAsString);
+                    Reply allAccountTypesReply = new Reply(Reply.SEND_ALL_ACCOUNT_TYPES, allAccountTypesAsString);
+                    
+                    SendToStream(ToJson(allAccountTypesReply));
+                    
+                    break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
