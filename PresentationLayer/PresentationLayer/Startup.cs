@@ -1,9 +1,11 @@
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PresentationLayer.Authentication;
 using PresentationLayer.Data;
 using PresentationLayer.Data.Implementation;
 
@@ -25,6 +27,16 @@ namespace PresentationLayer
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("MustBeAdmin",
+                        policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "admin"));
+                    options.AddPolicy("MustBeMember", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "member"));
+                    options.AddPolicy("MustBeFacility", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "facility")); 
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
