@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Member extends ViaEntity{
     @JsonProperty("firstName")
-    public String firstName;
+    private String firstName;
     @JsonProperty("lastName")
-    public String lastName;
+    private String lastName;
     @JsonProperty("cpr")
-    public long cpr;
+    private long cpr;
 
     public Member() {
     }

@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Account {
 
     @JsonProperty("accountId")
-    public int accountId;
+    private int accountId;
     @JsonProperty("viaEntity")
-    public ViaEntity viaEntity;
+    private ViaEntity viaEntity;
     @JsonProperty("accountType")
-    public Role accountType;
+    private Role accountType;
     @JsonProperty("applicationPassword")
-    public String applicationPassword;
+    private String applicationPassword;
     @JsonProperty("balance")
-    public float balance = 0;
+    private float balance = 0;
 
     public Account() {
     }

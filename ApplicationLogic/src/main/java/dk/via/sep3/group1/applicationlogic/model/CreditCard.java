@@ -5,21 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CreditCard {
 
     @JsonProperty("creditCardNumber")
-    public String creditCardNumber;
+    private String creditCardNumber;
     @JsonProperty("firstName")
-    public String firstName;
+    private String firstName;
     @JsonProperty("lastName")
-    public String lastName;
+    private String lastName;
     @JsonProperty("expirationMonth")
-    public String expirationMonth;
+    private String expirationMonth;
     @JsonProperty("expirationYear")
-    public String expirationYear;
+    private String expirationYear;
     @JsonProperty("securityCode")
-    public int securityCode;
+    private int securityCode;
     @JsonProperty("amountOfMoney")
-    public float amountOfMoney = 9000000;
+    private float amountOfMoney = 9000000;
     @JsonProperty("account")
-    public Account account;
+    private Account account;
 
     public CreditCard() {
     }
