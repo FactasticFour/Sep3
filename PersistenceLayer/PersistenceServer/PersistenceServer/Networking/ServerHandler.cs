@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.CompilerServices;
 using PersistenceServer.Data;
@@ -55,9 +56,12 @@ namespace PersistenceServer.Networking
                 case Request.GET_ACCOUNT_BY_USERNAME:
                     Account account = await RepositoryFactory.GetAccountRepository()
                         .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
-                    Console.WriteLine($"Payload json {account}");
-                    string json = ToJson(account);
-                    Console.WriteLine($"Payload json {json}");
+                    
+                    Console.WriteLine($"Account from repo to handler -- password {account.ViaEntity.Password}");
+                    string payloadAccount = ToJson(account);
+
+                    Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
+                    string json = ToJson(replyAc);
                     SendToStream(json);
                     break;
                 default:

@@ -14,11 +14,13 @@ namespace PersistenceServer.Repository.Impl
             Console.WriteLine($"Username from handler: {username}");
             await using DataContext dataContext = new DataContext();
 
-            Account account = await dataContext.Accounts.Include(c => c.ViaEntity).FirstOrDefaultAsync(a => a.AccountId == 77);
+            Account account = await dataContext.Accounts.Include(c => c.ViaEntity).Include(a => a.AccountType)
+                .FirstOrDefaultAsync(a=> a.ViaEntity.ViaId.ToString().Equals(username));
 
-            //Console.WriteLine($"Account found username:{account.ViaEntity.ViaId}");
+            Console.WriteLine($"Account found username:{account.ViaEntity.ViaId}");
             Console.WriteLine($"Account found AccountID:{account.AccountId}");
             Console.WriteLine($"Account found password:{account.ApplicationPassword}");
+            Console.WriteLine($"Account found with role:{account.AccountType.RoleType}");
             Console.WriteLine(account);
             //Role role = await dataContext.Roles.Include(roleTo => roleTo.Account).FirstOrDefaultAsync(roleTo => roleTo.Account.AccountId == include.AccountId);
             //Console.WriteLine($"Role found: {account.AccountType} + {account.ViaEntity.ViaId}");
