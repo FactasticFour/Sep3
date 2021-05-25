@@ -14,6 +14,6 @@ public class DbSeedingDAOImpl implements DbSeedingDAO {
 
     @Override
     public void seedDatabase() {
-        dataClient.seedDatabase();
+
     }
 }

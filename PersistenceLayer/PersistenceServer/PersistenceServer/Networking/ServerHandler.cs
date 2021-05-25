@@ -47,8 +47,10 @@ namespace PersistenceServer.Networking
                     User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
+                    Console.WriteLine(payload);
                     Reply reply = new Reply("SEND_USER", payload);
                     string toSendToClient = ToJson(reply);
+                    
                     SendToStream(toSendToClient);
                     break;
                 case "SEED_DATABASE":
