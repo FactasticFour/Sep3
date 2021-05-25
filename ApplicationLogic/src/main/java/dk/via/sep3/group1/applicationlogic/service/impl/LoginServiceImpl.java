@@ -15,7 +15,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Account validateAccount(String passwordHashed, String username) {
         Account account = accountDAO.getRoleByUsername(username);
-        if (account != null && account.getApplicationPassword().equals(passwordHashed))
+
+        System.out.println("Account type from DAO: " + account.getAccountType());
+        if (account.getApplicationPassword().equals(passwordHashed))
         {
             System.out.println("Password match");
             return account;
