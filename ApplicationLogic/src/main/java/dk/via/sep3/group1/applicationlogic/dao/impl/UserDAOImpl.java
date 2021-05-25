@@ -15,6 +15,7 @@ public class UserDAOImpl implements UserDAO {
     public User getUserById(int id) {
         // Initialize a new socket for every request/method call from DAOImpl
         DataClient dataClient = new DataClientImpl();
+
         User user = dataClient.getUser(id);
         if (user != null)
         return user;
