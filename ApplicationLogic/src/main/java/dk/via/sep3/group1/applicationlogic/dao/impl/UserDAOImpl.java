@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.dao.UserDAO;
 import dk.via.sep3.group1.applicationlogic.networking.DataClient;
+import dk.via.sep3.group1.applicationlogic.networking.DataClientImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +17,6 @@ public class UserDAOImpl implements UserDAO {
     private ArrayList<User> usersList;
     private ObjectMapper mapper;
 
-    @Autowired
-    DataClient dataClient;
-
     public UserDAOImpl() {
         mapper = new ObjectMapper();
         usersList = new ArrayList<>();
@@ -26,6 +24,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserById(int id) {
+        DataClient dataClient = new DataClientImpl();
+
         User user = dataClient.getUser(id);
         if (user != null)
         return user;

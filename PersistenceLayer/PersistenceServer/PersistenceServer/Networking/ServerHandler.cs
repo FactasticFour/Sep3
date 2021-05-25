@@ -57,14 +57,14 @@ namespace PersistenceServer.Networking
                 case "getViaEntityById":
                     Console.WriteLine("--server handler--");
                     ViaEntity viaEntity = await RepositoryFactory.GetAccountRepository()
-                        .GetViaEntityByIdAsync(ToObject<int>(requestFromClient.Argument));
+                        .GetViaEntityByIdAsync(ToObject<int>(requestFromClient.Payload));
                     string viaEntityAsString = ToJson(viaEntity);
                     Console.WriteLine(viaEntityAsString);
                     SendToStream(viaEntityAsString);
                     break;
                 case "getViaMemberById":
                     Member viaMember = await RepositoryFactory.GetAccountRepository()
-                        .GetViaMemberByIdAsync(ToObject<int>(requestFromClient.Argument));
+                        .GetViaMemberByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string viaMemberAsString = ToJson(viaMember);
                     Console.WriteLine(viaMemberAsString);
@@ -72,7 +72,7 @@ namespace PersistenceServer.Networking
                     break;
                 case "getViaFacilityById":
                     Facility viaFacility = await RepositoryFactory.GetAccountRepository()
-                        .GetViaFacilityByIdAsync(ToObject<int>(requestFromClient.Argument));
+                        .GetViaFacilityByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string viaFacilityAsString = ToJson(viaFacility);
                     Console.WriteLine(viaFacilityAsString);

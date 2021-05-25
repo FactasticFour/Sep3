@@ -13,6 +13,17 @@ public class ViaEntity {
     public ViaEntity() {
     }
 
+    public ViaEntity(int viaId, String password) {
+        this.viaId = viaId;
+        this.password = password;
+    }
+
+    public ViaEntity(int viaId, String password, Account account) {
+        this.viaId = viaId;
+        this.password = password;
+        this.account = account;
+    }
+
     public int getViaId() {
         return viaId;
     }

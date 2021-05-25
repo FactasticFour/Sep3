@@ -12,30 +12,10 @@ public class Facility extends ViaEntity {
     public Facility() {
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Campus getCampus() {
-        return campus;
-    }
-
-    public void setCampus(Campus campus) {
-        this.campus = campus;
-    }
-    public Facility(){
-
-    }
-
     public Facility(int viaId, String password, String name, Campus campus, Account account) {
-        super(viaId, password);
+        super(viaId, password, account);
         this.name = name;
         this.campus = campus;
-        this.account = account;
     }
 
     public String getName() {

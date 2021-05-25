@@ -25,7 +25,7 @@ namespace PresentationLayer.Data.Implementation
                 PropertyNameCaseInsensitive = true
             });
 
-            Console.WriteLine(user.Id);
+            Console.WriteLine(user.UserId);
             return user;
         }
         private T ToObject<T>(String element)

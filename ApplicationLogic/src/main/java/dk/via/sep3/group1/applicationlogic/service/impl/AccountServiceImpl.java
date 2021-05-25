@@ -3,7 +3,7 @@ package dk.via.sep3.group1.applicationlogic.service.impl;
 import dk.via.sep3.group1.applicationlogic.model.Facility;
 import dk.via.sep3.group1.applicationlogic.model.Member;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
-import dk.via.sep3.group1.applicationlogic.model.dao.AccountDAO;
+import dk.via.sep3.group1.applicationlogic.dao.AccountDAO;
 import dk.via.sep3.group1.applicationlogic.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

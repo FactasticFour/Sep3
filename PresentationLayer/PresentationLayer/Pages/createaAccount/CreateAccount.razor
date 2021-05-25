@@ -115,11 +115,11 @@
             Role roleToSend = new Role()
             {
                 RoleType = accountDataInputModel.RoleType,
-                Account = new Account()
-                {
-                    ApplicationPassword = accountDataInputModel.ApplicationPassword,
-                    ViaEntity = dbMember
-                }
+                // Account = new Account()
+                // {
+                //     ApplicationPassword = accountDataInputModel.ApplicationPassword,
+                //     ViaEntity = dbMember
+                // }
             };
 
             AccountService.CreateAccountAsync(roleToSend);

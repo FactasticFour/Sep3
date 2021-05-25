@@ -50,7 +50,7 @@ namespace PresentationLayer.Data.Implementation
         public async Task<Role> CreateAccountAsync(Role role)
         {
             Role roleToSend = role;
-            roleToSend.Account.ApplicationPassword = HashingUtils.GetHash(role.Account.ApplicationPassword);
+            //roleToSend.Account.ApplicationPassword = HashingUtils.GetHash(role.Account.ApplicationPassword);
 
             HttpClient client = new HttpClient();
 
