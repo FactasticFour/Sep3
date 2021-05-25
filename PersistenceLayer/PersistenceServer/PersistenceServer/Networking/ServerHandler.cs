@@ -62,6 +62,7 @@ namespace PersistenceServer.Networking
 
                     Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
                     string json = ToJson(replyAc);
+                    Console.WriteLine(json);
                     SendToStream(json);
                     break;
                 default:
