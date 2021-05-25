@@ -18,6 +18,7 @@ public class AccountServiceImpl implements AccountService {
     public ViaEntity checkViaAccount(ViaEntity entityToCheck) {
 
         Member viaMember = accountDAO.getViaMemberById(entityToCheck.getViaId());
+        System.out.println(viaMember);
         if (viaMember != null){
             System.out.println("account service returning member");
             return viaMember;

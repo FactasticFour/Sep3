@@ -60,12 +60,14 @@ namespace PersistenceServer.Networking
                     Console.WriteLine(viaEntityAsString);
                     SendToStream(viaEntityAsString);
                     break;
-                case "getViaMemberById":
+                case Request.GET_MEMBER_BY_ID:
                     Member viaMember = await RepositoryFactory.GetAccountRepository()
                         .GetViaMemberByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string viaMemberAsString = ToJson(viaMember);
-                    Console.WriteLine(viaMemberAsString);
+                    Reply memberReply = new Reply(Reply.SEND_MEMBER, viaMemberAsString);
+                    Console.WriteLine(ToJson(memberReply));
+                    SendToStream(ToJson(memberReply));
                     SendToStream(viaMemberAsString);
                     break;
                 case "getViaFacilityById":
