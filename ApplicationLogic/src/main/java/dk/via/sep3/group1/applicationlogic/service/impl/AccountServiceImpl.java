@@ -17,15 +17,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ViaEntity checkViaAccount(ViaEntity entityToCheck) {
 
-        Member viaMember = accountDAO.getViaMemberById(entityToCheck.getViaId());
-        System.out.println(viaMember);
-        if (viaMember != null){
-            System.out.println("account service returning member");
-            return viaMember;
-        } else {
-            Facility viaFacility = accountDAO.getViaFacilityById(entityToCheck.getViaId());
-            System.out.println("account service returning facility");
-            return viaFacility;
+        ViaEntity viaEntity = accountDAO.getViaEntityWithId(entityToCheck.getViaId());
+        System.out.println(viaEntity);
+
+        if (viaEntity.getPassword().equals(entityToCheck.getPassword())){
+            return viaEntity;
         }
+        return null;
     }
 }

@@ -21,29 +21,17 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public ViaEntity getViaEntityWithId(int id) {
         System.out.println("account dao in action babeh");
-        DataClient dataClient = new DataClientImpl();
-        //return dataClient.getViaEntityById(id);
-        return null;
-    }
 
-    @Override
-    public Member getViaMemberById(int id) {
         Request request = new Request();
         request.setPayload(Serialization.serialize(id));
-        request.setType(request.GET_MEMBER_BY_ID);
+        request.setType(request.GET_ENTITY_WITH_ID);
+
         Reply reply = dataClient.handleRequest(request);
-        if (reply.getType().equals(reply.SEND_MEMBER)){
-            Member member = Serialization.deserialize(reply.getPayload(), Member.class);
-            return member;
+
+        if (reply.getType().equals(reply.SEND_ENTITY)){
+            ViaEntity viaEntity = Serialization.deserialize(reply.getPayload(), ViaEntity.class);
+            return viaEntity;
         }
         else throw new NullPointerException(reply.BAD_REQUEST);
     }
-
-    @Override
-    public Facility getViaFacilityById(int id) {
-        DataClient dataClient = new DataClientImpl();
-        //return dataClient.getViaFacilityById(id);
-        return null;
-    }
-
 }

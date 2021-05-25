@@ -52,32 +52,18 @@ namespace PersistenceServer.Networking
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
-                case "getViaEntityById":
+                case Request.GET_ENTITY_WITH_ID:
                     Console.WriteLine("--server handler--");
                     ViaEntity viaEntity = await RepositoryFactory.GetAccountRepository()
-                        .GetViaEntityByIdAsync(ToObject<int>(requestFromClient.Payload));
+                        .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+                    
                     string viaEntityAsString = ToJson(viaEntity);
                     Console.WriteLine(viaEntityAsString);
-                    SendToStream(viaEntityAsString);
-                    break;
-                case Request.GET_MEMBER_BY_ID:
-                    Member viaMember = await RepositoryFactory.GetAccountRepository()
-                        .GetViaMemberByIdAsync(ToObject<int>(requestFromClient.Payload));
+                    Reply viaEntityReply = new Reply(Reply.SEND_ENTITY, viaEntityAsString);
 
-                    string viaMemberAsString = ToJson(viaMember);
-                    Reply memberReply = new Reply(Reply.SEND_MEMBER, viaMemberAsString);
-                    Console.WriteLine(ToJson(memberReply));
-                    SendToStream(ToJson(memberReply));
-                    SendToStream(viaMemberAsString);
+                    SendToStream(ToJson(viaEntityReply));
                     break;
-                case "getViaFacilityById":
-                    Facility viaFacility = await RepositoryFactory.GetAccountRepository()
-                        .GetViaFacilityByIdAsync(ToObject<int>(requestFromClient.Payload));
-
-                    string viaFacilityAsString = ToJson(viaFacility);
-                    Console.WriteLine(viaFacilityAsString);
-                    SendToStream(viaFacilityAsString);
-                    break;
+                
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);

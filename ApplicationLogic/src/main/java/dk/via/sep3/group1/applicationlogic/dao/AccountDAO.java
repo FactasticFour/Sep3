@@ -6,8 +6,4 @@ import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 
 public interface AccountDAO {
     ViaEntity getViaEntityWithId(int id);
-
-    Member getViaMemberById(int id);
-
-    Facility getViaFacilityById(int id);
 }

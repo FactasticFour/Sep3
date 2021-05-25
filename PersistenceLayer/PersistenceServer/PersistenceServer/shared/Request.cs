@@ -4,7 +4,7 @@
     {
         public const string  GET_USER_BY_ID = "GET_USER_BY_ID";
         public const string  SEED_DATABASE = "SEED_DATABASE";
-        public const string  GET_MEMBER_BY_ID = "GET_MEMBER_BY_ID";
+        public const string  GET_ENTITY_WITH_ID = "GET_ENTITY_WITH_ID";
         public string Type { get; set; }
         public string Payload { get; set; }
 

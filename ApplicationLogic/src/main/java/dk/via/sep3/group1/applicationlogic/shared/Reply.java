@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Reply {
     public final String SEND_USER = "SEND_USER";
     public final String BAD_REQUEST = "BAD_REQUEST";
-    public final String SEND_MEMBER = "SEND_MEMBER";
+    public final String SEND_ENTITY = "SEND_ENTITY";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")
