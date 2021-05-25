@@ -2,6 +2,7 @@ package dk.via.sep3.group1.applicationlogic.dao.impl;
 
 import dk.via.sep3.group1.applicationlogic.dao.DbSeedingDAO;
 import dk.via.sep3.group1.applicationlogic.networking.DataClient;
+import dk.via.sep3.group1.applicationlogic.networking.DataClientImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public class DbSeedingDAOImpl implements DbSeedingDAO {
 
     @Autowired
-    DataClient dataClient;
+    DataClientImpl dataClient;
 
     @Override
     public void seedDatabase() {

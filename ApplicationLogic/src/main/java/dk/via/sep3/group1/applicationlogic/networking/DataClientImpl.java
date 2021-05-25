@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,12 +16,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-@Service
+@Service @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DataClientImpl implements DataClient {
+
     private Socket socket;
     private OutputStream outputStream;
     private InputStream inputStream;
     private ObjectMapper objectMapper = new ObjectMapper();
+
 
     public DataClientImpl() {
         try {
