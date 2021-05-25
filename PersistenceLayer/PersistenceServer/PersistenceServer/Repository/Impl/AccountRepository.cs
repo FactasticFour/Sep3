@@ -17,6 +17,7 @@ namespace PersistenceServer.Repository.Impl
             Account account = await dataContext.Accounts.Include(c => c.ViaEntity).Include(a => a.AccountType)
                 .FirstOrDefaultAsync(a=> a.ViaEntity.ViaId.ToString().Equals(username));
 
+            
             Console.WriteLine($"Account found username:{account.ViaEntity.ViaId}");
             Console.WriteLine($"Account found AccountID:{account.AccountId}");
             Console.WriteLine($"Account found password:{account.ApplicationPassword}");
