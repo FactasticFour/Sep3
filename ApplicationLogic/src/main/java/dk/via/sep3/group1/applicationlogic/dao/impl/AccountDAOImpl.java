@@ -16,19 +16,22 @@ public class AccountDAOImpl implements AccountDAO {
     public ViaEntity getViaEntityWithId(int id) {
         System.out.println("account dao in action babeh");
         DataClient dataClient = new DataClientImpl();
-        return dataClient.getViaEntityById(id);
+        //return dataClient.getViaEntityById(id);
+        return null;
     }
 
     @Override
     public Member getViaMemberById(int id) {
         DataClient dataClient = new DataClientImpl();
-        return dataClient.getViaMemberById(id);
+        //return dataClient.getViaMemberById(id);
+        return null;
     }
 
     @Override
     public Facility getViaFacilityById(int id) {
         DataClient dataClient = new DataClientImpl();
-        return dataClient.getViaFacilityById(id);
+        //return dataClient.getViaFacilityById(id);
+        return null;
     }
 
 }

@@ -16,7 +16,6 @@ import java.net.Socket;
 @Service @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DataClientImpl implements DataClient {
 
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
 

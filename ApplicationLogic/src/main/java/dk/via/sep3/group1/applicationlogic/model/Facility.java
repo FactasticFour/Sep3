@@ -33,12 +33,4 @@ public class Facility extends ViaEntity {
     public void setCampus(Campus campus) {
         this.campus = campus;
     }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 }
