@@ -52,6 +52,7 @@ namespace PersistenceServer.Networking
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
+                case Request.GET_ACCOUNT_BY_USERNAME:
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
