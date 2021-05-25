@@ -32,7 +32,7 @@ namespace PresentationLayer
             services.AddAuthorization(options =>
                 {
                     options.AddPolicy("MustBeAdmin",
-                        policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "admin"));
+                        policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "ADMIN"));
                     options.AddPolicy("MustBeMember", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "member"));
                     options.AddPolicy("MustBeFacility", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "facility")); 
                 }
