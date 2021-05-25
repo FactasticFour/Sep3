@@ -96,6 +96,7 @@ namespace PersistenceServer.Networking
             return deserializeResult;
         }
 
+        
         private string ToJson<T>(T objToSerialize)
         {
             string serialized = JsonSerializer.Serialize(objToSerialize, new JsonSerializerOptions()
