@@ -1,31 +1,33 @@
-﻿namespace PresentationLayer.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PresentationLayer.Models
 {
     public class CreditCard
     {
-       public string creditCardNumber { get; set; }
-       public string firstName { get; set; }
-       public string lastName { get; set; }
-       public string expirationMonth { get; set; }
-       public string expirationYear { get; set; }
-       public int securityCode { get; set; }
-       public int amountOfMoney { get; set; }
-       public Account account { get; set; }
+        [Key, Required, StringLength(16, ErrorMessage = "Invalid credit card number")]
+        public string CreditCardNumber { get; set; }
 
-       public CreditCard(string creditCardNumber, string firstName, string lastName, string expirationMonth, string expirationYear, int securityCode, int amountOfMoney, Account account)
-       {
-           this.creditCardNumber = creditCardNumber;
-           this.firstName = firstName;
-           this.lastName = lastName;
-           this.expirationMonth = expirationMonth;
-           this.expirationYear = expirationYear;
-           this.securityCode = securityCode;
-           this.amountOfMoney = amountOfMoney;
-           this.account = account;
-       }
+        [MaxLength(256), Required, Column("fname")]
+        public String FirstName { get; set; }
 
-       public CreditCard()
-       {
-           
-       }
+        [MaxLength(256), Required, Column("lname")]
+        public String LastName { get; set; }
+
+        [Required, StringLength(2, ErrorMessage = "Invalid credit card expiration month")]
+        public string ExpirationMonth { get; set; }
+
+        [Required, StringLength(2, ErrorMessage = "Invalid credit card expiration year")]
+        public string ExpirationYear { get; set; }
+
+        [Required, Range(000, 999, ErrorMessage = "Invalid credit card security code")]
+        public int SecurityCode { get; set; }
+
+        [Required,Range(0, 9000000)]
+        public float AmountOfMoney { get; set; }
+
+        [ForeignKey("accountId")]
+        public Account Account { get; set; }
     }
 }

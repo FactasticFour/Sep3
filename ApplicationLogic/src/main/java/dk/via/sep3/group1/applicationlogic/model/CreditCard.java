@@ -6,34 +6,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CreditCard {
 
     @JsonProperty("creditCardNumber")
-    public String creditCardNumber;
+    private String creditCardNumber;
     @JsonProperty("firstName")
-    public String firstName;
+    private String firstName;
     @JsonProperty("lastName")
-    public String lastName;
+    private String lastName;
     @JsonProperty("expirationMonth")
-    public String expirationMonth;
+    private String expirationMonth;
     @JsonProperty("expirationYear")
-    public String expirationYear;
+    private String expirationYear;
     @JsonProperty("securityCode")
-    public int securityCode;
+    private int securityCode;
     @JsonProperty("amountOfMoney")
-    public int amountOfMoney = 9000000;
+    private float amountOfMoney = 9000000;
     @JsonProperty("account")
-    public Account account;
+    private Account account;
 
     public CreditCard() {
-    }
-
-    public CreditCard(String creditCardNumber, String firstName, String lastName, String expirationMonth, String expirationYear, int securityCode, int amountOfMoney, Account account) {
-        this.creditCardNumber = creditCardNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.expirationMonth = expirationMonth;
-        this.expirationYear = expirationYear;
-        this.securityCode = securityCode;
-        this.amountOfMoney = amountOfMoney;
-        this.account = account;
     }
 
     public String getCreditCardNumber() {
@@ -84,7 +73,7 @@ public class CreditCard {
         this.securityCode = securityCode;
     }
 
-    public int getAmountOfMoney() {
+    public float getAmountOfMoney() {
         return amountOfMoney;
     }
 

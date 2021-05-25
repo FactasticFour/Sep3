@@ -3,10 +3,12 @@ package dk.via.sep3.group1.applicationlogic.shared;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Reply {
+    public final String SEND_USER = "SEND_USER";
+    public final String BAD_REQUEST = "BAD_REQUEST";
     @JsonProperty("type")
-    public String type;
+    private String type;
     @JsonProperty("payload")
-    public String payload;
+    private String payload;
 
     public Reply() {
     }

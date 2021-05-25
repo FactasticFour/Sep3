@@ -4,12 +4,46 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Campus {
     @JsonProperty("city")
-    public String city;
+    private String city;
     @JsonProperty("street")
-    public String street;
+    private String street;
     @JsonProperty("postCode")
-    public String postCode;
+    private String postCode;
     @JsonProperty("name")
-    public String name;
+    private String name;
 
+    public Campus() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -1,19 +1,24 @@
-﻿namespace PresentationLayer.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PresentationLayer.Models
 {
     public class Account
     {
-        
-        public int accountId { get; set; }
-        public string applicationPassword { get; set; }
-        public int balance { get; set; }
-        public ViaEntity viaEntity { get; set; }
+        [Key, Required]
+        public int AccountId { get; set; }
 
-        public Account(int accountId, string applicationPassword, int balance, ViaEntity viaEntity)
-        {
-            this.accountId = accountId;
-            this.applicationPassword = applicationPassword;
-            this.balance = balance;
-            this.viaEntity = viaEntity;
-        }
+        [Required, ForeignKey("viaId")]
+        public ViaEntity ViaEntity { get; set; }
+
+        public Role AccountType { get; set; }
+
+        [Required, StringLength(64)]
+        public String ApplicationPassword { get; set; }
+
+        [Required,Range(0, 9000000)]
+        public float Balance { get; set; }
+
     }
 }

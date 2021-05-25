@@ -1,18 +1,14 @@
-﻿namespace PresentationLayer.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace PresentationLayer.Models
 {
     public class Role
     {
+        [Key, Required]
         public int RoleId { get; set; }
-    
-        public Account Account { get; set; }
-       
-        public string RoleType { get; set; }
 
-        public Role(int roleId, Account account, string roleType)
-        {
-            RoleId = roleId;
-            Account = account;
-            RoleType = roleType;
-        }
+        [Required]
+        public String RoleType { get; set; }
     }
 }

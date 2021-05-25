@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using PersistenceServer.Repository;
 
 namespace PersistenceServer.Networking
@@ -21,14 +22,14 @@ namespace PersistenceServer.Networking
             {
                 TcpClient acceptTcpClient = listener.AcceptTcpClient();
                 ServerHandler serverHandler = new ServerHandler(acceptTcpClient);
-                new Thread(() => handleClientConnection(serverHandler)).Start();
-                Console.WriteLine("Server connected client");
+                new Thread(async () => await handleClientConnection(serverHandler)).Start();
+                Console.WriteLine($"Server connected client, connection status: {acceptTcpClient.Connected}");
             }
         }
 
-        private void handleClientConnection(ServerHandler serverHandler)
+        private async Task handleClientConnection(ServerHandler serverHandler)
         {
-            serverHandler.HandleRequest();
+            await serverHandler.HandleRequest();
         }
     }
 }

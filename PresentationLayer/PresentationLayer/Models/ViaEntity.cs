@@ -1,14 +1,14 @@
-﻿namespace PresentationLayer.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PresentationLayer.Models
 {
     public class ViaEntity
     {
-        public int viaId { get; set; }
-        public string password { get; set; }
+        [Key, Required, Range(0, 9999999, ErrorMessage = "Invalid VIA ID")]
+        public int ViaId { get; set; }
+        [Required, StringLength(64)]
+        public string Password { get; set; }
 
-        public ViaEntity(int viaId, string password)
-        {
-            this.viaId = viaId;
-            this.password = password;
-        }
+        public Account Account { get; set; }
     }
 }
