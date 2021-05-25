@@ -16,15 +16,12 @@ namespace PersistenceServer.Repository.Impl
         private List<Campus> campusList;
         private List<Facility> facilitiesList;
         private List<Account> accountsList;
+        private List<Role> rolesList;
         public async void SeedDatabase()
         {
             Console.WriteLine("Seeding Database");
             
             await PopulateLists();
-            Console.WriteLine(membersList.Count);
-            Console.WriteLine(campusList.Count);
-            Console.WriteLine(facilitiesList.Count);
-            Console.WriteLine(accountsList.Count);
 
             await EmptyDatabase();
 
@@ -34,9 +31,16 @@ namespace PersistenceServer.Repository.Impl
         private async Task PopulateDatabase()
         {
             await PopulateMembers();
-            //await PopulateCampuses();
-            //await PopulateFacilities();
             await PopulateAccounts();
+        }
+        
+        private async Task PopulateRoles()
+        {
+            using (DataContext dataContext = new DataContext())
+            {
+                await dataContext.Roles.AddRangeAsync(rolesList);
+                await dataContext.SaveChangesAsync();
+            }
         }
         
         private async Task PopulateAccounts()
@@ -83,6 +87,7 @@ namespace PersistenceServer.Repository.Impl
                 dataContext.Campuses.RemoveRange(dataContext.Campuses);
                 dataContext.Facilities.RemoveRange(dataContext.Facilities);
                 dataContext.Accounts.RemoveRange(dataContext.Accounts);
+                dataContext.Roles.RemoveRange(dataContext.Roles);
                 await dataContext.SaveChangesAsync();
             }
         }
@@ -484,9 +489,29 @@ namespace PersistenceServer.Repository.Impl
                     Campus = campusList.FirstOrDefault(c => c.Name.Contains("Viborg"))
                 }
             };
+            
+            rolesList = new List<Role>()
+            {
+                new Role()
+                {
+                    RoleId = 10,
+                    RoleType = "MEMBER"
+                },
+                new Role()
+                {
+                    RoleId = 11,
+                    RoleType = "FACILITY"
+                },
+                new Role()
+                {
+                    RoleId = 12,
+                    RoleType = "ADMIN"
+                }
+            };
 
             accountsList = new List<Account>()
             {
+
                 new Account()
                 {
                     ApplicationPassword = GetHash("CL88dHp"),
@@ -498,7 +523,8 @@ namespace PersistenceServer.Repository.Impl
                         LastName = "Grosu",
                         Password = GetHash("pB8NtLP0d3I"),
                         Cpr = 1234567890
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("ADMIN"))
                 },
                 new Account()
                 {
@@ -511,7 +537,8 @@ namespace PersistenceServer.Repository.Impl
                         LastName = "Hornet",
                         Password = GetHash("CTxG88wsH"),
                         Cpr = 1238547856
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("MEMBER"))
                 },
                 new Account()
                 {
@@ -524,7 +551,8 @@ namespace PersistenceServer.Repository.Impl
                         LastName = "Asenova",
                         Password = GetHash("wUIyex7HqS9C"),
                         Cpr = 1352468756
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("MEMBER"))
                 },
                 new Account()
                 {
@@ -537,7 +565,8 @@ namespace PersistenceServer.Repository.Impl
                         LastName = "Korenczuk",
                         Password = GetHash("GPKX9CZeHn"),
                         Cpr = 1314568752
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("MEMBER"))
                 },
                 new Account()
                 {
@@ -550,12 +579,14 @@ namespace PersistenceServer.Repository.Impl
                         LastName = "Cirstoiu",
                         Password = GetHash("2FYYbokA"),
                         Cpr = 1238569657
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("MEMBER"))
                 },
                 new Account()
                 {
                     ApplicationPassword = GetHash("07IsE2"),
                     Balance = 12345,
+                    
                     ViaEntity = new Member()
                     {
                         ViaId = 297110,
@@ -563,7 +594,8 @@ namespace PersistenceServer.Repository.Impl
                         LastName = "Constantin",
                         Password = GetHash("fNbJcNdf"),
                         Cpr = 1458524562
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("MEMBER"))
                 },
                 new Account()
                 {
@@ -575,7 +607,8 @@ namespace PersistenceServer.Repository.Impl
                         Name = "Horsens Library",
                         Password = GetHash("kVh1dIKpPcu"),
                         Campus = campusList.FirstOrDefault(c => c.Name.Contains("Horsens"))
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("FACILITY"))
                 },
                 new Account()
                 {
@@ -587,7 +620,8 @@ namespace PersistenceServer.Repository.Impl
                         Name = "Aarhus C Library",
                         Password = GetHash("1Ay6rbas5"),
                         Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("FACILITY"))
                 },
                 new Account()
                 {
@@ -599,7 +633,8 @@ namespace PersistenceServer.Repository.Impl
                         Name = "Aarhus C Canteen",
                         Password = GetHash("oa8x5AAy"),
                         Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus C"))
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("FACILITY"))
                 },
                 new Account()
                 {
@@ -611,7 +646,8 @@ namespace PersistenceServer.Repository.Impl
                         Name = "Aarhus C Canteen",
                         Password = GetHash("QLnlvqTzHzK"),
                         Campus = campusList.FirstOrDefault(c => c.Name.Contains("Aarhus N"))
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("FACILITY"))
                 },
                 new Account()
                 {
@@ -623,7 +659,8 @@ namespace PersistenceServer.Repository.Impl
                         Name = "Herning Library",
                         Password = GetHash("ffnkQG"),
                         Campus = campusList.FirstOrDefault(c => c.Name.Contains("Herning"))
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("FACILITY"))
                 },
                 new Account()
                 {
@@ -635,7 +672,8 @@ namespace PersistenceServer.Repository.Impl
                         Name = "Holstebro Library",
                         Password = GetHash("YhnWfWJ"),
                         Campus = campusList.FirstOrDefault(c => c.Name.Contains("Holstebro"))
-                    }
+                    },
+                    AccountType = rolesList.FirstOrDefault(r => r.RoleType.Equals("FACILITY"))
                 }
             };
         }
