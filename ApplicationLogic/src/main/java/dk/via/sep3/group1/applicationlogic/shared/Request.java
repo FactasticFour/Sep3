@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Request {
     public final String GET_USER_BY_ID = "GET_USER_BY_ID";
     public final String SEED_DATABASE = "SEED_DATABASE";
+    public final String GET_ACCOUNT_BALANCE = "GET_ACCOUNT_BALANCE";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

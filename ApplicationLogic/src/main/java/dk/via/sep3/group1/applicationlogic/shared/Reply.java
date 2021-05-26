@@ -6,6 +6,7 @@ public class Reply {
     public final String SEND_USER = "SEND_USER";
     public final String BAD_REQUEST = "BAD_REQUEST";
     public final String SEEDING_SUCCESS = "SEEDING_SUCCESS";
+    public final String  SEND_ACCOUNT_BALANCE = "SEND_ACCOUNT_BALANCE";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")
