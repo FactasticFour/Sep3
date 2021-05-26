@@ -51,6 +51,10 @@ namespace PersistenceServer.Networking
                     break;
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
+                    Reply seedingSuccessReply = new Reply(Reply.SEEDING_SUCCESS, null);
+                    string toSend = ToJson(seedingSuccessReply);
+                    
+                    SendToStream(toSend);
                     break;
                 case Request.ADD_CREDIT_CARD_TO_ACCOUNT:
                     await RepositoryFactory.GetCreditCardRepository()

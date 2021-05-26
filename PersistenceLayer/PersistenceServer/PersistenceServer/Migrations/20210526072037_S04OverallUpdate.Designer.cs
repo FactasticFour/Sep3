@@ -10,8 +10,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210518131339_AccountTransaction")]
-    partial class AccountTransaction
+    [Migration("20210526072037_S04OverallUpdate")]
+    partial class S04OverallUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace PersistenceServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-            modelBuilder.Entity("AccountAccount", b =>
-                {
-                    b.Property<int>("ReceiverAccountId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SenderAccountId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ReceiverAccountId", "SenderAccountId");
-
-                    b.HasIndex("SenderAccountId");
-
-                    b.ToTable("AccountAccount");
-                });
 
             modelBuilder.Entity("PersistenceServer.Models.Account", b =>
                 {
@@ -48,13 +33,18 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<int>("Balance")
+                    b.Property<float>("Balance")
+                        .HasColumnType("real");
+
+                    b.Property<int>("type")
                         .HasColumnType("integer");
 
                     b.Property<int>("viaId")
                         .HasColumnType("integer");
 
                     b.HasKey("AccountId");
+
+                    b.HasIndex("type");
 
                     b.HasIndex("viaId");
 
@@ -92,8 +82,8 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)");
 
-                    b.Property<int>("AmountOfMoney")
-                        .HasColumnType("integer");
+                    b.Property<float>("AmountOfMoney")
+                        .HasColumnType("real");
 
                     b.Property<string>("ExpirationMonth")
                         .IsRequired()
@@ -141,14 +131,44 @@ namespace PersistenceServer.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("accountId")
-                        .HasColumnType("integer");
-
                     b.HasKey("RoleId");
 
-                    b.HasIndex("accountId");
-
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("PersistenceServer.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("receiver")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("sender")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("receiver");
+
+                    b.HasIndex("sender");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.User", b =>
@@ -183,17 +203,19 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
+                    b.Property<int?>("accountId")
+                        .HasColumnType("integer");
+
                     b.HasKey("ViaId");
 
-                    b.ToTable("ViaEntity");
+                    b.HasIndex("accountId");
+
+                    b.ToTable("ViaEntities");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>
                 {
                     b.HasBaseType("PersistenceServer.Models.ViaEntity");
-
-                    b.Property<int?>("AccountId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("CampusCity")
                         .HasColumnType("character varying(256)");
@@ -209,8 +231,6 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("CampusCity", "CampusStreet", "CampusPostCode");
 
                     b.ToTable("Facilities");
@@ -219,9 +239,6 @@ namespace PersistenceServer.Migrations
             modelBuilder.Entity("PersistenceServer.Models.Member", b =>
                 {
                     b.HasBaseType("PersistenceServer.Models.ViaEntity");
-
-                    b.Property<int?>("AccountId")
-                        .HasColumnType("integer");
 
                     b.Property<long>("Cpr")
                         .HasMaxLength(10)
@@ -239,33 +256,24 @@ namespace PersistenceServer.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("lname");
 
-                    b.HasIndex("AccountId");
-
                     b.ToTable("Members");
-                });
-
-            modelBuilder.Entity("AccountAccount", b =>
-                {
-                    b.HasOne("PersistenceServer.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("ReceiverAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PersistenceServer.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("SenderAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Account", b =>
                 {
+                    b.HasOne("PersistenceServer.Models.Role", "AccountType")
+                        .WithMany()
+                        .HasForeignKey("type")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PersistenceServer.Models.ViaEntity", "ViaEntity")
                         .WithMany()
                         .HasForeignKey("viaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AccountType");
 
                     b.Navigation("ViaEntity");
                 });
@@ -279,23 +287,36 @@ namespace PersistenceServer.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("PersistenceServer.Models.Role", b =>
+            modelBuilder.Entity("PersistenceServer.Models.Transaction", b =>
+                {
+                    b.HasOne("PersistenceServer.Models.Account", "ReceiverAccount")
+                        .WithMany()
+                        .HasForeignKey("receiver")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PersistenceServer.Models.Account", "SenderAccount")
+                        .WithMany()
+                        .HasForeignKey("sender")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReceiverAccount");
+
+                    b.Navigation("SenderAccount");
+                });
+
+            modelBuilder.Entity("PersistenceServer.Models.ViaEntity", b =>
                 {
                     b.HasOne("PersistenceServer.Models.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("accountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("accountId");
 
                     b.Navigation("Account");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>
                 {
-                    b.HasOne("PersistenceServer.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("PersistenceServer.Models.ViaEntity", null)
                         .WithOne()
                         .HasForeignKey("PersistenceServer.Models.Facility", "ViaId")
@@ -306,24 +327,16 @@ namespace PersistenceServer.Migrations
                         .WithMany()
                         .HasForeignKey("CampusCity", "CampusStreet", "CampusPostCode");
 
-                    b.Navigation("Account");
-
                     b.Navigation("Campus");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Member", b =>
                 {
-                    b.HasOne("PersistenceServer.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("PersistenceServer.Models.ViaEntity", null)
                         .WithOne()
                         .HasForeignKey("PersistenceServer.Models.Member", "ViaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Account");
                 });
 #pragma warning restore 612, 618
         }
