@@ -208,7 +208,7 @@ namespace PersistenceServer.Migrations
 
                     b.HasIndex("accountId");
 
-                    b.ToTable("ViaEntity");
+                    b.ToTable("ViaEntities");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>

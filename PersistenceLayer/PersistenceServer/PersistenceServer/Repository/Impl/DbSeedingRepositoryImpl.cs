@@ -30,7 +30,7 @@ namespace PersistenceServer.Repository.Impl
 
         private async Task PopulateDatabase()
         {
-            await PopulateMembers();
+            //await PopulateMembers();
             await PopulateAccounts();
         }
         
@@ -586,7 +586,6 @@ namespace PersistenceServer.Repository.Impl
                 {
                     ApplicationPassword = GetHash("07IsE2"),
                     Balance = 12345,
-                    
                     ViaEntity = new Member()
                     {
                         ViaId = 297110,

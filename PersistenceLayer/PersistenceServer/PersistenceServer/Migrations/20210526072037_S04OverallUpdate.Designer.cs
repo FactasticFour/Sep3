@@ -10,8 +10,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210525152752_S04RemoveRequiredViaEntityAccount")]
-    partial class S04RemoveRequiredViaEntityAccount
+    [Migration("20210526072037_S04OverallUpdate")]
+    partial class S04OverallUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -210,7 +210,7 @@ namespace PersistenceServer.Migrations
 
                     b.HasIndex("accountId");
 
-                    b.ToTable("ViaEntity");
+                    b.ToTable("ViaEntities");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>
