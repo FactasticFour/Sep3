@@ -22,8 +22,8 @@ public class LoginController {
 
         // TODO catch exception here -- send status code and send original message
         try {
-            Account account = loginService.validateAccount(password, username);
-            return account;
+             Account account = loginService.validateAccount(password, username);
+             return account;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
