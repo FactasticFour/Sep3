@@ -33,8 +33,8 @@ namespace PresentationLayer
                 {
                     options.AddPolicy("MustBeAdmin",
                         policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "ADMIN"));
-                    options.AddPolicy("MustBeMember", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "member"));
-                    options.AddPolicy("MustBeFacility", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "facility")); 
+                    options.AddPolicy("MustBeMember", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "MEMBER"));
+                    options.AddPolicy("MustBeFacility", policy => policy.RequireAuthenticatedUser().RequireClaim("Role", "FACILITY")); 
                 }
             );
         }
