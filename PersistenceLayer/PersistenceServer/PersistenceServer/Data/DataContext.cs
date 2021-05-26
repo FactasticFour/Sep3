@@ -31,6 +31,7 @@ namespace PersistenceServer.Data
                 c.Street,
                 c.PostCode
             });
+            
 
             modelBuilder.Entity<Member>().ToTable("Members");
             modelBuilder.Entity<Facility>().ToTable("Facilities");
