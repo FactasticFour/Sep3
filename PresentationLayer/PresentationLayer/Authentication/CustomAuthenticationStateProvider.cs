@@ -43,7 +43,7 @@ namespace PresentationLayer.Authentication
             return await Task.FromResult(new AuthenticationState(cachedClaimsPrincipal));
         }
         
-        public async Task ValidateLogin(string password, string username)
+        public async Task ValidateLogin(string username, string password)
         {
             Console.WriteLine("Validating log in");
             if (string.IsNullOrEmpty(username)) throw new Exception("Enter username");
@@ -51,7 +51,7 @@ namespace PresentationLayer.Authentication
             ClaimsIdentity identity = new ClaimsIdentity();
             try
             {
-                Account account = await loginService.ValidateAccountAsync(password, username);
+                Account account = await loginService.ValidateAccountAsync(username, password);
                 identity = SetupClaimsForUser(account);
                 string serialisedData = JsonSerializer.Serialize(account);
                 Console.WriteLine($"Serialized data: {serialisedData}");

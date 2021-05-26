@@ -48,7 +48,7 @@
         {
             if (new StringBuilder(username).Length == 6)
             {
-                await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(password, username);
+                await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
                 username = "";
                 password = "";
             }

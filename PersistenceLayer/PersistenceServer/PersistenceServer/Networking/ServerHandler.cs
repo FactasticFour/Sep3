@@ -61,7 +61,7 @@ namespace PersistenceServer.Networking
                     Account account = await RepositoryFactory.GetAccountRepository()
                         .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
                     
-                    Console.WriteLine($"Account from repo to handler -- password {account.ViaEntity.Password}");
+                    Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
                     string payloadAccount = ToJson(account);
 
                     Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
