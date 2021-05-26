@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using PresentationLayer.Models;
 
 namespace PresentationLayer.Data
 {
     public interface ICreditCardService
     {
-        public Task<bool> CheckCreditCard(int id);
-        public Task DepositMoney(float amount);
+        Task<bool> AddCreditCardToAccount(CreditCard creditCard);
     }
 }

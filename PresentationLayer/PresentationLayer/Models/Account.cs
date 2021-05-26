@@ -8,7 +8,7 @@ namespace PresentationLayer.Models
     {
         [Key, Required]
         public int AccountId { get; set; }
-        
+
         [Required, ForeignKey("viaId")]
         public ViaEntity ViaEntity { get; set; }
 
@@ -16,9 +16,9 @@ namespace PresentationLayer.Models
 
         [Required, StringLength(64)]
         public String ApplicationPassword { get; set; }
-        
+
         [Required,Range(0, 9000000)]
         public float Balance { get; set; }
-        
+
     }
 }

@@ -13,5 +13,9 @@ namespace PersistenceServer.Repository
         {
             return new DbSeedingRepositoryImpl();
         }
+        public static ICreditCardRepository GetCreditCardRepository()
+        {
+            return new CreditCardRepositoryImpl();
+        }
     }
 }

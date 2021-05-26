@@ -46,7 +46,7 @@ namespace PersistenceServer.Networking
                     Console.WriteLine(payload);
                     Reply reply = new Reply(Reply.SEND_USER, payload);
                     string toSendToClient = ToJson(reply);
-                    
+
                     SendToStream(toSendToClient);
                     break;
                 case Request.SEED_DATABASE:
@@ -55,6 +55,14 @@ namespace PersistenceServer.Networking
                     string toSend = ToJson(seedingSuccessReply);
                     
                     SendToStream(toSend);
+                    break;
+                case Request.ADD_CREDIT_CARD_TO_ACCOUNT:
+                    await RepositoryFactory.GetCreditCardRepository()
+                        .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
+                    payload = ToJson("CARD_ADDED");
+                    reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
+                    toSendToClient = ToJson(reply);
+                    SendToStream(toSendToClient);
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");

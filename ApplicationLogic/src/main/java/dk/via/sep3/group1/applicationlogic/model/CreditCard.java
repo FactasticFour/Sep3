@@ -2,6 +2,7 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class CreditCard {
 
     @JsonProperty("creditCardNumber")

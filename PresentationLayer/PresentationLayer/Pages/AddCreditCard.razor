@@ -1,0 +1,141 @@
+﻿@page "/AddCreditCard"
+@using PresentationLayer.Data
+@using Models
+@using System.Threading
+@using System.Text.RegularExpressions
+@inject ICreditCardService CreditCardService
+<h3>Add Credit Card</h3><br>
+
+<label>First Name:</label><br>
+<input @bind-value="fname" @bind-value:event="oninput"/>
+<br>
+<label style="color:red">@fnamelabel</label>
+<br>
+<label>Last Name:</label><br>
+<input @bind="lname">
+<br>
+<label style="color:red">@lnamelabel</label>
+<br>
+<label>Credit Card Number:</label><br>
+<input @bind="creditcardnumber">
+<br>
+<label style="color:red">@creditcardnumberlabel</label>
+<br>
+<label>Expiration Date:</label><br>
+<select @bind="expirationmonth">
+    @{
+        for (int i = 1; i < 13; i++)
+        {
+            string b = "";
+            if (i == 1)
+            {
+                b = "0" + i.ToString();
+                <option selected value="@b">@b</option>
+            }
+            else if (i < 10)
+            {
+                b = "0" + i.ToString();
+                <option value="@b">@b</option>
+            }
+            
+            else 
+            {
+                b = i.ToString();
+                <option value="@i">@i</option>
+            }
+        }
+    }
+</select>
+<label> / </label>
+<select @bind="expirationyear">
+    @{
+        string a = "";
+        for (int i = 21; i < 27; i++)
+        {
+            if (i == 1)
+            {
+                a = i.ToString();
+                <option selected value="@i">@i</option>
+            }
+            else
+            {
+                a = i.ToString();
+                <option value="@i">@i</option>
+            }
+           
+        }
+    }
+</select>
+<br>
+<br>
+<label>Security Code:</label><br>
+<input @bind="securitycode">
+<br>
+<label style="color:red">@securitycodelabel</label>
+<br>
+<button @onclick="addCreditCardToAccount">Save</button>
+<label style="color:green">@cardadded</label><label style="color:red">@cardnotadded</label>
+
+@code {
+    private string fname;
+    private string lname;
+    private string creditcardnumber;
+    private string expirationmonth;
+    private string expirationyear;
+    private int securitycode;
+
+    private string fnamelabel = "";
+    private string lnamelabel = "";
+    private string creditcardnumberlabel = "";
+    private string securitycodelabel = "";
+
+    string cardadded = "";
+    string cardnotadded = "";
+    
+    private bool isAdded =true;
+
+    async Task addCreditCardToAccount()
+    {
+        if (fname == "" || fname is null)
+        {
+            fnamelabel = "Field cannot be empty!";
+        }
+        if (lname == "" || lname is null)
+        {
+            lnamelabel = "Field cannot be empty!";
+        }
+        if (creditcardnumber is null || creditcardnumber.Length < 16)
+        {
+            creditcardnumberlabel = "Field cannot be shorter than 16 numbers!";
+        }
+        else if (creditcardnumber.Any(x => char.IsLetter(x)))
+        {
+            creditcardnumberlabel = "Field can only contain numbers!";
+        }
+        if (securitycode < 100 || securitycode > 999)
+        {
+            securitycodelabel = "Field can only contain 3 digits!";
+        }
+
+        Account account = new Account(); //====================> TODO get user that is logged in <==========================
+        account.AccountId = 1;
+        CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
+       
+        isAdded = await CreditCardService.AddCreditCardToAccount(creditCard);
+
+        if (isAdded)
+        {
+            cardadded = "Card successfully added!";  
+            fname = "";
+            lname = "";
+            creditcardnumber = "";
+            securitycode = 0;
+        }
+        else
+        {
+            cardnotadded = "Card not added!";
+        }
+
+    }
+
+}
