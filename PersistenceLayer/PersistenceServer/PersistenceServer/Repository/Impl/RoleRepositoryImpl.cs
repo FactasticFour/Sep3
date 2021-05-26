@@ -19,7 +19,6 @@ namespace PersistenceServer.Repository.Impl
             {
                 allAccountTypes.Add(role.RoleType);
             }
-
             return allAccountTypes;
         }
     }
