@@ -3,7 +3,9 @@ package dk.via.sep3.group1.applicationlogic.controller;
 import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(value = "/login")
@@ -19,22 +21,11 @@ public class LoginController {
         System.out.println("Controller - Password from client: " + password);
 
         // TODO catch exception here -- send status code and send original message
-        Account account = null;
         try {
-            account = loginService.validateAccount(password, username);
+            Account account = loginService.validateAccount(password, username);
+            return account;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-
-        // checking if caring default object
-        if (account.getAccountId() == 0) {
-            System.out.println("Role object is default, account not found");
-            return account;
-        } else {
-            System.out.println("Role to be sent to client: " + account.getAccountType() + "\n" + account.getAccountId() + "\n" + account.getViaEntity().getViaId());
-            return account;
-        }
-
-
     }
 }

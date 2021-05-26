@@ -23,13 +23,8 @@ public class LoginServiceImpl implements LoginService {
         if (account.getApplicationPassword().equals(passwordHashed))
         {
             System.out.println("Password match");
-            return account;
         }
-        else
-        {
-            System.out.println("Passwords do not watch, default role object send to controller");
-            return new Account();
-        }
+        return account;
     }
 }
 
