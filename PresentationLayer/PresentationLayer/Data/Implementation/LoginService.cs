@@ -3,18 +3,21 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PresentationLayer.Models;
+using PresentationLayer.Utils;
 
 namespace PresentationLayer.Data.Implementation
 {
     public class LoginService : ILoginService
     {
-        public async Task<Account> ValidateAccountAsync(string username, string passwordHashed)
+        public async Task<Account> ValidateAccountAsync(string username, string password)
         {
-            Console.WriteLine($"{username} + {passwordHashed}");
+            Console.WriteLine($"{username} + {password}");
+            string hash = HashingUtils.GetHash(password);
+            Console.WriteLine($"HASHED --- {hash}");
             HttpClient client = new HttpClient();
 
             HttpResponseMessage response =
-                await client.GetAsync($"http://localhost:8080/login?password={username}&username={passwordHashed}");
+                await client.GetAsync($"http://localhost:8080/login?username={username}&password={hash}");
             
             if (!response.IsSuccessStatusCode)
             {
