@@ -41,11 +41,12 @@
             
             <div class="form-group">
                 Account type:<br/>
-                <InputSelect @bind-Value="accountDataInputModel.RoleType">
+                <InputSelect @bind-Value="selectedAccountType">
                     <option value="">Select</option>
-                    <option value="MEMBER"> Member </option>
-                    <option value="FACILITY"> Facility </option>
-                    <option value="ADMIN"> Admin </option>
+                    @foreach (string type in accountTypes)
+                    {
+                        <option value="@type">@type</option>
+                    }
                 </InputSelect>
             </div>
             
@@ -89,10 +90,12 @@
     private Member dbMember;
     private Facility dbFacility;
 
+    private List<string> accountTypes;
+    string selectedAccountType;
+
     protected async override Task OnInitializedAsync()
     {
-        List<string> allAccountTypesAsync = await RoleService.GetAllAccountTypesAsync();
-        Console.WriteLine(allAccountTypesAsync[0]);
+        accountTypes = await RoleService.GetAllAccountTypesAsync();
     }
 
 
