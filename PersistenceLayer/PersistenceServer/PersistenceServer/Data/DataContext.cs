@@ -13,6 +13,7 @@ namespace PersistenceServer.Data
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<ViaEntity> ViaEntities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
