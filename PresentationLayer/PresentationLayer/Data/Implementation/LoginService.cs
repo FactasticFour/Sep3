@@ -18,6 +18,12 @@ namespace PresentationLayer.Data.Implementation
 
             HttpResponseMessage response =
                 await client.GetAsync($"http://localhost:8080/login?username={username}&password={hash}");
+            /*
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            }
+            */
             
             if (!response.IsSuccessStatusCode)
             {
