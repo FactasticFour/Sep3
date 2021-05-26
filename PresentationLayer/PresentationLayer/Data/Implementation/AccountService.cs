@@ -29,11 +29,24 @@ namespace PresentationLayer.Data.Implementation
             string result = await responseMessage.Content.ReadAsStringAsync();
             Console.WriteLine(result);
 
-            ViaEntity viaEntity = JsonSerializer.Deserialize<ViaEntity>(result, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            ViaEntity viaEntity;
 
+            if (result.Contains("cpr"))
+            {
+                viaEntity = JsonSerializer.Deserialize<Member>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            else
+            {
+                viaEntity = JsonSerializer.Deserialize<Facility>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+
+            Console.WriteLine(viaEntity);
             return viaEntity;
         }
 

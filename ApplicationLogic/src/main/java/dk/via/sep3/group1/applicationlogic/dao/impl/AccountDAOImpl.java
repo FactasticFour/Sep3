@@ -16,22 +16,7 @@ import org.springframework.stereotype.Repository;
 public class AccountDAOImpl implements AccountDAO {
 
     @Autowired
-    DataClientImpl dataClient;
+    DataClient dataClient;
 
-    @Override
-    public ViaEntity getViaEntityWithId(int id) {
-        System.out.println("account dao in action babeh");
 
-        Request request = new Request();
-        request.setPayload(Serialization.serialize(id));
-        request.setType(request.GET_ENTITY_WITH_ID);
-
-        Reply reply = dataClient.handleRequest(request);
-
-        if (reply.getType().equals(reply.SEND_ENTITY)){
-            ViaEntity viaEntity = Serialization.deserialize(reply.getPayload(), ViaEntity.class);
-            return viaEntity;
-        }
-        else throw new NullPointerException(reply.BAD_REQUEST);
-    }
 }

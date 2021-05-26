@@ -9,7 +9,7 @@ namespace PresentationLayer.Models
         [Key, Required]
         public int AccountId { get; set; }
         
-        [Required, ForeignKey("viaId")]
+        [ForeignKey("viaId")]
         public ViaEntity ViaEntity { get; set; }
 
         public Role AccountType { get; set; }

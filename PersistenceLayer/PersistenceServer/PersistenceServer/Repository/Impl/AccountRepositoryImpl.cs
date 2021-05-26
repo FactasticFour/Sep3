@@ -7,11 +7,6 @@ namespace PersistenceServer.Repository.Impl
 {
     public class AccountRepositoryImpl : IAccountRepository
     {
-        public async Task<ViaEntity> GetViaEntityWithIdAsync(int id)
-        {
-            using DataContext dataContext = new DataContext();
-            ViaEntity viaEntity = await dataContext.ViaEntities.FirstOrDefaultAsync(ve => ve.ViaId == id);
-            return viaEntity;
-        }
+        
     }
 }

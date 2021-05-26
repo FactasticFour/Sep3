@@ -1,4 +1,5 @@
 ﻿using PersistenceServer.Repository.Impl;
+using PersistenceServer.shared;
 
 namespace PersistenceServer.Repository
 {
@@ -22,6 +23,21 @@ namespace PersistenceServer.Repository
         public static IRoleRepository GetRoleRepository()
         {
             return new RoleRepositoryImpl();
+        }
+
+        public static IViaEntityRepository GetViaEntityRepository()
+        {
+            return new ViaEntityRepositoryImpl();
+        }
+
+        public static IMemberRepository GetMemberRepository()
+        {
+            return new MemberRepositoryImpl();
+        }
+
+        public static IFacilityRepository GetFacilityRepository()
+        {
+            return new FacilityRepositoryImpl();
         }
     }
 }

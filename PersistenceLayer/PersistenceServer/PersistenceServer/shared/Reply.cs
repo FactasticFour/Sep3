@@ -6,6 +6,8 @@
         public const string  BAD_REQUEST = "BAD_REQUEST";
         public const string  SEEDING_SUCCESS = "SEEDING_SUCCESS";
         public const string  SEND_ENTITY = "SEND_ENTITY";
+        public const string  SEND_MEMBER = "SEND_MEMBER";
+        public const string  SEND_FACILITY = "SEND_FACILITY";
         public const string  SEND_ALL_ACCOUNT_TYPES = "SEND_ALL_ACCOUNT_TYPES";
         public string Type { get; set; }
         public string Payload { get; set; }

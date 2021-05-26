@@ -3,8 +3,8 @@ using PersistenceServer.Models;
 
 namespace PersistenceServer.Repository
 {
-    public interface IAccountRepository
+    public interface IMemberRepository
     {
-        
+        Task<Member> GetMemberWithIdAsync(int id);
     }
 }

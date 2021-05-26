@@ -5,7 +5,7 @@
 @inject NavigationManager NavigationManager
 
 <div class="d-flex flex-column justify-content-around align-items-center">
-    
+
     <h3>Find your VIA account</h3>
 
     <EditForm Model="viaEntityModel" OnValidSubmit="@CheckEntity">
@@ -30,16 +30,21 @@
         {
             <h2>Hello @dbMember.FirstName @dbMember.LastName</h2>
         }
+        else
+        {
+            <h2>Hello @dbFacility.Name</h2>
+        }
     }
 </div>
 @if (dbViaEntity != null)
 {
     <div class="d-flex flex-column-reverse justify-content-around align-items-center ">
-        <EditForm Model="accountDataInputModel" OnValidSubmit="@SubmitAccountCreation">
+        <EditForm Model="accountModel" OnValidSubmit="@SubmitAccountCreation">
             <DataAnnotationsValidator/>
             <ValidationSummary/>
-            
+
             <div class="form-group">
+                <label style="color:red">@accountTypeSelectionErrorLabel</label><br/>
                 Account type:<br/>
                 <InputSelect @bind-Value="selectedAccountType">
                     <option value="">Select</option>
@@ -49,24 +54,24 @@
                     }
                 </InputSelect>
             </div>
-            
+
             <label style="color:red">@appPasswordErrorLabel</label>
             <div class="form-group">
                 App password:<br/>
-                <InputText @bind-Value="accountDataInputModel.ApplicationPassword"/>
+                <InputText @bind-Value="accountModel.ApplicationPassword"/>
             </div>
-            
+
             <div class="form-group">
                 Retype password:<br/>
                 <InputText @bind-Value="@appPasswordVerification"/>
             </div>
-            
+
             <label style="color:red">@termsAndConditionsErrorLabel</label>
             <div class="form-group">
                 <input type="checkbox" @onchange="@CheckTermsAndConditionsChecked" @bind-value="@termsAndConditionsChecked" @bind-value:event="oninput">
                 Terms and conditions
             </div>
-            
+
             <p class="actions">
                 <button class="btn btn-outline-dark" type="submit">Create account</button>
             </p>
@@ -77,13 +82,16 @@
 @code {
     // models
     private ViaEntity viaEntityModel = new ViaEntity();
-    private AccountDataInputModel accountDataInputModel = new AccountDataInputModel();
+    private Account accountModel = new Account();
     private string appPasswordVerification = "";
     private bool termsAndConditionsChecked;
-
+    
+    // error labels
     private string appPasswordErrorLabel = "";
     private string termsAndConditionsErrorLabel = "";
-
+    private string accountTypeSelectionErrorLabel = "";
+    
+    // via entities from db
     private ViaEntity dbViaEntity;
 
     private bool isMember = false;
@@ -91,7 +99,7 @@
     private Facility dbFacility;
 
     private List<string> accountTypes;
-    string selectedAccountType;
+    string selectedAccountType = "";
 
     protected async override Task OnInitializedAsync()
     {
@@ -103,26 +111,33 @@
     {
         dbViaEntity = await AccountService.CheckViaAccountAsync(viaEntityModel);
         Console.WriteLine(dbViaEntity.ViaId);
-        
+        if (dbViaEntity is Member)
+        {
+            Console.WriteLine("is member");
+            isMember = true;
+            dbMember = (Member) dbViaEntity;
+        }
+        else if (dbViaEntity is Facility)
+        {
+            isMember = false;
+            Console.WriteLine("is facility");
+            dbFacility = (Facility) dbViaEntity;
+            Console.WriteLine(dbFacility.Name);
+        }
+
         StateHasChanged();
     }
 
     private void SubmitAccountCreation()
     {
-        if (CheckAppPasswordsMatch())
+        if (selectedAccountType.Equals(""))
         {
-            Console.WriteLine("sending role");
-            Role roleToSend = new Role()
-            {
-                RoleType = accountDataInputModel.RoleType,
-                // Account = new Account()
-                // {
-                //     ApplicationPassword = accountDataInputModel.ApplicationPassword,
-                //     ViaEntity = dbMember
-                // }
-            };
-
-            AccountService.CreateAccountAsync(roleToSend);
+            accountTypeSelectionErrorLabel = "Select an account type!";
+        }
+        else if (CheckAppPasswordsMatch())
+        {
+            accountTypeSelectionErrorLabel = "";
+    //send created account here
         }
     }
 
@@ -140,7 +155,7 @@
 
     private bool CheckAppPasswordsMatch()
     {
-        if (!appPasswordVerification.Equals(accountDataInputModel.ApplicationPassword))
+        if (!appPasswordVerification.Equals(accountModel.ApplicationPassword))
         {
             appPasswordErrorLabel = "Passwords do not match!";
             return false;

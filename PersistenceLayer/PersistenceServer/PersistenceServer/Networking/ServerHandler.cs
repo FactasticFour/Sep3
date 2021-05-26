@@ -39,34 +39,53 @@ namespace PersistenceServer.Networking
 
             switch (requestFromClient.Type)
             {
-                
                 case Request.GET_USER_BY_ID:
-                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
+                    User result = await RepositoryFactory.GetUserRepository()
+                        .GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
                     Console.WriteLine(payload);
                     Reply reply = new Reply(Reply.SEND_USER, payload);
                     string toSendToClient = ToJson(reply);
-                    
+
                     SendToStream(toSendToClient);
                     break;
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     Reply seedingSuccessReply = new Reply(Reply.SEEDING_SUCCESS, null);
                     string toSend = ToJson(seedingSuccessReply);
-                    
+
                     SendToStream(toSend);
                     break;
                 case Request.GET_ENTITY_WITH_ID:
-                    Console.WriteLine("--server handler--");
-                    ViaEntity viaEntity = await RepositoryFactory.GetAccountRepository()
+                    ViaEntity viaEntity = await RepositoryFactory.GetViaEntityRepository()
                         .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
-                    
+
                     string viaEntityAsString = ToJson(viaEntity);
                     Console.WriteLine(viaEntityAsString);
                     Reply viaEntityReply = new Reply(Reply.SEND_ENTITY, viaEntityAsString);
 
                     SendToStream(ToJson(viaEntityReply));
+                    break;
+                case Request.GET_MEMBER_WITH_ID:
+                    Member member = await RepositoryFactory.GetMemberRepository()
+                        .GetMemberWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+                    string memberAsString = ToJson(member);
+                    Console.WriteLine(memberAsString);
+                    Reply memberReply = new Reply(Reply.SEND_MEMBER, memberAsString);
+                    
+                    SendToStream(ToJson(memberReply));
+                    break;
+                case Request.GET_FACILITY_WITH_ID:
+                    Facility facility = await RepositoryFactory.GetFacilityRepository()
+                        .GetFacilityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+                    string facilityAsString = ToJson(facility);
+                    Console.WriteLine(facilityAsString);
+                    Reply facilityReply= new Reply(Reply.SEND_FACILITY, facilityAsString);
+                    
+                    SendToStream(ToJson(facilityReply));
                     break;
                 case Request.GET_ALL_ACCOUNT_TYPES:
                     List<string> allAccountTypes =
@@ -75,9 +94,9 @@ namespace PersistenceServer.Networking
                     string allAccountTypesAsString = ToJson(allAccountTypes);
                     Console.WriteLine(allAccountTypesAsString);
                     Reply allAccountTypesReply = new Reply(Reply.SEND_ALL_ACCOUNT_TYPES, allAccountTypesAsString);
-                    
+
                     SendToStream(ToJson(allAccountTypesReply));
-                    
+
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
@@ -85,6 +104,7 @@ namespace PersistenceServer.Networking
                     SendToStream(replySerialized);
                     break;
             }
+
             // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
         }

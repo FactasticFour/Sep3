@@ -26,6 +26,14 @@ public class Facility extends ViaEntity {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Facility{" +
+                "name='" + name + '\'' +
+                ", campus=" + campus +
+                '}';
+    }
+
     public Campus getCampus() {
         return campus;
     }
