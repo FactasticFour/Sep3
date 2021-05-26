@@ -1,0 +1,50 @@
+﻿@page "/ChargeAccount"
+@using PresentationLayer.Data
+
+@inject ICreditCardService CreditCardService;
+
+<div class="d-flex flex-column justify-content-around align-items-center">
+    <h3>Charge your Account</h3>
+    
+        <EditForm Model="" OnValidSubmit="">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div class="form-group">
+                Input amount to deposit:<br/>
+                <InputNumber @bind-Value=""/>
+            </div>
+            <p class="actions">
+                <button class="btn btn-outline-dark" type="submit">Deposit</button>
+            </p>
+        </EditForm>
+</div>
+
+@code {
+    private float amount;
+    private int id;
+    private string displayMessage = "";
+
+    private async Task CheckCreditCard(int id)
+    {
+        bool response;
+        displayMessage = "Checking Credit Card...";
+        response = CreditCardService.CheckCreditCard(id).GetAwaiter().GetResult();
+        if (response)
+        {
+            displayMessage = "Charging account...";
+            await PerformDeposit(amount);
+        }
+        else
+        {
+            displayMessage = "Credit Card not assigned to the account";
+        }
+    }
+
+    private async Task PerformDeposit(float amount)
+    {
+        await CreditCardService.DepositMoney(amount);
+        this.amount = 0;
+        displayMessage = "Account charged successfully";
+    }
+    
+}
