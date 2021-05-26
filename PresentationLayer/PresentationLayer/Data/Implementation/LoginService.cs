@@ -28,14 +28,13 @@ namespace PresentationLayer.Data.Implementation
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine();
-                throw new Exception($"{response.Content}");
+                throw new Exception($"{response.StatusCode}");
             }
             
             string result = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"result before deserialization: {result}");
             Account account = ToObject<Account>(result);
             Console.WriteLine($"Account received: {account.AccountType.RoleType}");
-            // TODO handle rainy scenario
             return account;
         }
         
