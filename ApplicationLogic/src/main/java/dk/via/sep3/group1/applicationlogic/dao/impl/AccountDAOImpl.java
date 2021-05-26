@@ -28,6 +28,7 @@ public class AccountDAOImpl implements AccountDAO {
             Account account = Serialization.deserialize(reply.getPayload(), Account.class);
             return account;
         } else {
+            // TODO send a bad request with user not found message to client
             throw new NullPointerException(reply.BAD_REQUEST);
         }
     }

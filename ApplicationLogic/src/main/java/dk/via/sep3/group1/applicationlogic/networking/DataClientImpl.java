@@ -41,8 +41,6 @@ public class DataClientImpl implements DataClient {
         }
         writeBytes(request, outputStream);
         String serializedReply = readBytes(inputStream);
-        // TODO to remove
-        System.out.println(serializedReply);
         reply = Serialization.deserialize(serializedReply, Reply.class);
 
         return reply;

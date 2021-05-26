@@ -15,13 +15,13 @@ namespace PresentationLayer.Authentication
         private readonly IJSRuntime jsRuntime;
         private readonly ILoginService loginService;
         private Account cachedUser;
-        
+
         public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, ILoginService loginService)
         {
             this.jsRuntime = jsRuntime;
             this.loginService = loginService;
         }
-        
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
@@ -42,32 +42,25 @@ namespace PresentationLayer.Authentication
             ClaimsPrincipal cachedClaimsPrincipal = new ClaimsPrincipal(identity);
             return await Task.FromResult(new AuthenticationState(cachedClaimsPrincipal));
         }
-        
+
         public async Task ValidateLogin(string username, string password)
         {
             Console.WriteLine("Validating log in");
             if (string.IsNullOrEmpty(username)) throw new Exception("Enter username");
             if (string.IsNullOrEmpty(password)) throw new Exception("Enter password");
             ClaimsIdentity identity = new ClaimsIdentity();
-            try
-            {
-                Account account = await loginService.ValidateAccountAsync(username, password);
-                identity = SetupClaimsForUser(account);
-                string serialisedData = JsonSerializer.Serialize(account);
-                Console.WriteLine($"Serialized data: {serialisedData}");
-                await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
-                Console.WriteLine("after jsRuntime");
-                cachedUser = account;
-            }
-            catch (Exception e)
-            {
-                //throw e;
-                throw new Exception("Account not found check username and password");
-            }
+            
+            Account account = await loginService.ValidateAccountAsync(username, password);
+            identity = SetupClaimsForUser(account);
+            string serialisedData = JsonSerializer.Serialize(account);
+            Console.WriteLine($"Serialized data: {serialisedData}");
+            await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
+            Console.WriteLine("after jsRuntime");
+            cachedUser = account;
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
-        
+
         public async Task Logout()
         {
             cachedUser = null;
