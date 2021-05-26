@@ -29,5 +29,17 @@ namespace PresentationLayer.Models
 
         [ForeignKey("accountId")]
         public Account Account { get; set; }
+
+        public CreditCard(string creditCardNumber, string firstName, string lastName, string expirationMonth, string expirationYear, int securityCode, float amountOfMoney, Account account)
+        {
+            CreditCardNumber = creditCardNumber;
+            FirstName = firstName;
+            LastName = lastName;
+            ExpirationMonth = expirationMonth;
+            ExpirationYear = expirationYear;
+            SecurityCode = securityCode;
+            AmountOfMoney = amountOfMoney;
+            Account = account;
+        }
     }
 }

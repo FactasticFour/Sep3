@@ -21,11 +21,11 @@ public class CreditCardController {
     CreditCardService creditCardService;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    @GetMapping("{creditCard1}")
-    public boolean addCreditCardToAccount(@PathVariable String creditCard1) {
+    @GetMapping("{creditCard}")
+    public boolean addCreditCardToAccount(@PathVariable String creditCard) {
         CreditCard deserialized = null;
         try {
-            deserialized = objectMapper.readValue(creditCard1, CreditCard.class);
+            deserialized = objectMapper.readValue(creditCard, CreditCard.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

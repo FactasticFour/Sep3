@@ -12,7 +12,7 @@ namespace PresentationLayer.Data.Implementation
         {
             HttpClient client = new HttpClient();
             String creditCard1 = JsonSerializer.Serialize(creditCard);
-            HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcards/{creditCard1}");
+            HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcards/{creditCard}");
             
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -26,11 +26,7 @@ namespace PresentationLayer.Data.Implementation
                 PropertyNameCaseInsensitive = true
             });
             
-            
             return ifAdded;
-            
-            
-            
         }
     }
 }

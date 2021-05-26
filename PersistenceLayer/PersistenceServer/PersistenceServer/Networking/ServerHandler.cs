@@ -52,9 +52,13 @@ namespace PersistenceServer.Networking
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     break;
-                case "ADD_CREDIT_CARD_TO_ACCOUNT":
+                case Request.ADD_CREDIT_CARD_TO_ACCOUNT:
                     await RepositoryFactory.GetCreditCardRepository()
                         .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
+                    payload = ToJson("CARD_ADDED");
+                    reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
+                    toSendToClient = ToJson(reply);
+                    SendToStream(toSendToClient);
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
