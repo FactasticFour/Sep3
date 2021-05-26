@@ -17,7 +17,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Account validateAccount(String passwordHashed, String username) throws IllegalAccessException {
 
-        Account account = accountDAO.getRoleByUsername(username);
+        Account account = accountDAO.getAccountByUsername(username);
 
         System.out.println("-------> Hashed password from client: " + passwordHashed);
         System.out.println("-------> Account type from DAO: " + account.getAccountType().getRoleType());

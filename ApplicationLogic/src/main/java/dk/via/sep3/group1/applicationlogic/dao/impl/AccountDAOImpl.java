@@ -19,7 +19,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public Account getRoleByUsername(String username) {
+    public Account getAccountByUsername(String username) {
         Request request = new Request();
         request.setPayload(Serialization.serialize(username));
         request.setType(request.GET_ACCOUNT_BY_USERNAME);
