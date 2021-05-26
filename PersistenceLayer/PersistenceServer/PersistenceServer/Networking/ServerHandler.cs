@@ -87,6 +87,9 @@ namespace PersistenceServer.Networking
             catch (Exception e)
             {
                 Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                var json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
             }
         }
 
