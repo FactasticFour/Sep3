@@ -27,11 +27,11 @@
         </div>
     </NotAuthorized>
     <Authorized>
-        <button class="btn btn-outline-dark">
-            <a href="" @onclick="PerformLogout">
+        <a href="" @onclick="PerformLogout">
+            <button class="btn btn-outline-dark">
                 Log out
-            </a>
-        </button>
+            </button>
+        </a>
     </Authorized>
 </AuthorizeView>
 
@@ -46,7 +46,7 @@
         errorMessage = "";
         try
         {
-            if (username.Length == 4 ||  username.Length == 6)
+            if (username.Length == 4 || username.Length == 6)
             {
                 await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
                 username = "";

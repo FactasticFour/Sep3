@@ -27,7 +27,8 @@ namespace PresentationLayer.Data.Implementation
             
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+                Console.WriteLine();
+                throw new Exception($"{response.Content}");
             }
             
             string result = await response.Content.ReadAsStringAsync();
