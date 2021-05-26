@@ -72,16 +72,22 @@ namespace PersistenceServer.Networking
 
         private async Task getAccountByUsername(Request requestFromClient)
         {
-            Account account = await RepositoryFactory.GetAccountRepository()
-                .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
-
-            Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
-            string payloadAccount = ToJson(account);
-
-            Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
-            string json = ToJson(replyAc);
-            Console.WriteLine(json);
-            SendToStream(json);
+            try
+            {
+                Account account = await RepositoryFactory.GetAccountRepository()
+                    .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
+                
+                Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
+                string payloadAccount = ToJson(account);
+                Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
+                string json = ToJson(replyAc);
+                Console.WriteLine(json);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+            }
         }
 
         private string ReadFromStream()
