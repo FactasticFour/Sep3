@@ -7,6 +7,7 @@ import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import dk.via.sep3.group1.applicationlogic.shared.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.serializer.support.SerializationFailedException;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -24,12 +25,17 @@ public class AccountDAOImpl implements AccountDAO {
         request.setType(request.GET_ACCOUNT_BY_USERNAME);
 
         Reply reply = dataClient.handleRequest(request);
+
         if (reply.getType().equals(reply.ACCOUNT_BY_USERNAME)) {
-            Account account = Serialization.deserialize(reply.getPayload(), Account.class);
-            return account;
+            return Serialization.deserialize(reply.getPayload(), Account.class);
         } else {
-            // TODO send a bad request with user not found message to client
-            throw new NullPointerException(reply.BAD_REQUEST);
+            try {
+                String deserialize = Serialization.deserialize(reply.getPayload(), String.class);
+                throw new Exception(deserialize);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new SerializationFailedException("Reply could not be deserialized");
+            }
         }
     }
 }
