@@ -39,35 +39,26 @@ namespace PersistenceServer.Networking
 
             switch (requestFromClient.Type)
             {
-                
                 case Request.GET_USER_BY_ID:
-                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
+                    User result = await RepositoryFactory.GetUserRepository()
+                        .GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
                     Console.WriteLine(payload);
                     Reply reply = new Reply(Reply.SEND_USER, payload);
                     string toSendToClient = ToJson(reply);
-                    
+
                     SendToStream(toSendToClient);
                     break;
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     Reply seedingSuccessReply = new Reply(Reply.SEEDING_SUCCESS, null);
                     string toSend = ToJson(seedingSuccessReply);
-                    
+
                     SendToStream(toSend);
                     break;
                 case Request.GET_ACCOUNT_BY_USERNAME:
-                    Account account = await RepositoryFactory.GetAccountRepository()
-                        .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
-                    
-                    Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
-                    string payloadAccount = ToJson(account);
-
-                    Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
-                    string json = ToJson(replyAc);
-                    Console.WriteLine(json);
-                    SendToStream(json);
+                    await getAccountByUsername(requestFromClient);
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
@@ -75,7 +66,22 @@ namespace PersistenceServer.Networking
                     SendToStream(replySerialized);
                     break;
             }
+
             stream.Close();
+        }
+
+        private async Task getAccountByUsername(Request requestFromClient)
+        {
+            Account account = await RepositoryFactory.GetAccountRepository()
+                .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
+
+            Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
+            string payloadAccount = ToJson(account);
+
+            Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
+            string json = ToJson(replyAc);
+            Console.WriteLine(json);
+            SendToStream(json);
         }
 
         private string ReadFromStream()
@@ -100,7 +106,7 @@ namespace PersistenceServer.Networking
             return deserializeResult;
         }
 
-        
+
         private string ToJson<T>(T objToSerialize)
         {
             string serialized = JsonSerializer.Serialize(objToSerialize, new JsonSerializerOptions()
