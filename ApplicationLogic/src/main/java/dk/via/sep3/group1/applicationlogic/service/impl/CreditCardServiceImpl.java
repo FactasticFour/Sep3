@@ -15,6 +15,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public boolean addCreditCardToAccount(CreditCard creditCard) {
+        System.out.println(creditCard.toString());
         String isAdded = creditCardDAO.addCreditCardToAccount(creditCard);
         if (creditCard.getCreditCardNumber().length() != 16 || creditCard.getFirstName() == null || creditCard.getLastName() == null ||
                 creditCard.getSecurityCode() < 0 || creditCard.getSecurityCode() > 999 || !isAdded.equals("CARD_ADDED")) {

@@ -25,6 +25,7 @@ public class CreditCardController {
     public boolean addCreditCardToAccount(@PathVariable String creditCard) {
         CreditCard deserialized = null;
         try {
+            System.out.println(creditCard.toString());
             deserialized = objectMapper.readValue(creditCard, CreditCard.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
