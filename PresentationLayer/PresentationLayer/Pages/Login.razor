@@ -46,7 +46,7 @@
         errorMessage = "";
         try
         {
-            if (new StringBuilder(username).Length == 6)
+            if (username.Length == 4 ||  username.Length == 6)
             {
                 await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
                 username = "";
