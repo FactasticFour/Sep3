@@ -8,7 +8,5 @@ namespace PresentationLayer.Models
         public int? ViaId { get; set; }
         [Required, StringLength(64)]
         public string Password { get; set; }
-
-        public Account Account { get; set; }
     }
 }

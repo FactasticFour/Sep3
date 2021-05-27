@@ -13,7 +13,7 @@ public class Facility extends ViaEntity {
     }
 
     public Facility(int viaId, String password, String name, Campus campus, Account account) {
-        super(viaId, password, account);
+        super(viaId, password);
         this.name = name;
         this.campus = campus;
     }

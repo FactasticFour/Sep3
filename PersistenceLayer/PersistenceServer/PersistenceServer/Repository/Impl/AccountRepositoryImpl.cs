@@ -38,13 +38,6 @@ namespace PersistenceServer.Repository.Impl
             accountToAdd.ViaEntity = ve;
             
             await dataContext.Accounts.AddAsync(accountToAdd);
-            
-            await dataContext.SaveChangesAsync();
-
-            Account a = await dataContext.Accounts.FirstOrDefaultAsync(a =>
-                a.ViaEntity.ViaId == accountToAdd.ViaEntity.ViaId);
-            
-            await dataContext.ViaEntities.AddAsync(ve);
             await dataContext.SaveChangesAsync();
             
             Console.WriteLine("hope this worked");

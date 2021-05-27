@@ -94,6 +94,8 @@ namespace PersistenceServer.Networking
             await RepositoryFactory.GetAccountRepository()
                 .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
             Console.WriteLine("back to server handler");
+            
+            
         }
 
         private async Task GetAccountWithViaId(Request requestFromClient)
@@ -112,6 +114,7 @@ namespace PersistenceServer.Networking
             {
                 Console.WriteLine("caught exception");
                 Reply reply = new Reply("ERROR", ToJson($"{e.Message}"));
+                SendToStream(ToJson(reply));
             }
             
         }
