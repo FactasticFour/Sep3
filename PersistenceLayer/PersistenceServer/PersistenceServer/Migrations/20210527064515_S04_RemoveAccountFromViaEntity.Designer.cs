@@ -10,8 +10,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210526072037_S04OverallUpdate")]
-    partial class S04OverallUpdate
+    [Migration("20210527064515_S04_RemoveAccountFromViaEntity")]
+    partial class S04_RemoveAccountFromViaEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,12 +203,7 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<int?>("accountId")
-                        .HasColumnType("integer");
-
                     b.HasKey("ViaId");
-
-                    b.HasIndex("accountId");
 
                     b.ToTable("ViaEntities");
                 });
@@ -304,15 +299,6 @@ namespace PersistenceServer.Migrations
                     b.Navigation("ReceiverAccount");
 
                     b.Navigation("SenderAccount");
-                });
-
-            modelBuilder.Entity("PersistenceServer.Models.ViaEntity", b =>
-                {
-                    b.HasOne("PersistenceServer.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("accountId");
-
-                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>

@@ -34,7 +34,7 @@ namespace PersistenceServer.Repository.Impl
             Role r = await dataContext.Roles.FirstOrDefaultAsync(r => r.RoleId == accountToAdd.AccountType.RoleId);
             accountToAdd.AccountType = r;
 
-            ViaEntity ve = await dataContext.ViaEntities.Include(ve => ve.Account).FirstOrDefaultAsync(ve => ve.ViaId == accountToAdd.ViaEntity.ViaId);
+            ViaEntity ve = await dataContext.ViaEntities.FirstOrDefaultAsync(ve => ve.ViaId == accountToAdd.ViaEntity.ViaId);
             accountToAdd.ViaEntity = ve;
             
             await dataContext.Accounts.AddAsync(accountToAdd);
@@ -43,9 +43,7 @@ namespace PersistenceServer.Repository.Impl
 
             Account a = await dataContext.Accounts.FirstOrDefaultAsync(a =>
                 a.ViaEntity.ViaId == accountToAdd.ViaEntity.ViaId);
-
-            ve.Account = a;
-
+            
             await dataContext.ViaEntities.AddAsync(ve);
             await dataContext.SaveChangesAsync();
             
