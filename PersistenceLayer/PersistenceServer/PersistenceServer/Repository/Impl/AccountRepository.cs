@@ -17,7 +17,7 @@ namespace PersistenceServer.Repository.Impl
             try
             {
                 account = await dataContext.Accounts.Include(c => c.ViaEntity).Include(a => a.AccountType)
-                    .FirstOrDefaultAsync(a => a.ViaEntity.ViaId.ToString().Equals(username));
+                    .FirstAsync(a => a.ViaEntity.ViaId.ToString().Equals(username));
             }
             catch (Exception e)
             {

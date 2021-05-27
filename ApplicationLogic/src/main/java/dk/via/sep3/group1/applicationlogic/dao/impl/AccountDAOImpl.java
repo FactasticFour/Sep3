@@ -25,10 +25,14 @@ public class AccountDAOImpl implements AccountDAO {
         request.setType(request.GET_ACCOUNT_BY_USERNAME);
 
         Reply reply = dataClient.handleRequest(request);
+        return Serialization.deserialize(reply.getPayload(), Account.class);
 
-        if (reply.getType().equals(reply.ACCOUNT_BY_USERNAME)) {
-            return Serialization.deserialize(reply.getPayload(), Account.class);
+        // remove if - wwe do not catch anything
+        //if (reply.getType().equals(reply.ACCOUNT_BY_USERNAME)) {
+
+            /*
         } else {
+            //TODO move to the handler
             try {
                 String deserialize = Serialization.deserialize(reply.getPayload(), String.class);
                 throw new Exception(deserialize);
@@ -37,5 +41,6 @@ public class AccountDAOImpl implements AccountDAO {
                 throw new SerializationFailedException("Reply could not be deserialized");
             }
         }
+             */
     }
 }

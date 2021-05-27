@@ -27,7 +27,6 @@ namespace PresentationLayer.Data.Implementation
             
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine();
                 throw new Exception($"{response.StatusCode}");
             }
             
