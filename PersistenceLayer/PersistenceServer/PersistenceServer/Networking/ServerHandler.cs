@@ -58,45 +58,25 @@ namespace PersistenceServer.Networking
                     SendToStream(toSend);
                     break;
                 case Request.GET_ENTITY_WITH_ID:
-                    ViaEntity viaEntity = await RepositoryFactory.GetViaEntityRepository()
-                        .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
-
-                    string viaEntityAsString = ToJson(viaEntity);
-                    Console.WriteLine(viaEntityAsString);
-                    Reply viaEntityReply = new Reply(Reply.SEND_ENTITY, viaEntityAsString);
-
-                    SendToStream(ToJson(viaEntityReply));
+                    await GetEntityWithId(requestFromClient);
                     break;
                 case Request.GET_MEMBER_WITH_ID:
-                    Member member = await RepositoryFactory.GetMemberRepository()
-                        .GetMemberWithIdAsync(ToObject<int>(requestFromClient.Payload));
-
-                    string memberAsString = ToJson(member);
-                    Console.WriteLine(memberAsString);
-                    Reply memberReply = new Reply(Reply.SEND_MEMBER, memberAsString);
-                    
-                    SendToStream(ToJson(memberReply));
+                    await GetMemberWithId(requestFromClient);
                     break;
                 case Request.GET_FACILITY_WITH_ID:
-                    Facility facility = await RepositoryFactory.GetFacilityRepository()
-                        .GetFacilityWithIdAsync(ToObject<int>(requestFromClient.Payload));
-
-                    string facilityAsString = ToJson(facility);
-                    Console.WriteLine(facilityAsString);
-                    Reply facilityReply= new Reply(Reply.SEND_FACILITY, facilityAsString);
-                    
-                    SendToStream(ToJson(facilityReply));
+                    await GetFacilityWithId(requestFromClient);
                     break;
                 case Request.GET_ALL_ACCOUNT_TYPES:
-                    List<string> allAccountTypes =
-                        await RepositoryFactory.GetRoleRepository().GetAllAccountTypesAsync();
-
-                    string allAccountTypesAsString = ToJson(allAccountTypes);
-                    Console.WriteLine(allAccountTypesAsString);
-                    Reply allAccountTypesReply = new Reply(Reply.SEND_ALL_ACCOUNT_TYPES, allAccountTypesAsString);
-
-                    SendToStream(ToJson(allAccountTypesReply));
-
+                    await GEtAllAccountTypes();
+                    break;
+                case Request.GET_ROLE_WITH_TYPE:
+                    await GetRoleWithType(requestFromClient);
+                    break;
+                case Request.GET_ACCOUNT_WITH_VIA_ID:
+                    await GetAccountWithViaId(requestFromClient);
+                    break;
+                case Request.ADD_ACCOUNT:
+                    await AddAccount(requestFromClient);
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
@@ -108,6 +88,89 @@ namespace PersistenceServer.Networking
             // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
         }
+
+        private async Task AddAccount(Request requestFromClient)
+        {
+            await RepositoryFactory.GetAccountRepository()
+                .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
+            Console.WriteLine("back to server handler");
+        }
+
+        private async Task GetAccountWithViaId(Request requestFromClient)
+        {
+            try
+            {
+                Account account = await RepositoryFactory.GetAccountRepository()
+                    .GetAccountWithViaId(ToObject<int>(requestFromClient.Payload));
+
+                string accountAsString = ToJson(account);
+                Reply accountReply = new Reply(Reply.SEND_ACCOUNT, accountAsString);
+
+                SendToStream(ToJson(accountReply));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("caught exception");
+                Reply reply = new Reply("ERROR", ToJson($"{e.Message}"));
+            }
+            
+        }
+
+        private async Task GetRoleWithType(Request requestFromClient)
+        {
+            Role role = await RepositoryFactory.GetRoleRepository()
+                .GetRoleWithTypeAsync(ToObject<string>(requestFromClient.Payload));
+
+            string roleAsString = ToJson(role);
+            Reply roleReply = new Reply(Reply.SEND_ROLE, roleAsString);
+
+            SendToStream(ToJson(roleReply));
+        }
+
+        private async Task GEtAllAccountTypes()
+        {
+            List<string> allAccountTypes =
+                await RepositoryFactory.GetRoleRepository().GetAllAccountTypesAsync();
+
+            string allAccountTypesAsString = ToJson(allAccountTypes);
+            Reply allAccountTypesReply = new Reply(Reply.SEND_ALL_ACCOUNT_TYPES, allAccountTypesAsString);
+
+            SendToStream(ToJson(allAccountTypesReply));
+        }
+
+        private async Task GetFacilityWithId(Request requestFromClient)
+        {
+            Facility facility = await RepositoryFactory.GetFacilityRepository()
+                .GetFacilityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+            string facilityAsString = ToJson(facility);
+            Reply facilityReply = new Reply(Reply.SEND_FACILITY, facilityAsString);
+
+            SendToStream(ToJson(facilityReply));
+        }
+
+        private async Task GetMemberWithId(Request requestFromClient)
+        {
+            Member member = await RepositoryFactory.GetMemberRepository()
+                .GetMemberWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+            string memberAsString = ToJson(member);
+            Reply memberReply = new Reply(Reply.SEND_MEMBER, memberAsString);
+
+            SendToStream(ToJson(memberReply));
+        }
+
+        private async Task GetEntityWithId(Request requestFromClient)
+        {
+            ViaEntity viaEntity = await RepositoryFactory.GetViaEntityRepository()
+                .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+            string viaEntityAsString = ToJson(viaEntity);
+            Reply viaEntityReply = new Reply(Reply.SEND_ENTITY, viaEntityAsString);
+
+            SendToStream(ToJson(viaEntityReply));
+        }
+
 
         private string ReadFromStream()
         {

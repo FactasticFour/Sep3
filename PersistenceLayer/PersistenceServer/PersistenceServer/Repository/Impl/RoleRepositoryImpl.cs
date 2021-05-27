@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PersistenceServer.Data;
 using PersistenceServer.Models;
-using PersistenceServer.shared;
 
 namespace PersistenceServer.Repository.Impl
 {
@@ -20,6 +20,14 @@ namespace PersistenceServer.Repository.Impl
                 allAccountTypes.Add(role.RoleType);
             }
             return allAccountTypes;
+        }
+
+        public async Task<Role> GetRoleWithTypeAsync(string roleType)
+        {
+            using DataContext dataContext = new DataContext();
+            Role role = await dataContext.Roles.FirstOrDefaultAsync(r => r.RoleType.Equals(roleType));
+
+            return role;
         }
     }
 }

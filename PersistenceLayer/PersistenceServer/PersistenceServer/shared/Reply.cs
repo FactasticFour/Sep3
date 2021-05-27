@@ -9,6 +9,8 @@
         public const string  SEND_MEMBER = "SEND_MEMBER";
         public const string  SEND_FACILITY = "SEND_FACILITY";
         public const string  SEND_ALL_ACCOUNT_TYPES = "SEND_ALL_ACCOUNT_TYPES";
+        public const string  SEND_ROLE = "SEND_ROLE";
+        public const string  SEND_ACCOUNT = "SEND_ACCOUNT";
         public string Type { get; set; }
         public string Payload { get; set; }
 

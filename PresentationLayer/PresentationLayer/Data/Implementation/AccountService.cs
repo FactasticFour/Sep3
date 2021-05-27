@@ -13,8 +13,6 @@ namespace PresentationLayer.Data.Implementation
     {
         public async Task<ViaEntity> CheckViaAccountAsync(ViaEntity entityToCheck)
         {
-            Console.WriteLine("writing to tier2");
-
             string hashedPassword = HashingUtils.GetHash(entityToCheck.Password);
             
             HttpClient client = new HttpClient();
@@ -45,24 +43,31 @@ namespace PresentationLayer.Data.Implementation
                     PropertyNameCaseInsensitive = true
                 });
             }
-
-            Console.WriteLine(viaEntity);
             return viaEntity;
         }
 
-        public async Task<Role> CreateAccountAsync(Role role)
+        public async Task<Account> CreateAccountAsync(Account account)
         {
-            Role roleToSend = role;
-            //roleToSend.Account.ApplicationPassword = HashingUtils.GetHash(role.Account.ApplicationPassword);
+            string hashedPassword = HashingUtils.GetHash(account.ApplicationPassword);
+            Account accountToSend = new Account()
+            {
+                AccountType = account.AccountType,
+                ApplicationPassword = hashedPassword,
+                ViaEntity = account.ViaEntity
+            };
+
 
             HttpClient client = new HttpClient();
 
-            string roleAsJson = JsonSerializer.Serialize(roleToSend);
+            string accountAsJson = JsonSerializer.Serialize(accountToSend, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
 
-            Console.WriteLine(roleAsJson);
+            Console.WriteLine(accountAsJson);
 
             StringContent content = new StringContent(
-                roleAsJson,
+                accountAsJson,
                 Encoding.UTF8,
                 "application/json"
             );
@@ -75,7 +80,7 @@ namespace PresentationLayer.Data.Implementation
             }
             else
             {
-                return role;
+                return account;
             }
         }
     }

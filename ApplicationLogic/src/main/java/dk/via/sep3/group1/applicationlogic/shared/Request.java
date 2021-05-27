@@ -11,6 +11,9 @@ public class Request {
     public final String GET_MEMBER_WITH_ID = "GET_MEMBER_WITH_ID";
     public final String GET_FACILITY_WITH_ID = "GET_FACILITY_WITH_ID";
     public final String GET_ALL_ACCOUNT_TYPES = "GET_ALL_ACCOUNT_TYPES";
+    public final String GET_ROLE_WITH_TYPE = "GET_ROLE_WITH_TYPE";
+    public final String GET_ACCOUNT_WITH_VIA_ID = "GET_ACCOUNT_WITH_VIA_ID";
+    public final String ADD_ACCOUNT = "ADD_ACCOUNT";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

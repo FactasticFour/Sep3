@@ -1,6 +1,7 @@
 package dk.via.sep3.group1.applicationlogic.dao.impl;
 
 import dk.via.sep3.group1.applicationlogic.dao.RoleDAO;
+import dk.via.sep3.group1.applicationlogic.model.Role;
 import dk.via.sep3.group1.applicationlogic.networking.DataClientImpl;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
@@ -29,5 +30,22 @@ public class RoleDAOImpl implements RoleDAO {
             return allAccountTypes;
         } else
             throw new NullPointerException(reply.BAD_REQUEST);
+    }
+
+    @Override
+    public Role getRoleWithType(String roleType) {
+
+        Request request = new Request();
+        request.setPayload(Serialization.serialize(roleType));
+        request.setType(request.GET_ROLE_WITH_TYPE);
+
+        Reply reply = dataClient.handleRequest(request);
+
+        if (reply.getType().equals(reply.SEND_ROLE)){
+            Role role = Serialization.deserialize(reply.getPayload(), Role.class);
+            return role;
+        } else{
+            throw new NullPointerException(reply.BAD_REQUEST);
+        }
     }
 }

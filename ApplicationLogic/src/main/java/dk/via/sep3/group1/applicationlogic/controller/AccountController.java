@@ -1,5 +1,6 @@
 package dk.via.sep3.group1.applicationlogic.controller;
 
+import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.Role;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.service.AccountService;
@@ -21,8 +22,8 @@ public class AccountController {
     }
 
     @PostMapping
-    public void createAccount(@RequestBody Role role){
-        System.out.println(role);
-
+    public void createAccount(@RequestBody Account account){
+        System.out.println("creating account: " + account);
+        accountService.createAccount(account);
     }
 }

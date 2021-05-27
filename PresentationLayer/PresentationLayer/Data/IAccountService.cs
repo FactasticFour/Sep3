@@ -8,6 +8,6 @@ namespace PresentationLayer.Data
     {
         Task<ViaEntity> CheckViaAccountAsync(ViaEntity entityToCheck);
 
-        Task<Role> CreateAccountAsync(Role role);
+        Task<Account> CreateAccountAsync(Account account);
     }
 }

@@ -68,7 +68,7 @@
 
             <label style="color:red">@termsAndConditionsErrorLabel</label>
             <div class="form-group">
-                <input type="checkbox" @onchange="@CheckTermsAndConditionsChecked" @bind-value="@termsAndConditionsChecked" @bind-value:event="oninput">
+                <input type="checkbox" @bind-value="@termsAndConditionsChecked" @bind-value:event="oninput">
                 Terms and conditions
             </div>
 
@@ -110,46 +110,66 @@
     private async void CheckEntity()
     {
         dbViaEntity = await AccountService.CheckViaAccountAsync(viaEntityModel);
-        Console.WriteLine(dbViaEntity.ViaId);
         if (dbViaEntity is Member)
         {
-            Console.WriteLine("is member");
             isMember = true;
             dbMember = (Member) dbViaEntity;
         }
         else if (dbViaEntity is Facility)
         {
             isMember = false;
-            Console.WriteLine("is facility");
             dbFacility = (Facility) dbViaEntity;
-            Console.WriteLine(dbFacility.Name);
         }
 
         StateHasChanged();
     }
 
-    private void SubmitAccountCreation()
+    private async Task SubmitAccountCreation()
     {
-        if (selectedAccountType.Equals(""))
+        if (CheckAccountTypeSelected() &&
+            CheckAppPasswordsMatch() &&
+            CheckTermsAndConditionsChecked())
         {
-            accountTypeSelectionErrorLabel = "Select an account type!";
-        }
-        else if (CheckAppPasswordsMatch())
-        {
-            accountTypeSelectionErrorLabel = "";
-    //send created account here
+            ConstructCreatedAccount();
+            Console.WriteLine(accountModel);
+            await AccountService.CreateAccountAsync(accountModel);
         }
     }
 
-    private void CheckTermsAndConditionsChecked()
+    private void ConstructCreatedAccount()
+    {
+        accountModel.AccountType = new Role()
+        {
+            RoleType = selectedAccountType
+        };
+        accountModel.ViaEntity = dbViaEntity;
+    }
+
+    private bool CheckAccountTypeSelected()
+    {
+        if (selectedAccountType.Equals(""))
+        {
+            accountTypeSelectionErrorLabel = "Select account type.";
+            return false;
+        }
+        else
+        {
+            accountTypeSelectionErrorLabel = "";
+            return true;
+        }
+    }
+
+    private bool CheckTermsAndConditionsChecked()
     {
         if (!termsAndConditionsChecked)
         {
             termsAndConditionsErrorLabel = "Approve Terms&Conditions!";
+            return false;
         }
         else
         {
             termsAndConditionsErrorLabel = "";
+            return true;
         }
     }
 

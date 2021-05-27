@@ -47,4 +47,13 @@ public class ViaEntity {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    @Override
+    public String toString() {
+        return "ViaEntity{" +
+                "viaId=" + viaId +
+                ", password='" + password + '\'' +
+                ", account=" + account +
+                '}';
+    }
 }
