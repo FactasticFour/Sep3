@@ -42,6 +42,12 @@ public class DataClientImpl implements DataClient {
         String serializedReply = readBytes(inputStream);
         reply = Serialization.deserialize(serializedReply, Reply.class);
 
+        if (reply.getType().equals(reply.BAD_REQUEST))
+        {
+            String deserialize = reply.getPayload();
+            System.out.println("** Data client received exception: " + deserialize);
+            throw new RuntimeException(deserialize);
+        }
         return reply;
     }
 

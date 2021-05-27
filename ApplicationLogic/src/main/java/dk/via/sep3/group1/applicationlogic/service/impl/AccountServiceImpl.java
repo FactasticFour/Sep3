@@ -21,31 +21,36 @@ public class AccountServiceImpl implements AccountService {
     RoleDAO roleDAO;
 
     @Override
-    public ViaEntity checkViaAccount(ViaEntity entityToCheck) {
+    public ViaEntity checkViaAccount(ViaEntity entityToCheck) throws Exception {
 
-        ViaEntity viaEntity = viaEntityDAO.getViaEntityWithId(entityToCheck.getViaId());
-        System.out.println(viaEntity);
+        ViaEntity viaEntity = null;
+        try {
+            viaEntity = viaEntityDAO.getViaEntityWithId(entityToCheck.getViaId());
+            if (viaEntity.getPassword().equals(entityToCheck.getPassword())){
+                if (!accountDAO.checkAccountWithViaId(entityToCheck.getViaId())){
 
-        if (viaEntity.getPassword().equals(entityToCheck.getPassword())){
-            //get member or facility
+                    //check if account exists for this via entity
+                    //if passwords match get the actual via member or facility
 
-            Member dbMember = memberDAO.getMemberWithId(entityToCheck.getViaId());
-            if (dbMember != null){
-                return dbMember;
-            } else {
-                Facility dbFacility = facilityDAO.getFacilityWithId(entityToCheck.getViaId());
-                if (dbFacility != null){
-                    return dbFacility;
+                    Member dbMember = memberDAO.getMemberWithId(entityToCheck.getViaId());
+                    if (dbMember != null){
+                        return dbMember;
+                    } else {
+                        return facilityDAO.getFacilityWithId(entityToCheck.getViaId());
+                    }
                 } else {
-                    return null;
+                    throw new Exception(entityToCheck.getViaId() + " already has an account");
                 }
+            } else{
+                throw new IllegalAccessException("Wrong password");
             }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     @Override
-    public Account createAccount(Account accountToCreate) {
+    public void createAccount(Account accountToCreate)  throws Exception{
 
         System.out.println("*** service ***");
         //check if via id already has an account
@@ -58,9 +63,8 @@ public class AccountServiceImpl implements AccountService {
             accountToCreate.setAccountType(roleWithId);
 
             accountDAO.addAccount(accountToCreate);
+        } else {
+            throw new Exception("Account already exists");
         }
-
-
-        return null;
     }
 }

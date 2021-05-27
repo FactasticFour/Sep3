@@ -13,6 +13,7 @@ public class Reply {
     public final String SEND_ROLE = "SEND_ROLE";
     public final String SEND_ACCOUNT = "SEND_ACCOUNT";
     public final String ACCOUNT_ADDED = "ACCOUNT_ADDED";
+
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

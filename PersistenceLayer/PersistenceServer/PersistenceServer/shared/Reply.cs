@@ -11,6 +11,7 @@
         public const string  SEND_ALL_ACCOUNT_TYPES = "SEND_ALL_ACCOUNT_TYPES";
         public const string  SEND_ROLE = "SEND_ROLE";
         public const string  SEND_ACCOUNT = "SEND_ACCOUNT";
+        public const string  ACCOUNT_CREATED = "ACCOUNT_CREATED";
         public string Type { get; set; }
         public string Payload { get; set; }
 

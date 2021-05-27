@@ -4,7 +4,7 @@ import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 
 public interface AccountService {
-    ViaEntity checkViaAccount(ViaEntity entityToCheck);
+    ViaEntity checkViaAccount(ViaEntity entityToCheck) throws Exception;
 
-    Account createAccount(Account accountToCreate);
+    void createAccount(Account accountToCreate) throws Exception;
 }

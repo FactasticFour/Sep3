@@ -18,10 +18,11 @@ namespace PresentationLayer.Data.Implementation
             HttpClient client = new HttpClient();
             HttpResponseMessage responseMessage =
                 await client.GetAsync($"http://localhost:8080/account?id={entityToCheck.ViaId}&password={hashedPassword}");
+            
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+                throw new Exception($"{responseMessage.Content.ReadAsStringAsync().Result}");
             }
 
             string result = await responseMessage.Content.ReadAsStringAsync();
@@ -46,7 +47,7 @@ namespace PresentationLayer.Data.Implementation
             return viaEntity;
         }
 
-        public async Task<Account> CreateAccountAsync(Account account)
+        public async Task CreateAccountAsync(Account account)
         {
             string hashedPassword = HashingUtils.GetHash(account.ApplicationPassword);
             Account accountToSend = new Account()
@@ -76,11 +77,7 @@ namespace PresentationLayer.Data.Implementation
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                return null;
-            }
-            else
-            {
-                return account;
+                throw new Exception($"{responseMessage.Content.ReadAsStringAsync().Result}");
             }
         }
     }

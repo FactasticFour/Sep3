@@ -91,11 +91,22 @@ namespace PersistenceServer.Networking
 
         private async Task AddAccount(Request requestFromClient)
         {
-            await RepositoryFactory.GetAccountRepository()
-                .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
-            Console.WriteLine("back to server handler");
-            
-            
+            try
+            {
+                await RepositoryFactory.GetAccountRepository()
+                    .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
+                Console.WriteLine("back to server handler");
+                Reply reply = new Reply(Reply.ACCOUNT_CREATED, null);
+                
+                SendToStream(ToJson(reply));
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
         }
 
         private async Task GetAccountWithViaId(Request requestFromClient)
@@ -105,18 +116,19 @@ namespace PersistenceServer.Networking
                 Account account = await RepositoryFactory.GetAccountRepository()
                     .GetAccountWithViaId(ToObject<int>(requestFromClient.Payload));
 
-                string accountAsString = ToJson(account);
-                Reply accountReply = new Reply(Reply.SEND_ACCOUNT, accountAsString);
+                string payload = ToJson(account);
+                Reply reply = new Reply(Reply.SEND_ACCOUNT, payload);
 
-                SendToStream(ToJson(accountReply));
+                string json = ToJson(reply);
+                SendToStream(json);
             }
             catch (Exception e)
             {
-                Console.WriteLine("caught exception");
-                Reply reply = new Reply("ERROR", ToJson($"{e.Message}"));
-                SendToStream(ToJson(reply));
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
             }
-            
         }
 
         private async Task GetRoleWithType(Request requestFromClient)
@@ -165,13 +177,24 @@ namespace PersistenceServer.Networking
 
         private async Task GetEntityWithId(Request requestFromClient)
         {
-            ViaEntity viaEntity = await RepositoryFactory.GetViaEntityRepository()
-                .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+            try
+            {
+                ViaEntity viaEntity = await RepositoryFactory.GetViaEntityRepository()
+                    .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
 
-            string viaEntityAsString = ToJson(viaEntity);
-            Reply viaEntityReply = new Reply(Reply.SEND_ENTITY, viaEntityAsString);
+                string payload = ToJson(viaEntity);
+                Reply reply = new Reply(Reply.SEND_ENTITY, payload);
 
-            SendToStream(ToJson(viaEntityReply));
+                string json = ToJson(reply);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
         }
 
 

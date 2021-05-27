@@ -21,11 +21,13 @@ public class AccountDAOImpl implements AccountDAO {
         request.setPayload(Serialization.serialize(viaId));
         request.setType(request.GET_ACCOUNT_WITH_VIA_ID);
 
-        Reply reply = dataClient.handleRequest(request);
-
-        if (reply.getType().equals(reply.SEND_ACCOUNT)){
+        Reply reply = null;
+        try {
+            reply = dataClient.handleRequest(request);
             return true;
-        } return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

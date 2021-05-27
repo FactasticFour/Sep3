@@ -31,16 +31,21 @@ namespace PersistenceServer.Repository.Impl
         {
             using DataContext dataContext = new DataContext();
 
-            Role r = await dataContext.Roles.FirstOrDefaultAsync(r => r.RoleId == accountToAdd.AccountType.RoleId);
-            accountToAdd.AccountType = r;
+            try
+            {
+                Role r = await dataContext.Roles.FirstOrDefaultAsync(r => r.RoleId == accountToAdd.AccountType.RoleId);
+                accountToAdd.AccountType = r;
 
-            ViaEntity ve = await dataContext.ViaEntities.FirstOrDefaultAsync(ve => ve.ViaId == accountToAdd.ViaEntity.ViaId);
-            accountToAdd.ViaEntity = ve;
+                ViaEntity ve = await dataContext.ViaEntities.FirstOrDefaultAsync(ve => ve.ViaId == accountToAdd.ViaEntity.ViaId);
+                accountToAdd.ViaEntity = ve;
             
-            await dataContext.Accounts.AddAsync(accountToAdd);
-            await dataContext.SaveChangesAsync();
-            
-            Console.WriteLine("hope this worked");
+                await dataContext.Accounts.AddAsync(accountToAdd);
+                await dataContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Account was not created");
+            }
         }
     }
 }
