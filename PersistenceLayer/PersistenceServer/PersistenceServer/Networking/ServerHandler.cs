@@ -57,12 +57,23 @@ namespace PersistenceServer.Networking
                     SendToStream(toSend);
                     break;
                 case Request.ADD_CREDIT_CARD_TO_ACCOUNT:
-                    await RepositoryFactory.GetCreditCardRepository()
-                        .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
-                    payload = ToJson("CARD_ADDED");
-                    reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
-                    toSendToClient = ToJson(reply);
-                    SendToStream(toSendToClient);
+                    try
+                    {
+                        await RepositoryFactory.GetCreditCardRepository()
+                            .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
+                        payload = ToJson("CARD_ADDED");
+                        reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
+                        toSendToClient = ToJson(reply);
+                        SendToStream(toSendToClient);
+                    }
+                    catch (Exception e)
+                    {
+                        reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                        var json = ToJson(reply);
+                        Console.WriteLine($"Reply with exception: {json}");
+                        SendToStream(json);
+                    }
+
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");

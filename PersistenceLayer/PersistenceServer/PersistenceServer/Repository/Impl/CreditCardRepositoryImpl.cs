@@ -13,11 +13,18 @@ namespace PersistenceServer.Repository.Impl
         public async Task AddCreditCardToAccount(CreditCard creditCard)
         {
             await using DataContext dataContext = new DataContext();
-            Account account = dataContext.Accounts.FirstOrDefault(x => x.AccountId.Equals(creditCard.Account.AccountId));
-            creditCard.Account = account;
-            
-            await dataContext.CreditCards.AddAsync(creditCard);
-            await dataContext.SaveChangesAsync();
+            try
+            {
+                Account account =
+                    dataContext.Accounts.First(x => x.AccountId.Equals(creditCard.Account.AccountId));
+                creditCard.Account = account;
+                await dataContext.CreditCards.AddAsync(creditCard);
+                await dataContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Credit card for this account could not be added");
+            }
         }
     }
 }
