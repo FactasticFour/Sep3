@@ -46,19 +46,26 @@ namespace PresentationLayer.Authentication
         public async Task ValidateLogin(string username, string password)
         {
             Console.WriteLine("Validating log in");
-            if (string.IsNullOrEmpty(username)) throw new Exception("Enter username");
-            if (string.IsNullOrEmpty(password)) throw new Exception("Enter password");
-            ClaimsIdentity identity = new ClaimsIdentity();
+            if (string.IsNullOrEmpty(username)) throw new Exception("Please enter username");
+            if (string.IsNullOrEmpty(password)) throw new Exception("Please enter password");
+            if (username.Length == 4 || username.Length == 6)
+            {
+                ClaimsIdentity identity = new ClaimsIdentity();
             
-            Account account = await loginService.ValidateAccountAsync(username, password);
-            identity = SetupClaimsForUser(account);
-            string serialisedData = JsonSerializer.Serialize(account);
-            Console.WriteLine($"Serialized data: {serialisedData}");
-            await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
-            Console.WriteLine("after jsRuntime");
-            cachedUser = account;
+                Account account = await loginService.ValidateAccountAsync(username, password);
+                identity = SetupClaimsForUser(account);
+                string serialisedData = JsonSerializer.Serialize(account);
+                Console.WriteLine($"Serialized data: {serialisedData}");
+                await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
+                Console.WriteLine("after jsRuntime");
+                cachedUser = account;
 
-            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
+                NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
+            }
+            else
+            {
+                throw new Exception("Username should be 6 or 4 char long");
+            }
         }
 
         public async Task Logout()
