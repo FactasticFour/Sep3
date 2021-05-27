@@ -25,8 +25,7 @@ public class LoginController {
              Account account = loginService.validateAccount(password, username);
              return account;
         } catch (Exception e) {
-            System.out.println("---------------" + e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 }

@@ -6,6 +6,7 @@ import dk.via.sep3.group1.applicationlogic.shared.Request;
 import dk.via.sep3.group1.applicationlogic.shared.Serialization;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.serializer.support.SerializationFailedException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -43,6 +44,12 @@ public class DataClientImpl implements DataClient {
         String serializedReply = readBytes(inputStream);
         reply = Serialization.deserialize(serializedReply, Reply.class);
 
+        // TODO
+        if (reply.getType().equals(reply.BAD_REQUEST))
+        {
+                String deserialize = reply.getPayload();
+                throw new RuntimeException(deserialize);
+        }
         return reply;
     }
 
