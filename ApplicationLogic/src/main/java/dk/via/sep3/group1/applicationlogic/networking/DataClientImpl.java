@@ -1,6 +1,7 @@
 package dk.via.sep3.group1.applicationlogic.networking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import dk.via.sep3.group1.applicationlogic.shared.Serialization;
@@ -44,7 +45,7 @@ public class DataClientImpl implements DataClient {
         String serializedReply = readBytes(inputStream);
         reply = Serialization.deserialize(serializedReply, Reply.class);
 
-        // TODO
+        // TODO everyone add this and catch in tour controller
         if (reply.getType().equals(reply.BAD_REQUEST))
         {
                 String deserialize = reply.getPayload();
