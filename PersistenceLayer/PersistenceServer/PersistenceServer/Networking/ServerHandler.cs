@@ -60,7 +60,8 @@ namespace PersistenceServer.Networking
                     float balance = await RepositoryFactory.GetAccountRepository().getAcountBalance(ToObject<int>(requestFromClient.Payload));
                     payload = ToJson(balance);
                     reply = new Reply(Reply.SEND_ACCOUNT_BALANCE, payload);
-                    toSendToClient = ToJson(reply);
+                    string floatToSend = ToJson(reply);
+                    SendToStream(floatToSend);
                     break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");

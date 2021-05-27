@@ -26,6 +26,7 @@ public class AccountDAOImpl implements AccountDAO {
         Reply reply = dataClient.handleRequest(request);
         if (reply.getType().equals(reply.SEND_ACCOUNT_BALANCE)) {
             float balance = Serialization.deserialize(reply.getPayload(), float.class);
+            System.out.println(reply.getPayload());
             return balance;
         }
         else {
