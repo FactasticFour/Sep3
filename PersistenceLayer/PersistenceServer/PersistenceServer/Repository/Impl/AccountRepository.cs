@@ -13,7 +13,6 @@ namespace PersistenceServer.Repository.Impl
             Console.WriteLine($"Username from handler: {username}");
             await using DataContext dataContext = new DataContext();
             Account account;
-            
             try
             {
                 account = await dataContext.Accounts.Include(c => c.ViaEntity).Include(a => a.AccountType)
