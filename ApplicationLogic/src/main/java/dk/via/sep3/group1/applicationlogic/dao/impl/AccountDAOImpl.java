@@ -26,21 +26,5 @@ public class AccountDAOImpl implements AccountDAO {
 
         Reply reply = dataClient.handleRequest(request);
         return Serialization.deserialize(reply.getPayload(), Account.class);
-
-        // remove if - wwe do not catch anything
-        //if (reply.getType().equals(reply.ACCOUNT_BY_USERNAME)) {
-
-            /*
-        } else {
-            //TODO move to the handler
-            try {
-                String deserialize = Serialization.deserialize(reply.getPayload(), String.class);
-                throw new Exception(deserialize);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new SerializationFailedException("Reply could not be deserialized");
-            }
-        }
-             */
     }
 }

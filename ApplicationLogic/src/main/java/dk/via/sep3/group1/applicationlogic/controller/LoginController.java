@@ -21,14 +21,12 @@ public class LoginController {
         System.out.println("Controller - Username from client: " + username);
         System.out.println("Controller - Password from client: " + password);
 
-        // TODO catch exception here -- send status code and send original message
         try {
             Account account = loginService.validateAccount(password, username);
-            System.out.println(account.getApplicationPassword());
             return new ResponseEntity(account, HttpStatus.OK);
-            //return account;
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
+
