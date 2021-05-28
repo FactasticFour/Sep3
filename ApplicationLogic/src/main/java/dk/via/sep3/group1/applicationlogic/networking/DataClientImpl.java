@@ -42,11 +42,7 @@ public class DataClientImpl implements DataClient {
         writeBytes(request, outputStream);
         String serializedReply = readBytes(inputStream);
         reply = Serialization.deserialize(serializedReply, Reply.class);
-        if (reply.getType().equals(reply.BAD_REQUEST))
-        {
-            String deserialize = reply.getPayload();
-            throw new RuntimeException(deserialize);
-        }
+
         return reply;
     }
 

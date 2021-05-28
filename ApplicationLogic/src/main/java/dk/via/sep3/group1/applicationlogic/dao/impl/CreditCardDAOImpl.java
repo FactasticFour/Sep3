@@ -16,11 +16,21 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     DataClientImpl dataClient;
 
     @Override
-    public String addCreditCardToAccount(CreditCard creditCard) {
+    public String addCreditCardToAccount(CreditCard creditCard) throws IllegalAccessException {
         Request request = new Request();
         request.setPayload(Serialization.serialize(creditCard));
         request.setType(request.ADD_CREDIT_CARD_TO_ACCOUNT);
         Reply reply = dataClient.handleRequest(request);
-        return Serialization.deserialize(reply.getPayload(), String.class);
+        System.out.println("XXXXXXXXXXX");
+        System.out.println(reply.getPayload());
+        System.out.println(reply.getType());
+        if(reply.getType().equals(reply.BAD_REQUEST)){
+            throw new IllegalAccessException(reply.getPayload());
+           
+        }
+        else {
+            return Serialization.deserialize(reply.getPayload(), String.class);
+        }
+
     }
 }

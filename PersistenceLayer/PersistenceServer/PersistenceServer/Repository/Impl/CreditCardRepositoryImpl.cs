@@ -20,21 +20,12 @@ namespace PersistenceServer.Repository.Impl
                 Console.WriteLine(creditCard.CreditCardNumber);
                 Console.WriteLine(creditCard.Account.AccountId);
                 Console.WriteLine(creditCard.Account.ApplicationPassword);
-                if (dataContext.CreditCards.First(y => y.CreditCardNumber == creditCard.CreditCardNumber)
-                    .CreditCardNumber == creditCard.CreditCardNumber)
-                {
-                    Console.WriteLine("XXX");
-                    dataContext.CreditCards.Update(creditCard);
-                }
-                else
-                {
-                    await dataContext.CreditCards.AddAsync(creditCard);
-                }
+                await dataContext.CreditCards.AddAsync(creditCard);
                 await dataContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                throw new Exception($"Credit card for this account could not be added");
+                throw new Exception($"This account already has a credit card");
             }
         }
     }
