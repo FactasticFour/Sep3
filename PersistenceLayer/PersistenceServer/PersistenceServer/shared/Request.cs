@@ -4,6 +4,7 @@
     {
         public const string  GET_USER_BY_ID = "GET_USER_BY_ID";
         public const string  SEED_DATABASE = "SEED_DATABASE";
+        public const string GET_ACCOUNT_BY_USERNAME = "GET_ACCOUNT_BY_USERNAME";
         public const string  GET_ENTITY_WITH_ID = "GET_ENTITY_WITH_ID";
         public const string  GET_MEMBER_WITH_ID = "GET_MEMBER_WITH_ID";
         public const string  GET_FACILITY_WITH_ID = "GET_FACILITY_WITH_ID";

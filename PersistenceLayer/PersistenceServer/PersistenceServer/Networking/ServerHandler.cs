@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.CompilerServices;
 using PersistenceServer.Data;
@@ -39,6 +40,7 @@ namespace PersistenceServer.Networking
 
             switch (requestFromClient.Type)
             {
+                
                 case Request.GET_USER_BY_ID:
                     User result = await RepositoryFactory.GetUserRepository()
                         .GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
@@ -56,6 +58,9 @@ namespace PersistenceServer.Networking
                     string toSend = ToJson(seedingSuccessReply);
 
                     SendToStream(toSend);
+                    break;
+                case Request.GET_ACCOUNT_BY_USERNAME:
+                    await getAccountByUsername(requestFromClient);
                     break;
                 case Request.GET_ENTITY_WITH_ID:
                     await GetEntityWithId(requestFromClient);
@@ -85,8 +90,30 @@ namespace PersistenceServer.Networking
                     break;
             }
 
-            // TODO catching a bad request and passing it to the logic to handle it
             stream.Close();
+        }
+
+        private async Task getAccountByUsername(Request requestFromClient)
+        {
+            try
+            {
+                Account account = await RepositoryFactory.GetAccountRepository()
+                    .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
+                
+                Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
+                string payloadAccount = ToJson(account);
+                Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
+                string json = ToJson(replyAc);
+                Console.WriteLine(json);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                var json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
         }
 
         private async Task AddAccount(Request requestFromClient)
@@ -218,6 +245,7 @@ namespace PersistenceServer.Networking
             });
             return deserializeResult;
         }
+
 
         private string ToJson<T>(T objToSerialize)
         {

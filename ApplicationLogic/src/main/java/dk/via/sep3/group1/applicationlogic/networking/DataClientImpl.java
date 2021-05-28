@@ -1,11 +1,13 @@
 package dk.via.sep3.group1.applicationlogic.networking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import dk.via.sep3.group1.applicationlogic.shared.Serialization;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.serializer.support.SerializationFailedException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.net.Socket;
 
 @Service @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DataClientImpl implements DataClient {
+
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -45,7 +48,6 @@ public class DataClientImpl implements DataClient {
         if (reply.getType().equals(reply.BAD_REQUEST))
         {
             String deserialize = reply.getPayload();
-            System.out.println("** Data client received exception: " + deserialize);
             throw new RuntimeException(deserialize);
         }
         return reply;

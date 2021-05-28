@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Request {
     public final String GET_USER_BY_ID = "GET_USER_BY_ID";
     public final String SEED_DATABASE = "SEED_DATABASE";
+    public final String GET_ACCOUNT_BY_USERNAME = "GET_ACCOUNT_BY_USERNAME";
     public final String GET_ENTITY_WITH_ID = "GET_ENTITY_WITH_ID";
     public final String GET_MEMBER_WITH_ID = "GET_MEMBER_WITH_ID";
     public final String GET_FACILITY_WITH_ID = "GET_FACILITY_WITH_ID";
