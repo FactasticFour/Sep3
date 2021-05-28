@@ -18,6 +18,9 @@ namespace PersistenceServer.Repository.Impl
                 Account account =
                     dataContext.Accounts.First(x => x.AccountId.Equals(creditCard.Account.AccountId));
                 creditCard.Account = account;
+                Console.WriteLine(creditCard.CreditCardNumber);
+                Console.WriteLine(creditCard.Account.AccountId);
+                Console.WriteLine(creditCard.Account.ApplicationPassword);
                 await dataContext.CreditCards.AddAsync(creditCard);
                 await dataContext.SaveChangesAsync();
             }
