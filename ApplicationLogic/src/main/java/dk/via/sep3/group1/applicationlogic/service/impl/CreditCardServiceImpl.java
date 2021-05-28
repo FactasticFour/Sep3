@@ -19,7 +19,12 @@ public class CreditCardServiceImpl implements CreditCardService {
                 creditCard.getSecurityCode() < 0 || creditCard.getSecurityCode() > 999) {
             throw new IllegalAccessException("Provided credit card information is invalid");
         } else {
-            creditCardDAO.addCreditCardToAccount(creditCard);
+            try {
+                creditCardDAO.addCreditCardToAccount(creditCard);
+            }
+            catch (Exception e){
+                throw new IllegalAccessException(creditCardDAO.addCreditCardToAccount(creditCard));
+            }
         }
     }
 }

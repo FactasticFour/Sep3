@@ -9,19 +9,27 @@ namespace PersistenceServer.Repository.Impl
 {
     public class CreditCardRepositoryImpl : ICreditCardRepository
     {
-
         public async Task AddCreditCardToAccount(CreditCard creditCard)
         {
             await using DataContext dataContext = new DataContext();
             try
             {
                 Account account =
-                    dataContext.Accounts.First(x => x.AccountId.Equals(creditCard.Account.AccountId));
+                  await  dataContext.Accounts.FirstAsync(x => x.AccountId.Equals(creditCard.Account.AccountId));
                 creditCard.Account = account;
                 Console.WriteLine(creditCard.CreditCardNumber);
                 Console.WriteLine(creditCard.Account.AccountId);
                 Console.WriteLine(creditCard.Account.ApplicationPassword);
-                await dataContext.CreditCards.AddAsync(creditCard);
+                if (dataContext.CreditCards.First(y => y.CreditCardNumber == creditCard.CreditCardNumber)
+                    .CreditCardNumber == creditCard.CreditCardNumber)
+                {
+                    Console.WriteLine("XXX");
+                    dataContext.CreditCards.Update(creditCard);
+                }
+                else
+                {
+                    await dataContext.CreditCards.AddAsync(creditCard);
+                }
                 await dataContext.SaveChangesAsync();
             }
             catch (Exception e)

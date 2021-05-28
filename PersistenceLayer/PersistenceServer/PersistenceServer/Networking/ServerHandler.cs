@@ -29,6 +29,7 @@ namespace PersistenceServer.Networking
             {
                 string readFromStream = ReadFromStream();
                 requestFromClient = ToObject<Request>(readFromStream);
+                Console.WriteLine(requestFromClient.Payload);
             }
             catch (Exception e)
             {
