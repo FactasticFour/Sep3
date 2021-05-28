@@ -28,7 +28,7 @@ public class LoginServiceImpl implements LoginService {
             return account;
         }
 
-        throw new IllegalAccessException("Passwords do not match");
+        throw new IllegalAccessException("Not found. Please check credentials");
     }
 }
 
