@@ -31,5 +31,62 @@ namespace PresentationLayer.Data.Implementation
             
             return "Card Added Successfully!";
         }
+        
+        public async Task<bool> CheckCreditCard(int id)
+            {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcard/checkcreditcard/{id}");
+
+            Console.WriteLine("it got here");
+            
+                if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+                
+            string result = await responseMessage.Content.ReadAsStringAsync();
+
+            Console.WriteLine("Response got to service");
+            
+            bool response = JsonSerializer.Deserialize<bool>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            Console.WriteLine("response deserialized");
+                return response;
+            }
+        
+            public async Task<bool> DepositMoney(Account account)
+            {
+                HttpClient client = new HttpClient();
+                string todoAsJson = JsonSerializer.Serialize(account, new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+                HttpContent content = new StringContent(todoAsJson,
+                    Encoding.UTF8,
+                    "application/json");
+                HttpResponseMessage responseMessage =
+                    await client.PatchAsync("http://localhost:8080/creditcard/depositmoney", content);
+                
+                 if (!responseMessage.IsSuccessStatusCode)
+                 {
+                     throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+                 }
+                
+                string result = await responseMessage.Content.ReadAsStringAsync();
+
+                bool response = JsonSerializer.Deserialize<bool>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                Console.WriteLine("response deserialized");
+                return response;
+                
+
+            }
+        
     }
+    
+    
 }
