@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using PresentationLayer.Models;
 
 namespace PresentationLayer.Data.Implementation
 {
     public class CreditCardService : ICreditCardService
     {
-        public async Task<bool> AddCreditCardToAccount(CreditCard creditCardFromPage)
+        public async Task<string> AddCreditCardToAccount(CreditCard creditCardFromPage)
         {
            
             HttpClient client = new HttpClient();
-            String creditCard = JsonSerializer.Serialize(creditCardFromPage, new JsonSerializerOptions()
+            String creditcard = JsonSerializer.Serialize(creditCardFromPage, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
-            Console.WriteLine(creditCard);
-            HttpResponseMessage responseMessage = await client.GetAsync($"http://localhost:8080/creditcards/{creditCard}");
+            Uri u = new Uri("http://localhost:8080/creditcards/addcreditcard");
+            HttpContent c = new StringContent(creditcard, Encoding.UTF8, "application/json");
             
-            if (!responseMessage.IsSuccessStatusCode)
+            HttpResponseMessage response = await client.PostAsync(u, c);
+
+            if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+                throw new Exception($"{response.Content.ReadAsStringAsync().Result}");
             }
-
-            string result = await responseMessage.Content.ReadAsStringAsync();
-
-            bool ifAdded = JsonSerializer.Deserialize<bool>(result, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
             
-            return ifAdded;
+            return "Card Added Successfully!";
         }
     }
 }

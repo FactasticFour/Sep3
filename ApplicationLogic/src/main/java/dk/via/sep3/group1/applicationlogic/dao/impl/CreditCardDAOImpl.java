@@ -21,12 +21,6 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         request.setPayload(Serialization.serialize(creditCard));
         request.setType(request.ADD_CREDIT_CARD_TO_ACCOUNT);
         Reply reply = dataClient.handleRequest(request);
-        if(reply.getType().equals(reply.VERIFY_CREDIT_CARD_TO_ACCOUNT)){
-            return Serialization.deserialize(reply.getPayload(), String.class);
-
-        }
-        else {
-            throw new NullPointerException(reply.BAD_REQUEST);
-        }
+        return Serialization.deserialize(reply.getPayload(), String.class);
     }
 }

@@ -14,14 +14,12 @@ public class CreditCardServiceImpl implements CreditCardService {
     CreditCardDAO creditCardDAO;
 
     @Override
-    public boolean addCreditCardToAccount(CreditCard creditCard) {
-        System.out.println(creditCard.toString());
-        String isAdded = creditCardDAO.addCreditCardToAccount(creditCard);
+    public void addCreditCardToAccount(CreditCard creditCard) throws IllegalAccessException {
         if (creditCard.getCreditCardNumber().length() != 16 || creditCard.getFirstName() == null || creditCard.getLastName() == null ||
-                creditCard.getSecurityCode() < 0 || creditCard.getSecurityCode() > 999 || !isAdded.equals("CARD_ADDED")) {
-            return false;
+                creditCard.getSecurityCode() < 0 || creditCard.getSecurityCode() > 999) {
+            creditCardDAO.addCreditCardToAccount(creditCard);
         } else {
-            return true;
+            throw new IllegalAccessException("Provided credit card information is invalid");
         }
     }
 }

@@ -74,7 +74,7 @@
 <label style="color:red">@securitycodelabel</label>
 <br>
 <button @onclick="addCreditCardToAccount">Save</button>
-<label style="color:green">@cardadded</label><label style="color:red">@cardnotadded</label>
+<label style="color:green">@cardLabel</label><label style="color:red">@exception</label>
 
 @code {
     private string fname;
@@ -88,11 +88,9 @@
     private string lnamelabel = "";
     private string creditcardnumberlabel = "";
     private string securitycodelabel = "";
-
-    string cardadded = "";
-    string cardnotadded = "";
     
-    private bool isAdded =true;
+    private string cardLabel = "";
+    private string exception = "";
 
     async Task addCreditCardToAccount()
     {
@@ -120,20 +118,24 @@
         Account account = new Account(); //====================> TODO get user that is logged in <==========================
         account.AccountId = 1;
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 9000000, account);
-       
-        isAdded = await CreditCardService.AddCreditCardToAccount(creditCard);
 
-        if (isAdded)
+        try
         {
-            cardadded = "Card successfully added!";  
+            cardLabel = await CreditCardService.AddCreditCardToAccount(creditCard);
+
+        }
+        catch (Exception e)
+        {
+            exception = e.Message;
+            throw;
+        }
+       
+        if (cardLabel.Equals("card"))
+        {
             fname = "";
             lname = "";
             creditcardnumber = "";
             securitycode = 0;
-        }
-        else
-        {
-            cardnotadded = "Card not added!";
         }
 
     }
