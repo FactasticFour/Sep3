@@ -7,6 +7,8 @@ public class Reply {
     public final String BAD_REQUEST = "BAD_REQUEST";
     public final String SEEDING_SUCCESS = "SEEDING_SUCCESS";
     public final String VERIFY_CREDIT_CARD_TO_ACCOUNT = "VERIFY_CREDIT_CARD_TO_ACCOUNT";
+    public final String CHECK_CREDIT_CARD_REPLY = "CHECK_CREDIT_CARD_REPLY";
+    public final String DEPOSIT_MONEY_REPLY = "DEPOSIT_MONEY_REPLY";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

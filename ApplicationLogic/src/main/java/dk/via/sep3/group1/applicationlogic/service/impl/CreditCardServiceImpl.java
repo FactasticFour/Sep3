@@ -1,6 +1,7 @@
 package dk.via.sep3.group1.applicationlogic.service.impl;
 
 import dk.via.sep3.group1.applicationlogic.dao.CreditCardDAO;
+import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.CreditCard;
 import dk.via.sep3.group1.applicationlogic.service.CreditCardService;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
@@ -23,5 +24,15 @@ public class CreditCardServiceImpl implements CreditCardService {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public boolean checkCreditCard(int id) {
+        return creditCardDAO.checkCreditCard(id);
+    }
+
+    @Override
+    public boolean depositMoney(Account account) {
+        return creditCardDAO.depositMoney(account);
     }
 }

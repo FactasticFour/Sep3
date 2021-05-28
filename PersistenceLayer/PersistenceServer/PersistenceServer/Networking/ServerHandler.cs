@@ -64,6 +64,14 @@ namespace PersistenceServer.Networking
                     toSendToClient = ToJson(reply);
                     SendToStream(toSendToClient);
                     break;
+                case Request.CHECK_CREDIT_CARD:
+                    string replyForCheckCreditCard = CheckCreditCard(requestFromClient).GetAwaiter().GetResult();
+                    SendToStream(replyForCheckCreditCard);
+                    break;
+                case Request.DEPOSIT_MONEY:
+                    string replyForDepositMoney = DepositMoney(requestFromClient).GetAwaiter().GetResult();
+                    SendToStream(replyForDepositMoney);
+                    break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
@@ -73,6 +81,26 @@ namespace PersistenceServer.Networking
             stream.Close();
         }
 
+        private async Task<string> CheckCreditCard(Request requestFromClient)
+        {
+            Boolean response = await RepositoryFactory.GetCreditCardRepository()
+                .CheckCreditCard(ToObject<int>(requestFromClient.Payload));
+            string payload = ToJson(response);
+            Reply reply = new Reply(Reply.CHECK_CREDIT_CARD_REPLY, payload);
+            Console.WriteLine("Reply built and sent back from check credit card");
+            return ToJson(reply);
+        }
+
+        private async Task<string> DepositMoney(Request requestFromClient)
+        {
+            Boolean response = await RepositoryFactory.GetCreditCardRepository()
+                .DepositMoney(ToObject<Account>(requestFromClient.Payload));
+            string payload = ToJson(response);
+            Reply reply = new Reply(Reply.DEPOSIT_MONEY_REPLY, payload);
+            Console.WriteLine("Reply built and sent back from deposit money");
+            return ToJson(reply);
+        }
+        
         private string ReadFromStream()
         {
             byte[] dataFromClient = new byte[1024];
@@ -104,5 +132,6 @@ namespace PersistenceServer.Networking
 
             return serialized;
         }
+
     }
 }
