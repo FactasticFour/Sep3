@@ -4,6 +4,7 @@
 @using System.Threading
 @using System.Text.RegularExpressions
 @inject ICreditCardService CreditCardService
+<div class="d-flex flex-column justify-content-around align-items-center">
 <h3>Add Credit Card</h3><br>
 
 <label>First Name:</label><br>
@@ -75,7 +76,7 @@
 <br>
 <button @onclick="addCreditCardToAccount">Save</button>
 <label style="color:green">@cardLabel</label><label style="color:red">@exception</label>
-
+</div>
 @code {
     private string fname;
     private string lname;
