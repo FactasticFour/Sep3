@@ -36,7 +36,12 @@ public class AccountServiceImpl implements AccountService {
                     if (dbMember != null){
                         return dbMember;
                     } else {
-                        return facilityDAO.getFacilityWithId(entityToCheck.getViaId());
+                        Facility facility = facilityDAO.getFacilityWithId(entityToCheck.getViaId());
+                        if (facility != null){
+                            return facility;
+                        } else {
+                            throw new Exception("Not found. Please check credentials");
+                        }
                     }
                 } else {
                     throw new Exception(entityToCheck.getViaId() + " already has an account");
