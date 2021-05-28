@@ -3,7 +3,6 @@ package dk.via.sep3.group1.applicationlogic.dao.impl;
 import dk.via.sep3.group1.applicationlogic.dao.CreditCardDAO;
 import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.CreditCard;
-import dk.via.sep3.group1.applicationlogic.model.User;
 import dk.via.sep3.group1.applicationlogic.networking.DataClientImpl;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
