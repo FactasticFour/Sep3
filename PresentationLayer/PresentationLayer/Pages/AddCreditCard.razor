@@ -95,6 +95,7 @@
 
     async Task addCreditCardToAccount()
     {
+        cardLabel = "";
         if (fname == "" || fname is null)
         {
             fnamelabel = "Field cannot be empty!";
@@ -136,6 +137,17 @@
             lname = "";
             creditcardnumber = "";
             securitycode = 0;
+            fnamelabel = "";
+            lnamelabel = "";
+            creditcardnumberlabel = "";
+            securitycodelabel = "";
+            exception = "";
+            fname = null;
+            lname = null;
+            creditcardnumber = null;
+            securitycode = 0;
+            expirationmonth = null;
+            expirationyear = null;
         }
 
     }

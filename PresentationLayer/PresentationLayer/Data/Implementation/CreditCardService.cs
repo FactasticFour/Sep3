@@ -28,8 +28,16 @@ namespace PresentationLayer.Data.Implementation
             {
                 throw new Exception($"{response.Content.ReadAsStringAsync().Result}");
             }
-            
-            return "Card Added Successfully!";
+
+            if (response.Content.ReadAsStringAsync().Result.Equals("Provided credit card information is invalid"))
+            {
+                return "";
+            }
+            else
+            {
+                return "Card Added Successfully!";
+            }
+           
         }
         
         public async Task<bool> CheckCreditCard(int id)
