@@ -16,11 +16,9 @@ namespace PersistenceServer.Repository.Impl
             try
             {
                 account = await dataContext.Accounts.FirstAsync(a => a.ViaEntity.ViaId == viaId);
-                Console.WriteLine("found account");
             }
             catch (Exception e)
             {
-                Console.WriteLine("throwing exception");
                 throw new Exception($"Account with via id {viaId} does not exist");
             }
             

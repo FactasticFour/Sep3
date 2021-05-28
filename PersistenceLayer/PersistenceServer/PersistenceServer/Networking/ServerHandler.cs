@@ -95,7 +95,6 @@ namespace PersistenceServer.Networking
             {
                 await RepositoryFactory.GetAccountRepository()
                     .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
-                Console.WriteLine("back to server handler");
                 Reply reply = new Reply(Reply.ACCOUNT_CREATED, null);
                 
                 SendToStream(ToJson(reply));
