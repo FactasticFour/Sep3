@@ -43,7 +43,7 @@ namespace PersistenceServer.Repository.Impl
             }
             catch (Exception e)
             {
-                throw new Exception($"Account with via id {viaId} does not exist");
+                throw new Exception($"Not found. Please check credentials");
             }
             
             return account;

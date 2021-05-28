@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
                     throw new Exception(entityToCheck.getViaId() + " already has an account");
                 }
             } else{
-                throw new IllegalAccessException("Wrong password");
+                throw new IllegalAccessException("Not found. Please check credentials");
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
