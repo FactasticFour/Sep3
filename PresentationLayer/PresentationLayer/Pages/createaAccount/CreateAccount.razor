@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             VIA password:<br/>
-            <InputText @bind-Value="viaEntityModel.Password"/>
+            <InputText type="password" @bind-Value="viaEntityModel.Password"/>
         </div>
         <p class="actions">
             <button class="btn btn-outline-dark" type="submit">Find Account</button>
@@ -59,12 +59,12 @@
             <label style="color:red">@appPasswordErrorLabel</label>
             <div class="form-group">
                 App password:<br/>
-                <InputText @bind-Value="accountModel.ApplicationPassword"/>
+                <InputText type="password" @bind-Value="accountModel.ApplicationPassword"/>
             </div>
 
             <div class="form-group">
                 Retype password:<br/>
-                <InputText @bind-Value="@appPasswordVerification"/>
+                <InputText type="password" @bind-Value="@appPasswordVerification"/>
             </div>
 
             <label style="color:red">@termsAndConditionsErrorLabel</label>

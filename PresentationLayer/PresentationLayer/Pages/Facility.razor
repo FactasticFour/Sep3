@@ -4,7 +4,7 @@
 <h3>Facility</h3>
 
 <AuthorizeView>
-    <p>Has ccount id @context.User.Identity.Name</p>
+    <p>Has account id @context.User.Identity.Name</p>
     <p>Role is: @context.User.FindFirst(claim => claim.Type.Equals("Role")).Value</p>
 </AuthorizeView>
 
