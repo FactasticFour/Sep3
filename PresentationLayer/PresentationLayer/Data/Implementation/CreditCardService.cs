@@ -18,7 +18,7 @@ namespace PresentationLayer.Data.Implementation
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
-            Uri u = new Uri("http://localhost:8080/creditcards/addcreditcard");
+            Uri u = new Uri("http://localhost:8080/creditcard/addcreditcard");
             HttpContent c = new StringContent(creditcard, Encoding.UTF8, "application/json");
             
             

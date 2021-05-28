@@ -2,6 +2,7 @@ package dk.via.sep3.group1.applicationlogic.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.CreditCard;
 import dk.via.sep3.group1.applicationlogic.service.CreditCardService;
 import dk.via.sep3.group1.applicationlogic.shared.Serialization;

@@ -16,7 +16,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public void addCreditCardToAccount(CreditCard creditCard) throws IllegalAccessException {
-        if (creditCard.getCreditCardNumber().length() != 16 || creditCard.getFirstName() == null || creditCard.getLastName() == null ||
+        if (creditCard.getCreditCardNumber() == null || creditCard.getCreditCardNumber().length() != 16 || creditCard.getCreditCardNumber() == null ||creditCard.getFirstName() == null || creditCard.getLastName() == null ||
                 creditCard.getSecurityCode() < 0 || creditCard.getSecurityCode() > 999) {
             throw new IllegalAccessException("Provided credit card information is invalid");
         } else {
