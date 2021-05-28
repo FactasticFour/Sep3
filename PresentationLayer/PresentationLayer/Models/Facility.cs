@@ -7,5 +7,7 @@ namespace PresentationLayer.Models
         [Required, MaxLength(256)]
         public string Name { get; set; }
         public Campus Campus { get; set; }
+        public Account Account { get; set; }
+        
     }
 }

@@ -3,9 +3,16 @@ package dk.via.sep3.group1.applicationlogic.shared;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Reply {
-    public final String SEND_USER = "SEND_USER";
-    public final String BAD_REQUEST = "BAD_REQUEST";
     public final String SEEDING_SUCCESS = "SEEDING_SUCCESS";
+    public final String ACCOUNT_BY_USERNAME = "ACCOUNT_BY_USERNAME";
+    public final String BAD_REQUEST = "BAD_REQUEST";
+    public final String SEND_ENTITY = "SEND_ENTITY";
+    public final String SEND_MEMBER = "SEND_MEMBER";
+    public final String SEND_FACILITY = "SEND_FACILITY";
+    public final String SEND_ALL_ACCOUNT_TYPES = "SEND_ALL_ACCOUNT_TYPES";
+    public final String SEND_ROLE = "SEND_ROLE";
+    public final String SEND_ACCOUNT = "SEND_ACCOUNT";
+    public final String ACCOUNT_ADDED = "ACCOUNT_ADDED";
     public final String VERIFY_CREDIT_CARD_TO_ACCOUNT = "VERIFY_CREDIT_CARD_TO_ACCOUNT";
     public final String CHECK_CREDIT_CARD_REPLY = "CHECK_CREDIT_CARD_REPLY";
     public final String DEPOSIT_MONEY_REPLY = "DEPOSIT_MONEY_REPLY";

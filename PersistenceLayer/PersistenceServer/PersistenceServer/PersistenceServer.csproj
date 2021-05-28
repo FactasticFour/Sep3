@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <Compile Include="obj\Debug\net5.0\.NETCoreApp,Version=v5.0.AssemblyAttributes.cs" />
+      <Compile Remove="Migrations\DataContextModelSnapshot.cs" />
     </ItemGroup>
 
     <ItemGroup>

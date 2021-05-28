@@ -36,4 +36,13 @@ public class Member extends ViaEntity{
     public void setCpr(long cpr) {
         this.cpr = cpr;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", cpr=" + cpr +
+                '}';
+    }
 }

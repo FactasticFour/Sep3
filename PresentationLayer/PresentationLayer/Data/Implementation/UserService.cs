@@ -26,6 +26,8 @@ namespace PresentationLayer.Data.Implementation
             });
             
             
+
+            Console.WriteLine(user.UserId);
             return user;
         }
         private T ToObject<T>(String element)

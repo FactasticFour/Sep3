@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.CompilerServices;
 using PersistenceServer.Data;
@@ -29,7 +31,6 @@ namespace PersistenceServer.Networking
             {
                 string readFromStream = ReadFromStream();
                 requestFromClient = ToObject<Request>(readFromStream);
-                Console.WriteLine(requestFromClient.Payload);
             }
             catch (Exception e)
             {
@@ -41,7 +42,8 @@ namespace PersistenceServer.Networking
             {
                 
                 case Request.GET_USER_BY_ID:
-                    User result = await RepositoryFactory.GetUserRepository().GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
+                    User result = await RepositoryFactory.GetUserRepository()
+                        .GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
 
                     string payload = ToJson(result);
                     Console.WriteLine(payload);
@@ -54,8 +56,32 @@ namespace PersistenceServer.Networking
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     Reply seedingSuccessReply = new Reply(Reply.SEEDING_SUCCESS, null);
                     string toSend = ToJson(seedingSuccessReply);
-                    
+
                     SendToStream(toSend);
+                    break;
+                case Request.GET_ACCOUNT_BY_USERNAME:
+                    await getAccountByUsername(requestFromClient);
+                    break;
+                case Request.GET_ENTITY_WITH_ID:
+                    await GetEntityWithId(requestFromClient);
+                    break;
+                case Request.GET_MEMBER_WITH_ID:
+                    await GetMemberWithId(requestFromClient);
+                    break;
+                case Request.GET_FACILITY_WITH_ID:
+                    await GetFacilityWithId(requestFromClient);
+                    break;
+                case Request.GET_ALL_ACCOUNT_TYPES:
+                    await GEtAllAccountTypes();
+                    break;
+                case Request.GET_ROLE_WITH_TYPE:
+                    await GetRoleWithType(requestFromClient);
+                    break;
+                case Request.GET_ACCOUNT_WITH_VIA_ID:
+                    await GetAccountWithViaId(requestFromClient);
+                    break;
+                case Request.ADD_ACCOUNT:
+                    await AddAccount(requestFromClient);
                     break;
                 case Request.ADD_CREDIT_CARD_TO_ACCOUNT:
                     try
@@ -92,6 +118,137 @@ namespace PersistenceServer.Networking
             }
             stream.Close();
         }
+
+        private async Task getAccountByUsername(Request requestFromClient)
+        {
+            try
+            {
+                Account account = await RepositoryFactory.GetAccountRepository()
+                    .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
+                
+                Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
+                string payloadAccount = ToJson(account);
+                Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
+                string json = ToJson(replyAc);
+                Console.WriteLine(json);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                var json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+
+        private async Task AddAccount(Request requestFromClient)
+        {
+            try
+            {
+                await RepositoryFactory.GetAccountRepository()
+                    .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
+                Reply reply = new Reply(Reply.ACCOUNT_CREATED, null);
+                
+                SendToStream(ToJson(reply));
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+
+        private async Task GetAccountWithViaId(Request requestFromClient)
+        {
+            try
+            {
+                Account account = await RepositoryFactory.GetAccountRepository()
+                    .GetAccountWithViaId(ToObject<int>(requestFromClient.Payload));
+
+                string payload = ToJson(account);
+                Reply reply = new Reply(Reply.SEND_ACCOUNT, payload);
+
+                string json = ToJson(reply);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+
+        private async Task GetRoleWithType(Request requestFromClient)
+        {
+            Role role = await RepositoryFactory.GetRoleRepository()
+                .GetRoleWithTypeAsync(ToObject<string>(requestFromClient.Payload));
+
+            string roleAsString = ToJson(role);
+            Reply roleReply = new Reply(Reply.SEND_ROLE, roleAsString);
+
+            SendToStream(ToJson(roleReply));
+        }
+
+        private async Task GEtAllAccountTypes()
+        {
+            List<string> allAccountTypes =
+                await RepositoryFactory.GetRoleRepository().GetAllAccountTypesAsync();
+
+            string allAccountTypesAsString = ToJson(allAccountTypes);
+            Reply allAccountTypesReply = new Reply(Reply.SEND_ALL_ACCOUNT_TYPES, allAccountTypesAsString);
+
+            SendToStream(ToJson(allAccountTypesReply));
+        }
+
+        private async Task GetFacilityWithId(Request requestFromClient)
+        {
+            Facility facility = await RepositoryFactory.GetFacilityRepository()
+                .GetFacilityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+            string facilityAsString = ToJson(facility);
+            Reply facilityReply = new Reply(Reply.SEND_FACILITY, facilityAsString);
+
+            SendToStream(ToJson(facilityReply));
+        }
+
+        private async Task GetMemberWithId(Request requestFromClient)
+        {
+            Member member = await RepositoryFactory.GetMemberRepository()
+                .GetMemberWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+            string memberAsString = ToJson(member);
+            Reply memberReply = new Reply(Reply.SEND_MEMBER, memberAsString);
+
+            SendToStream(ToJson(memberReply));
+        }
+
+        private async Task GetEntityWithId(Request requestFromClient)
+        {
+            try
+            {
+                ViaEntity viaEntity = await RepositoryFactory.GetViaEntityRepository()
+                    .GetViaEntityWithIdAsync(ToObject<int>(requestFromClient.Payload));
+
+                string payload = ToJson(viaEntity);
+                Reply reply = new Reply(Reply.SEND_ENTITY, payload);
+
+                string json = ToJson(reply);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+
 
         private async Task<string> CheckCreditCard(Request requestFromClient)
         {
@@ -144,6 +301,5 @@ namespace PersistenceServer.Networking
 
             return serialized;
         }
-
     }
 }
