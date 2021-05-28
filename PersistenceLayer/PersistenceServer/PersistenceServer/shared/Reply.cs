@@ -7,7 +7,6 @@
         public const string VERIFY_CREDIT_CARD_TO_ACCOUNT = "VERIFY_CREDIT_CARD_TO_ACCOUNT";
         public const string CHECK_CREDIT_CARD_REPLY = "CHECK_CREDIT_CARD_REPLY";
         public const string DEPOSIT_MONEY_REPLY = "DEPOSIT_MONEY_REPLY";
-        public const string SEEDING_SUCCESS = "SEEDING_SUCCESS";
         public const string ACCOUNT_BY_USERNAME = "ACCOUNT_BY_USERNAME";
         public const string SEND_ENTITY = "SEND_ENTITY";
         public const string SEND_MEMBER = "SEND_MEMBER";

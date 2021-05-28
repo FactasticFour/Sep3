@@ -40,18 +40,6 @@ namespace PersistenceServer.Networking
 
             switch (requestFromClient.Type)
             {
-                
-                case Request.GET_USER_BY_ID:
-                    User result = await RepositoryFactory.GetUserRepository()
-                        .GetUserByIdAsync(ToObject<int>(requestFromClient.Payload));
-
-                    string payload = ToJson(result);
-                    Console.WriteLine(payload);
-                    Reply reply = new Reply(Reply.SEND_USER, payload);
-                    string toSendToClient = ToJson(reply);
-
-                    SendToStream(toSendToClient);
-                    break;
                 case Request.SEED_DATABASE:
                     RepositoryFactory.GetDbSeedingRepository().SeedDatabase();
                     Reply seedingSuccessReply = new Reply(Reply.SEEDING_SUCCESS, null);
@@ -88,19 +76,18 @@ namespace PersistenceServer.Networking
                     {
                         await RepositoryFactory.GetCreditCardRepository()
                             .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
-                        payload = ToJson("CARD_ADDED");
-                        reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
-                        toSendToClient = ToJson(reply);
+                        string payload = ToJson("CARD_ADDED");
+                        Reply reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
+                        string toSendToClient = ToJson(reply);
                         SendToStream(toSendToClient);
                     }
                     catch (Exception e)
                     {
-                        reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                        Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
                         var json = ToJson(reply);
                         Console.WriteLine($"Reply with exception: {json}");
                         SendToStream(json);
                     }
-
                     break;
                 case Request.CHECK_CREDIT_CARD:
                     string replyForCheckCreditCard = CheckCreditCard(requestFromClient).GetAwaiter().GetResult();
