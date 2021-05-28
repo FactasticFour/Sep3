@@ -31,7 +31,6 @@ namespace PresentationLayer
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IRoleService, RoleService>();
-            
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddAuthorization(options =>
                 {
