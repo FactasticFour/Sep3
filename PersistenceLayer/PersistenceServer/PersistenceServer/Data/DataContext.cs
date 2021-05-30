@@ -5,7 +5,6 @@ namespace PersistenceServer.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Campus> Campuses { get; set; }

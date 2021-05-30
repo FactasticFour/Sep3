@@ -26,7 +26,6 @@ namespace PresentationLayer
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICreditCardService, CreditCardService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IAccountService, AccountService>();
