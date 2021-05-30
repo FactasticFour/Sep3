@@ -1,82 +1,89 @@
 ﻿@page "/AddCreditCard"
 @using PresentationLayer.Data
 @using Models
-@using System.Threading
-@using System.Text.RegularExpressions
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ICreditCardService CreditCardService
-<div class="d-flex flex-column justify-content-around align-items-center">
-<h3>Add Credit Card</h3><br>
+@inject NavigationManager NavigationManager
 
-<label>First Name:</label><br>
-<input @bind-value="fname" @bind-value:event="oninput"/>
-<br>
-<label style="color:red">@fnamelabel</label>
-<br>
-<label>Last Name:</label><br>
-<input @bind="lname">
-<br>
-<label style="color:red">@lnamelabel</label>
-<br>
-<label>Credit Card Number:</label><br>
-<input @bind="creditcardnumber">
-<br>
-<label style="color:red">@creditcardnumberlabel</label>
-<br>
-<label>Expiration Date:</label><br>
-<select @bind="expirationmonth">
-    @{
-        for (int i = 1; i < 13; i++)
-        {
-            string b = "";
-            if (i == 1)
-            {
-                b = "0" + i.ToString();
-                <option selected value="@b">@b</option>
-            }
-            else if (i < 10)
-            {
-                b = "0" + i.ToString();
-                <option value="@b">@b</option>
-            }
+
+<AuthorizeView>
+    <div class="d-flex flex-column justify-content-around align-items-center">
+        <h3>Add Credit Card</h3><br>
+
+        <label>First Name:</label><br>
+        <input @bind-value="fname" @bind-value:event="oninput"/>
+        <br>
+        <label style="color:red">@fnamelabel</label>
+        <br>
+        <label>Last Name:</label><br>
+        <input @bind="lname">
+        <br>
+        <label style="color:red">@lnamelabel</label>
+        <br>
+        <label>Credit Card Number:</label><br>
+        <input @bind="creditcardnumber">
+        <br>
+        <label style="color:red">@creditcardnumberlabel</label>
+        <br>
+        <label>Expiration Date:</label><br>
+        <select @bind="expirationmonth">
+            @{
+                for (int i = 1; i < 13; i++)
+                {
+                    string b = "";
+                    if (i == 1)
+                    {
+                        b = "0" + i.ToString();
+                        <option selected value="@b">@b</option>
+                    }
+                    else if (i < 10)
+                    {
+                        b = "0" + i.ToString();
+                        <option value="@b">@b</option>
+                    }
             
-            else 
-            {
-                b = i.ToString();
-                <option value="@i">@i</option>
+                    else 
+                    {
+                        b = i.ToString();
+                        <option value="@i">@i</option>
+                    }
+                }
             }
-        }
-    }
-</select>
-<label> / </label>
-<select @bind="expirationyear">
-    @{
-        string a = "";
-        for (int i = 21; i < 27; i++)
-        {
-            if (i == 1)
-            {
-                a = i.ToString();
-                <option selected value="@i">@i</option>
-            }
-            else
-            {
-                a = i.ToString();
-                <option value="@i">@i</option>
-            }
+        </select>
+        <label> / </label>
+        <select @bind="expirationyear">
+            @{
+                string a = "";
+                for (int i = 21; i < 27; i++)
+                {
+                    if (i == 1)
+                    {
+                        a = i.ToString();
+                        <option selected value="@i">@i</option>
+                    }
+                    else
+                    {
+                        a = i.ToString();
+                        <option value="@i">@i</option>
+                    }
            
-        }
-    }
-</select>
-<br>
-<br>
-<label>Security Code:</label><br>
-<input @bind="securitycode">
-<br>
-<label style="color:red">@securitycodelabel</label>
-<br>
-<button @onclick="addCreditCardToAccount">Save</button>
-<label style="color:green">@cardLabel</label><label style="color:red">@exception</label>
-</div>
+                }
+            }
+        </select>
+        <br>
+        <br>
+        <label>Security Code:</label><br>
+        <input @bind="securitycode">
+        <br>
+        <label style="color:red">@securitycodelabel</label>
+        <br>
+        <button @onclick="addCreditCardToAccount">Save</button>
+        <label style="color:green">@cardLabel</label><label style="color:red">@exception</label>
+    </div>
+</AuthorizeView>
+
+
+
 @code {
     private string fname;
     private string lname;
@@ -92,6 +99,7 @@
     
     private string cardLabel = "";
     private string exception = "";
+    
 
     async Task addCreditCardToAccount()
     {
@@ -116,9 +124,10 @@
         {
             securitycodelabel = "Field can only contain 3 digits!";
         }
-
-        Account account = new Account(); //====================> TODO get user that is logged in <==========================
-        account.AccountId = 2;
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        Account account = new Account();
+        account.AccountId = Int32.Parse(user.Identity.Name);
         CreditCard creditCard = new CreditCard(creditcardnumber, fname, lname, expirationmonth, expirationyear, securitycode, 900000, account);
 
         try

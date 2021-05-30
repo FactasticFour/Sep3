@@ -72,22 +72,7 @@ namespace PersistenceServer.Networking
                     await AddAccount(requestFromClient);
                     break;
                 case Request.ADD_CREDIT_CARD_TO_ACCOUNT:
-                    try
-                    {
-                        await RepositoryFactory.GetCreditCardRepository()
-                            .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
-                        string payload = ToJson("CARD_ADDED");
-                        Reply reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
-                        string toSendToClient = ToJson(reply);
-                        SendToStream(toSendToClient);
-                    }
-                    catch (Exception e)
-                    {
-                        Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
-                        var json = ToJson(reply);
-                        Console.WriteLine($"Reply with exception: {json}");
-                        SendToStream(json);
-                    }
+                    await AddCreditCardToAccount(requestFromClient);
                     break;
                 case Request.CHECK_CREDIT_CARD:
                     string replyForCheckCreditCard = CheckCreditCard(requestFromClient).GetAwaiter().GetResult();
@@ -106,7 +91,26 @@ namespace PersistenceServer.Networking
             stream.Close();
         }
 
-        private async Task getAccountByUsername(Request requestFromClient)
+        private async Task AddCreditCardToAccount(Request requestFromClient)
+        {
+            try
+            {
+                await RepositoryFactory.GetCreditCardRepository()
+                    .AddCreditCardToAccount(ToObject<CreditCard>(requestFromClient.Payload));
+                string payload = ToJson("CARD_ADDED");
+                Reply reply = new Reply(Reply.VERIFY_CREDIT_CARD_TO_ACCOUNT, payload);
+                string toSendToClient = ToJson(reply);
+                SendToStream(toSendToClient);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                var json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+private async Task getAccountByUsername(Request requestFromClient)
         {
             try
             {
