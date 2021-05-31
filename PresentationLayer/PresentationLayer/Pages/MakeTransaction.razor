@@ -1,0 +1,25 @@
+﻿@page "/MakeTransaction"
+<h3>MakeTransaction</h3>
+<AuthorizeView>
+
+    <h2>Make a transfer</h2>
+
+    <label>Amount to send:</label><br>
+    <input @bind-value="#"/>
+
+    <label>Receiver VIA ID:</label><br>
+    <input @bind-value="#"/>
+
+    <label>Type of transaction:</label><br>
+    <select @bind="#">
+        <option value="Transfer"></option>
+        <option value="Request"></option>
+    </select>
+
+    <label>Comment(Optional):</label><br>
+    <input @bind-value="#"/>
+</AuthorizeView>
+
+@code {
+
+}
