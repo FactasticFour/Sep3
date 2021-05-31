@@ -2,6 +2,7 @@ package dk.via.sep3.group1.applicationlogic.dao.impl;
 
 import dk.via.sep3.group1.applicationlogic.dao.TransactionDAO;
 import dk.via.sep3.group1.applicationlogic.model.Account;
+import dk.via.sep3.group1.applicationlogic.model.Transaction;
 import dk.via.sep3.group1.applicationlogic.networking.DataClient;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
@@ -42,5 +43,15 @@ public class TransactionDAOImpl implements TransactionDAO {
 
         Reply reply = dataClient.handleRequest(request);
         return Serialization.deserialize(reply.getPayload(), Account.class);
+    }
+
+    @Override
+    public Transaction addTransaction(Transaction transaction) {
+        Request request = new Request();
+        request.setPayload(Serialization.serialize(transaction));
+        request.setType(transaction.getType());
+
+        Reply reply = dataClient.handleRequest(request);
+        return Serialization.deserialize(reply.getPayload(), Transaction.class);
     }
 }
