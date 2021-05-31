@@ -1,25 +1,55 @@
 ﻿@page "/MakeTransaction"
+@using PresentationLayer.Models
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3>MakeTransaction</h3>
 <AuthorizeView>
 
     <h2>Make a transfer</h2>
 
     <label>Amount to send:</label><br>
-    <input @bind-value="#"/>
+    <input @bind-value="@amountToSend"/>
 
     <label>Receiver VIA ID:</label><br>
-    <input @bind-value="#"/>
+    <input @bind-value="@receiverID"/>
 
     <label>Type of transaction:</label><br>
-    <select @bind="#">
+    <select @bind="@type">
         <option value="Transfer"></option>
         <option value="Request"></option>
     </select>
 
     <label>Comment(Optional):</label><br>
-    <input @bind-value="#"/>
+    <input @bind-value="@comment"/>
+    
+    <a><button>Send</button></a>
 </AuthorizeView>
 
 @code {
+    private float amountToSend;
+    private string receiverID;
+    private string type;
+    private string comment;
 
+    private async Task sendTransaction()
+    {
+        var authenticationStateAsync = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        Transaction transaction = new Transaction()
+        {
+            Amount = amountToSend,
+            Comment = comment,
+            ReceiverAccount = new Account()
+            {
+                ViaEntity = new ViaEntity()
+                {
+                    ViaId = Int32.Parse(receiverID)
+                }
+            },
+            SenderAccount = new Account()
+            {
+                AccountId = Int32.Parse(authenticationStateAsync.User.Identity.Name)
+
+            },
+            Type = type
+        };
+    }
 }
