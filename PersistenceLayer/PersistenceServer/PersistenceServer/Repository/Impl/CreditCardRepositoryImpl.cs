@@ -21,11 +21,12 @@ namespace PersistenceServer.Repository.Impl
                 Console.WriteLine(creditCard.Account.AccountId);
                 Console.WriteLine(creditCard.Account.ApplicationPassword);
                 await dataContext.CreditCards.AddAsync(creditCard);
+                Console.WriteLine("XXXXXXXX");
                 await dataContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                throw new Exception($"This account already has a credit card");
+                throw new Exception($"This credit card cannot be added!");
             }
         }
 

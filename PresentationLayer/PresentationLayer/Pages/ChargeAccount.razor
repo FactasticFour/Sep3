@@ -1,6 +1,7 @@
 ﻿@page "/ChargeAccount"
 @using PresentationLayer.Data
 @using PresentationLayer.Models
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @inject ICreditCardService CreditCardService;
 
@@ -18,9 +19,9 @@
 
 @code {
     private float amount;
-    private int id = 1;
     private string displayMessage = "";
     private string displayErrorMessage = "";
+    private int id;
 
     private async Task CheckCreditCard()
     {
@@ -53,9 +54,12 @@
     {
         try
         {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+           id = Int32.Parse(user.Identity.Name);
             Account accountToDeposit = new Account()
             {
-                AccountId = id,
+                 AccountId = id,
                 Balance = amountParameter
             };
             bool response = await CreditCardService.DepositMoney(accountToDeposit);
