@@ -17,6 +17,7 @@ public class Request {
     public final String ADD_CREDIT_CARD_TO_ACCOUNT = "ADD_CREDIT_CARD_TO_ACCOUNT";
     public final String CHECK_CREDIT_CARD = "CHECK_CREDIT_CARD";
     public final String DEPOSIT_MONEY = "DEPOSIT_MONEY";
+    public final String GET_ACCOUNT_BY_ACCOUNT_ID = "GET_ACCOUNT_BY_ACCOUNT_ID";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

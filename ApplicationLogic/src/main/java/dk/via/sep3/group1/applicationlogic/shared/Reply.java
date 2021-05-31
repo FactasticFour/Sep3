@@ -16,6 +16,7 @@ public class Reply {
     public final String VERIFY_CREDIT_CARD_TO_ACCOUNT = "VERIFY_CREDIT_CARD_TO_ACCOUNT";
     public final String CHECK_CREDIT_CARD_REPLY = "CHECK_CREDIT_CARD_REPLY";
     public final String DEPOSIT_MONEY_REPLY = "DEPOSIT_MONEY_REPLY";
+    public final String SEND_ACCOUNT_BY_ACCOUNT_ID = "SEND_ACCOUNT_BY_ACCOUNT_ID";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

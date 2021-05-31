@@ -15,8 +15,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction makeTransaction(Transaction transaction) {
         Account receiverAccount = transactionDAO.getAccountByVIAID(transaction.getReceiverAccountId().getViaEntity().getViaId());
-        System.out.println(receiverAccount.getApplicationPassword());
-        Account senderAccount = null;
+        transaction.setReceiverAccountId(receiverAccount);
+        System.out.println("working so far");
+        Account senderAccount = transactionDAO.getAccountByAccountID(transaction.getSenderAccountId().getAccountId());
 
 
 
