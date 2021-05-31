@@ -31,6 +31,8 @@ public class TransactionServiceImpl implements TransactionService {
             senderAccount.setBalance(senderAccountBalanceUpdated);
             // update sender's account
 
+            Account account = transactionDAO.updateAccountsBalance(senderAccount);
+            System.out.println("Updated account returned from DAO: " + account);
 
             // Add money to receiver's account
             // update sender's account
