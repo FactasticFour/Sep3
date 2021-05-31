@@ -7,6 +7,11 @@ import dk.via.sep3.group1.applicationlogic.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
     @Autowired
@@ -15,7 +20,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction makeTransaction(Transaction transaction) {
         Account receiverAccount = transactionDAO.getAccountByVIAID(transaction.getReceiverAccountId().getViaEntity().getViaId());
-        transaction.setReceiverAccountId(receiverAccount);
+        // TODO remove
+        // transaction.setReceiverAccountId(receiverAccount);
         System.out.println("Receiver account from DAO: " + receiverAccount);
 
         Account senderAccount = transactionDAO.getAccountByAccountID(transaction.getSenderAccountId().getAccountId());
@@ -42,10 +48,21 @@ public class TransactionServiceImpl implements TransactionService {
             receiverAccount.setBalance(receiverAccountBalanceUpdated);
             Account updateAccountsBalance = transactionDAO.updateAccountsBalance(receiverAccount);
             System.out.println(" ------> Updated receiver account: " + updateAccountsBalance);
+
+            // register transaction
+            Transaction transactionToSave = new Transaction();
+            transactionToSave.setSenderAccountId(senderAccount);
+            transactionToSave.setReceiverAccountId(receiverAccount);
+            transactionToSave.setType(transaction.getType());
+            transactionToSave.setAmount(transaction.getAmount());
+            transactionToSave.setComment(transaction.getComment());
+
+            Calendar calendar = Calendar.getInstance();
+            transactionToSave.setTimestamp(new Timestamp(calendar.getTime().getTime()));
+            // return transactionDAO.makeTransfer(transaction);
         }
-        transaction.setSenderAccountId(senderAccount);
-        System.out.println(transaction.getSenderAccountId().getBalance());
-        // return transactionDAO.makeTransfer(transaction);
+
+
         return transaction;
     }
 }
