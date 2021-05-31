@@ -86,7 +86,8 @@ namespace PersistenceServer.Networking
                     await GetAccountByAccountID(requestFromClient);
                     break;
                 case Request.UPDATE_ACCOUNT:
-
+                    await updateAccount(requestFromClient);
+                    break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
@@ -104,7 +105,7 @@ namespace PersistenceServer.Networking
                 Account account = await RepositoryFactory.GetTransactionRepository()
                     .GetAccountByAccountID(ToObject<int>(request.Payload));
                 string payload = ToJson(account);
-                Console.WriteLine(payload);
+                Console.WriteLine($"updated account from repository: {payload}");
                 Reply reply = new Reply(Reply.SEND_ACCOUNT_BY_ACCOUNT_ID, payload);
                 string toSendToClient = ToJson(reply);
                 SendToStream(toSendToClient);
