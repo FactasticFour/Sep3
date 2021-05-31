@@ -19,6 +19,7 @@ public class Request {
     public final String DEPOSIT_MONEY = "DEPOSIT_MONEY";
     public final String GET_ACCOUNT_BY_ACCOUNT_ID = "GET_ACCOUNT_BY_ACCOUNT_ID";
     public final String UPDATE_ACCOUNT = "UPDATE_ACCOUNT";
+    public final String CREATE_TRANSACTION = "CREATE_TRANSACTION";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")

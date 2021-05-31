@@ -16,6 +16,7 @@
         public const string DEPOSIT_MONEY = "DEPOSIT_MONEY";
         public const string GET_ACCOUNT_BY_ACCOUNT_ID = "GET_ACCOUNT_BY_ACCOUNT_ID";
         public const string UPDATE_ACCOUNT = "UPDATE_ACCOUNT";
+        public const string CREATE_TRANSACTION = "CREATE_TRANSACTION";
         public string Type { get; set; }
         public string Payload { get; set; }
 

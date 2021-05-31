@@ -18,6 +18,7 @@ public class Reply {
     public final String DEPOSIT_MONEY_REPLY = "DEPOSIT_MONEY_REPLY";
     public final String SEND_ACCOUNT_BY_ACCOUNT_ID = "SEND_ACCOUNT_BY_ACCOUNT_ID";
     public final String UPDATED_ACCOUNT = "UPDATED_ACCOUNT";
+    public final String CREATED_TRANSACTION = "CREATED_TRANSACTION";
     @JsonProperty("type")
     private String type;
     @JsonProperty("payload")
