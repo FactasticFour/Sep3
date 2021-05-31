@@ -23,13 +23,21 @@ public class TransactionServiceImpl implements TransactionService {
 
         // check if balance is OK here
 
-        if (senderAccount.getBalance() >= transaction.getAmount())
-        {
+        if (senderAccount.getBalance() >= transaction.getAmount()) {
+            // Take money from sender's account
+            System.out.println("money to remove" + transaction.getAmount());
+            float senderAccountBalanceUpdated = senderAccount.getBalance() - transaction.getAmount();
+            System.out.println("After money has been removed" + transaction.getAmount());
+            senderAccount.setBalance(senderAccountBalanceUpdated);
+            // update sender's account
 
+
+            // Add money to receiver's account
+            // update sender's account
         }
         transaction.setSenderAccountId(senderAccount);
         System.out.println(transaction.getSenderAccountId().getBalance());
-       // return transactionDAO.makeTransfer(transaction);
+        // return transactionDAO.makeTransfer(transaction);
         return transaction;
     }
 }
