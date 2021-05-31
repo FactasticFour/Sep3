@@ -1,6 +1,8 @@
 ﻿@page "/ChargeAccount"
 @using PresentationLayer.Data
 @using PresentationLayer.Models
+@using PresentationLayer.Authentication
+
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 @inject ICreditCardService CreditCardService;
@@ -22,6 +24,13 @@
     private string displayMessage = "";
     private string displayErrorMessage = "";
     private int id;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+        id = Int32.Parse(user.Identity.Name);
+    }
 
     private async Task CheckCreditCard()
     {
