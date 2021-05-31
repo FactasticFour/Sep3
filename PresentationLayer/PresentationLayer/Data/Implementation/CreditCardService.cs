@@ -21,7 +21,6 @@ namespace PresentationLayer.Data.Implementation
             Uri u = new Uri("http://localhost:8080/creditcard/addcreditcard");
             HttpContent c = new StringContent(creditcard, Encoding.UTF8, "application/json");
             
-            
             HttpResponseMessage response = await client.PostAsync(u, c);
 
             if (!response.IsSuccessStatusCode)

@@ -11,7 +11,7 @@ namespace PresentationLayer.Data.Implementation
     {
         public async Task<Transaction> SendTransactionAsync(Transaction transaction)
         {
-            Console.WriteLine($"{transaction}");
+            Console.WriteLine($"{transaction.SenderAccount}");
             string json = ToJson(transaction);
 
             HttpContent content = new StringContent(
@@ -19,14 +19,15 @@ namespace PresentationLayer.Data.Implementation
 
             
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/transaction", content);
+            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/transaction/maketransaction", content);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"{response.Content.ReadAsStringAsync().Result}");
             }
-
+            
             string readAsStringAsync = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(readAsStringAsync);
             return ToObject<Transaction>(readAsStringAsync);
         }
 
