@@ -85,6 +85,8 @@ namespace PersistenceServer.Networking
                 case Request.GET_ACCOUNT_BY_ACCOUNT_ID:
                     await GetAccountByAccountID(requestFromClient);
                     break;
+                case Request.UPDATE_ACCOUNT:
+                    
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
@@ -114,6 +116,27 @@ namespace PersistenceServer.Networking
                 SendToStream(json);
             }
         }
+        
+        private async Task updateAccount(Request requestFromClient)
+        {
+            try
+            {
+                Account updatedAccount = await RepositoryFactory.GetAccountRepository().UpdateAccount(ToObject<Account>(requestFromClient.Payload));
+                string payload = ToJson(updatedAccount);
+                Console.WriteLine(payload);
+                Reply reply = new Reply(Reply.UPDATED_ACCOUNT, payload);
+                string json = ToJson(reply);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+
         private async Task AddCreditCardToAccount(Request requestFromClient)
         {
             try

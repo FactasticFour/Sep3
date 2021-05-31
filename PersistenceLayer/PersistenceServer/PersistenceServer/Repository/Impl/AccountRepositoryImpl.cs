@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PersistenceServer.Data;
 using PersistenceServer.Models;
 
@@ -28,7 +29,7 @@ namespace PersistenceServer.Repository.Impl
             Console.WriteLine($"Account found password:{account.ApplicationPassword}");
             Console.WriteLine($"Account found with role:{account.AccountType.RoleType}");
             Console.WriteLine(account);
-            
+
             return account;
         }
 
@@ -45,7 +46,7 @@ namespace PersistenceServer.Repository.Impl
             {
                 throw new Exception($"Not found. Please check credentials");
             }
-            
+
             return account;
         }
 
@@ -58,15 +59,32 @@ namespace PersistenceServer.Repository.Impl
                 Role r = await dataContext.Roles.FirstOrDefaultAsync(r => r.RoleId == accountToAdd.AccountType.RoleId);
                 accountToAdd.AccountType = r;
 
-                ViaEntity ve = await dataContext.ViaEntities.FirstOrDefaultAsync(ve => ve.ViaId == accountToAdd.ViaEntity.ViaId);
+                ViaEntity ve =
+                    await dataContext.ViaEntities.FirstOrDefaultAsync(ve => ve.ViaId == accountToAdd.ViaEntity.ViaId);
                 accountToAdd.ViaEntity = ve;
-            
+
                 await dataContext.Accounts.AddAsync(accountToAdd);
                 await dataContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
                 throw new Exception("Account was not created");
+            }
+        }
+
+        public async Task<Account> UpdateAccount(Account accountToUpdate)
+        {
+            using DataContext dataContext = new DataContext();
+
+            try
+            {
+                EntityEntry<Account> entityEntry = dataContext.Accounts.Update(accountToUpdate);
+                await dataContext.SaveChangesAsync();
+                return entityEntry.Entity;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Account could not be updated");
             }
         }
     }

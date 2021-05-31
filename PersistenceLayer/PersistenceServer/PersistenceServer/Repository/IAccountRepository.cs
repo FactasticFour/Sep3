@@ -8,5 +8,6 @@ namespace PersistenceServer.Repository
         Task<Account> GetAccountByUsernameAsync(string username);
         Task<Account> GetAccountWithViaId(int viaId);
         Task AddAccountAsync(Account accountToAdd);
+        Task<Account> UpdateAccount(Account accountToUpdate);
     }
 }
