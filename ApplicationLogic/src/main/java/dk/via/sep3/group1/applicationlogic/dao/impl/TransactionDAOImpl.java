@@ -33,4 +33,14 @@ public class TransactionDAOImpl implements TransactionDAO {
         Reply reply = dataClient.handleRequest(request);
         return Serialization.deserialize(reply.getPayload(), Account.class);
     }
+
+    @Override
+    public Account updateAccountsBalance(Account account) {
+        Request request = new Request();
+        request.setPayload(Serialization.serialize(account));
+        request.setType(request.UPDATE_ACCOUNT);
+
+        Reply reply = dataClient.handleRequest(request);
+        return Serialization.deserialize(reply.getPayload(), Account.class);
+    }
 }

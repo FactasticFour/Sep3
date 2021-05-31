@@ -16,6 +16,7 @@
         public const string SEND_ACCOUNT = "SEND_ACCOUNT";
         public const string ACCOUNT_CREATED = "ACCOUNT_CREATED";
         public const string SEND_ACCOUNT_BY_ACCOUNT_ID = "SEND_ACCOUNT_BY_ACCOUNT_ID";
+        public const string UPDATED_ACCOUNT = "UPDATED_ACCOUNT";
         public string Type { get; set; }
         public string Payload { get; set; }
 
