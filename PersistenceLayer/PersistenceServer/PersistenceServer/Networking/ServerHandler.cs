@@ -88,6 +88,9 @@ namespace PersistenceServer.Networking
                 case Request.UPDATE_ACCOUNT:
                     await updateAccount(requestFromClient);
                     break;
+                case Request.CREATE_TRANSACTION:
+                    await addTransaction(requestFromClient);
+                    break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
@@ -128,6 +131,27 @@ namespace PersistenceServer.Networking
                 string payload = ToJson(updatedAccount);
                 Console.WriteLine(payload);
                 Reply reply = new Reply(Reply.UPDATED_ACCOUNT, payload);
+                string json = ToJson(reply);
+                SendToStream(json);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                string json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
+
+        private async Task addTransaction(Request requestFromClient)
+        {
+            try
+            {
+                Transaction transaction = await RepositoryFactory.GetTransactionRepository()
+                    .AddTransaction(ToObject<Transaction>(requestFromClient.Payload));
+                var payload = ToJson(transaction);
+                Console.WriteLine($"Transaction added to DB: {payload}");
+                Reply reply = new Reply(Reply.CREATED_TRANSACTION, payload);
                 string json = ToJson(reply);
                 SendToStream(json);
             }

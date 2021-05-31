@@ -49,7 +49,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     public Transaction addTransaction(Transaction transaction) {
         Request request = new Request();
         request.setPayload(Serialization.serialize(transaction));
-       // request.setType();
+        request.setType(request.CREATE_TRANSACTION);
 
         Reply reply = dataClient.handleRequest(request);
         return Serialization.deserialize(reply.getPayload(), Transaction.class);
