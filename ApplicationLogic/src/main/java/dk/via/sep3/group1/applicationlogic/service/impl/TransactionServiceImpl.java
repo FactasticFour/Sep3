@@ -25,17 +25,23 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (senderAccount.getBalance() >= transaction.getAmount()) {
             // Take money from sender's account
-            System.out.println("money to remove" + transaction.getAmount());
+            System.out.println("------> money to remove " + transaction.getAmount());
             float senderAccountBalanceUpdated = senderAccount.getBalance() - transaction.getAmount();
-            System.out.println("After money has been removed" + transaction.getAmount());
+
+            System.out.println("------> Before money has been removed" + senderAccount.getBalance());
             senderAccount.setBalance(senderAccountBalanceUpdated);
+            System.out.println("------> After money has been removed" + senderAccount.getBalance());
             // update sender's account
 
             Account account = transactionDAO.updateAccountsBalance(senderAccount);
-            System.out.println("Updated account returned from DAO: " + account);
+            System.out.println(" ------> Updated account returned from DAO: " + account);
 
             // Add money to receiver's account
             // update sender's account
+            float receiverAccountBalanceUpdated = receiverAccount.getBalance() + transaction.getAmount();
+            receiverAccount.setBalance(receiverAccountBalanceUpdated);
+            Account updateAccountsBalance = transactionDAO.updateAccountsBalance(receiverAccount);
+            System.out.println(" ------> Updated receiver account: " + updateAccountsBalance);
         }
         transaction.setSenderAccountId(senderAccount);
         System.out.println(transaction.getSenderAccountId().getBalance());
