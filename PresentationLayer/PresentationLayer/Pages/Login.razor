@@ -19,19 +19,15 @@
                 <input type="password" placeholder="password" @bind-value="password"/>
             </div>
             <div style="color:red">@errorMessage</div>
-            <button class="btn btn-outline-dark">
-                <a href="" @onclick="PerformLogin">
-                    Login
-                </a>
+            <button class="btn btn-outline-dark"  @onclick="PerformLogin">
+                Login
             </button>
         </div>
     </NotAuthorized>
     <Authorized>
-        <a href="" @onclick="PerformLogout">
-            <button class="btn btn-outline-dark">
-                Log out
-            </button>
-        </a>
+        <button class="btn btn-outline-dark" @onclick="PerformLogout">
+            Log out
+        </button>
     </Authorized>
 </AuthorizeView>
 
@@ -47,9 +43,9 @@
         try
         {
             await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
-                username = "";
-                password = "";
-            }
+            username = "";
+            password = "";
+        }
         catch (Exception e)
         {
             errorMessage = e.Message;

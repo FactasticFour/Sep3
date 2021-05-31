@@ -5,6 +5,6 @@ namespace PresentationLayer.Data
 {
     public interface ITransactionService
     {
-        Task<Transaction> SendTransaction(Transaction transaction);
+        Task<Transaction> SendTransactionAsync(Transaction transaction);
     }
 }

@@ -1,27 +1,29 @@
 ﻿@page "/MakeTransaction"
 @using PresentationLayer.Models
+@using PresentationLayer.Data
 @inject AuthenticationStateProvider AuthenticationStateProvider
-<h3>MakeTransaction</h3>
+@inject ITransactionService TransactionService
+
 <AuthorizeView>
 
     <h2>Make a transfer</h2>
 
-    <label>Amount to send:</label><br>
-    <input @bind-value="@amountToSend"/>
+    <label class="d-block">Amount to send:</label>
+    <input class="d-block" @bind-value="@amountToSend"/>
 
-    <label>Receiver VIA ID:</label><br>
-    <input @bind-value="@receiverID"/>
+    <label class="d-block">Receiver VIA ID:</label>
+    <input class="d-block" @bind-value="@receiverID"/>
 
-    <label>Type of transaction:</label><br>
-    <select @bind="@type">
-        <option value="Transfer"></option>
-        <option value="Request"></option>
+    <label class="d-block">Type of transaction:</label>
+    <select class="d-block" @bind="@type">
+        <option selected value="Transfer">Transfer</option>
+        <option value="Request">Request</option>
     </select>
 
-    <label>Comment(Optional):</label><br>
-    <input @bind-value="@comment"/>
-    
-    <a><button>Send</button></a>
+    <label class="d-block">Comment(Optional):</label>
+    <input class="d-block" @bind-value="@comment"/>
+
+    <button class="d-block" @onclick="sendTransaction">Send</button>
 </AuthorizeView>
 
 @code {
@@ -32,6 +34,7 @@
 
     private async Task sendTransaction()
     {
+        Console.WriteLine("Executing send transaction");
         var authenticationStateAsync = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         Transaction transaction = new Transaction()
         {
@@ -47,9 +50,11 @@
             SenderAccount = new Account()
             {
                 AccountId = Int32.Parse(authenticationStateAsync.User.Identity.Name)
-
             },
             Type = type
         };
+
+        await TransactionService.SendTransactionAsync(transaction);
     }
+
 }
