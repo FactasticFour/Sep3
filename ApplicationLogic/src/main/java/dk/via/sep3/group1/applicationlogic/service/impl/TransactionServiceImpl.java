@@ -16,15 +16,20 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction makeTransaction(Transaction transaction) {
         Account receiverAccount = transactionDAO.getAccountByVIAID(transaction.getReceiverAccountId().getViaEntity().getViaId());
         transaction.setReceiverAccountId(receiverAccount);
-        System.out.println("working so far");
+        System.out.println("Receiver account from DAO: " + receiverAccount);
+
         Account senderAccount = transactionDAO.getAccountByAccountID(transaction.getSenderAccountId().getAccountId());
+        System.out.println("Sender account from DAO: " + senderAccount);
+
         // check if balance is OK here
+
+        if (senderAccount.getBalance() >= transaction.getAmount())
+        {
+
+        }
         transaction.setSenderAccountId(senderAccount);
         System.out.println(transaction.getSenderAccountId().getBalance());
        // return transactionDAO.makeTransfer(transaction);
-
-
-
         return transaction;
     }
 }

@@ -19,7 +19,7 @@ public class TransactionController {
     @PostMapping(path = "/maketransaction", consumes = "application/json", produces = "application/json")
     public ResponseEntity makeTransaction(@RequestBody String transaction) {
         Transaction deserializedTransaction;
-        System.out.println(transaction);
+        System.out.println("Controller received: " + transaction);
         try {
             deserializedTransaction = Serialization.deserialize(transaction, Transaction.class);
             Transaction transaction1 = transactionService.makeTransaction(deserializedTransaction);
