@@ -86,13 +86,14 @@ namespace PersistenceServer.Networking
                     await GetAccountByAccountID(requestFromClient);
                     break;
                 case Request.UPDATE_ACCOUNT:
-                    
+
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
                     SendToStream(replySerialized);
                     break;
             }
+
             stream.Close();
         }
 
@@ -116,12 +117,13 @@ namespace PersistenceServer.Networking
                 SendToStream(json);
             }
         }
-        
+
         private async Task updateAccount(Request requestFromClient)
         {
             try
             {
-                Account updatedAccount = await RepositoryFactory.GetAccountRepository().UpdateAccount(ToObject<Account>(requestFromClient.Payload));
+                Account updatedAccount = await RepositoryFactory.GetAccountRepository()
+                    .UpdateAccount(ToObject<Account>(requestFromClient.Payload));
                 string payload = ToJson(updatedAccount);
                 Console.WriteLine(payload);
                 Reply reply = new Reply(Reply.UPDATED_ACCOUNT, payload);
@@ -156,13 +158,14 @@ namespace PersistenceServer.Networking
                 SendToStream(json);
             }
         }
-private async Task getAccountByUsername(Request requestFromClient)
+
+        private async Task getAccountByUsername(Request requestFromClient)
         {
             try
             {
                 Account account = await RepositoryFactory.GetAccountRepository()
                     .GetAccountByUsernameAsync(ToObject<string>(requestFromClient.Payload));
-                
+
                 Console.WriteLine($"Account from repo to handler -- password {account.ApplicationPassword}");
                 string payloadAccount = ToJson(account);
                 Reply replyAc = new Reply(Reply.ACCOUNT_BY_USERNAME, payloadAccount);
@@ -186,7 +189,7 @@ private async Task getAccountByUsername(Request requestFromClient)
                 await RepositoryFactory.GetAccountRepository()
                     .AddAccountAsync(ToObject<Account>(requestFromClient.Payload));
                 Reply reply = new Reply(Reply.ACCOUNT_CREATED, null);
-                
+
                 SendToStream(ToJson(reply));
             }
             catch (Exception e)
@@ -306,7 +309,7 @@ private async Task getAccountByUsername(Request requestFromClient)
             Console.WriteLine("Reply built and sent back from deposit money");
             return ToJson(reply);
         }
-        
+
         private string ReadFromStream()
         {
             byte[] dataFromClient = new byte[1024];
