@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using PresentationLayer.Authentication;
 using PresentationLayer.Data;
 using PresentationLayer.Data.Implementation;
+using PresentationLayer.Models;
 
 namespace PresentationLayer
 {
@@ -31,6 +32,7 @@ namespace PresentationLayer
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddAuthorization(options =>
                 {

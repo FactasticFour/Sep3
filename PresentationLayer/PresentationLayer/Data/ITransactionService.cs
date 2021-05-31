@@ -1,7 +1,10 @@
-﻿namespace PresentationLayer.Data
+﻿using System.Threading.Tasks;
+using PresentationLayer.Models;
+
+namespace PresentationLayer.Data
 {
-    public class ITransactionService
+    public interface ITransactionService
     {
-        
+        Task<Transaction> SendTransaction(Transaction transaction);
     }
 }
