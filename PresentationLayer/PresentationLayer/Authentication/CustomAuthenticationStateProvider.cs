@@ -61,7 +61,12 @@ namespace PresentationLayer.Authentication
 
                 NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
-
+        
+        public Account GetCachedAccount()
+        {
+            return cachedUser;
+        }
+        
         public async Task Logout()
         {
             cachedUser = null;

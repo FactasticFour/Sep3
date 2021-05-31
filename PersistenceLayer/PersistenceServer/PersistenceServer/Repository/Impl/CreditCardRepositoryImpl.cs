@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage;
 using PersistenceServer.Data;
 using PersistenceServer.Models;
 
@@ -21,7 +23,6 @@ namespace PersistenceServer.Repository.Impl
                 Console.WriteLine(creditCard.Account.AccountId);
                 Console.WriteLine(creditCard.Account.ApplicationPassword);
                 await dataContext.CreditCards.AddAsync(creditCard);
-                Console.WriteLine("XXXXXXXX");
                 await dataContext.SaveChangesAsync();
             }
             catch (Exception e)
