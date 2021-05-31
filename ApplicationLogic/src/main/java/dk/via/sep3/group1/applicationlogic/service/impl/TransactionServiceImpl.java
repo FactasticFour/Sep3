@@ -18,7 +18,10 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setReceiverAccountId(receiverAccount);
         System.out.println("working so far");
         Account senderAccount = transactionDAO.getAccountByAccountID(transaction.getSenderAccountId().getAccountId());
-
+        // check if balance is OK here
+        transaction.setSenderAccountId(senderAccount);
+        System.out.println(transaction.getSenderAccountId().getBalance());
+       // return transactionDAO.makeTransfer(transaction);
 
 
 

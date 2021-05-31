@@ -42,5 +42,10 @@ namespace PersistenceServer.Repository
         {
             return new CreditCardRepositoryImpl();
         }
+
+        public static ITransactionRepository GetTransactionRepository()
+        {
+            return new TransactionRepositoryImpl();
+        }
     }
 }

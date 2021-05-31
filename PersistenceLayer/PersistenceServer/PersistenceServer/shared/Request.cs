@@ -14,6 +14,7 @@
         public const string ADD_CREDIT_CARD_TO_ACCOUNT = "ADD_CREDIT_CARD_TO_ACCOUNT";
         public const string CHECK_CREDIT_CARD = "CHECK_CREDIT_CARD";
         public const string DEPOSIT_MONEY = "DEPOSIT_MONEY";
+        public const string GET_ACCOUNT_BY_ACCOUNT_ID = "GET_ACCOUNT_BY_ACCOUNT_ID";
 
         public string Type { get; set; }
         public string Payload { get; set; }

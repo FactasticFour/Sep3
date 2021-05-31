@@ -82,6 +82,9 @@ namespace PersistenceServer.Networking
                     string replyForDepositMoney = DepositMoney(requestFromClient).GetAwaiter().GetResult();
                     SendToStream(replyForDepositMoney);
                     break;
+                case Request.GET_ACCOUNT_BY_ACCOUNT_ID:
+                    await GetAccountByAccountID(requestFromClient);
+                    break;
                 default:
                     Reply badRequestReply = new Reply(Reply.BAD_REQUEST, "Bad Request");
                     String replySerialized = ToJson(badRequestReply);
@@ -91,6 +94,26 @@ namespace PersistenceServer.Networking
             stream.Close();
         }
 
+        private async Task GetAccountByAccountID(Request request)
+        {
+            try
+            {
+                Account account = await RepositoryFactory.GetTransactionRepository()
+                    .GetAccountByAccountID(ToObject<int>(request.Payload));
+                string payload = ToJson(account);
+                Console.WriteLine(payload);
+                Reply reply = new Reply(Reply.SEND_ACCOUNT_BY_ACCOUNT_ID, payload);
+                string toSendToClient = ToJson(reply);
+                SendToStream(toSendToClient);
+            }
+            catch (Exception e)
+            {
+                Reply reply = new Reply(Reply.BAD_REQUEST, e.Message);
+                var json = ToJson(reply);
+                Console.WriteLine($"Reply with exception: {json}");
+                SendToStream(json);
+            }
+        }
         private async Task AddCreditCardToAccount(Request requestFromClient)
         {
             try
