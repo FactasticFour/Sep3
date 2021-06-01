@@ -6,12 +6,9 @@ import dk.via.sep3.group1.applicationlogic.model.Transaction;
 import dk.via.sep3.group1.applicationlogic.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -19,53 +16,53 @@ public class TransactionServiceImpl implements TransactionService {
     TransactionDAO transactionDAO;
 
     @Override
-    public Transaction makeTransaction(Transaction transaction) {
+    public Transaction makeTransaction(Transaction transaction) throws Exception {
         Account receiverAccount = transactionDAO.getAccountByVIAID(transaction.getReceiverAccountId().getViaEntity().getViaId());
-        // TODO remove
-        // transaction.setReceiverAccountId(receiverAccount);
-        System.out.println("Receiver account from DAO: " + receiverAccount);
 
         Account senderAccount = transactionDAO.getAccountByAccountID(transaction.getSenderAccountId().getAccountId());
-        System.out.println("Sender account from DAO: " + senderAccount);
 
         // check if balance is OK here
+        if (transaction.getType().equals("Transfer")) {
+            if (senderAccount.getBalance() >= transaction.getAmount()) {
+                // Take money from sender's account
+                float senderAccountBalanceUpdated = senderAccount.getBalance() - transaction.getAmount();
 
-        if (senderAccount.getBalance() >= transaction.getAmount()) {
-            // Take money from sender's account
-            System.out.println("------> money to remove " + transaction.getAmount());
-            float senderAccountBalanceUpdated = senderAccount.getBalance() - transaction.getAmount();
+                senderAccount.setBalance(senderAccountBalanceUpdated);
+                // update sender's account
 
-            System.out.println("------> Before money has been removed" + senderAccount.getBalance());
-            senderAccount.setBalance(senderAccountBalanceUpdated);
-            System.out.println("------> After money has been removed" + senderAccount.getBalance());
-            // update sender's account
+                Account account = transactionDAO.updateAccountsBalance(senderAccount);
 
-            Account account = transactionDAO.updateAccountsBalance(senderAccount);
-            System.out.println(" ------> Updated account returned from DAO: " + account);
+                // Add money to receiver's account
+                // update sender's account
+                float receiverAccountBalanceUpdated = receiverAccount.getBalance() + transaction.getAmount();
+                receiverAccount.setBalance(receiverAccountBalanceUpdated);
+                Account updateAccountsBalance = transactionDAO.updateAccountsBalance(receiverAccount);
 
-            // Add money to receiver's account
-            // update sender's account
-            float receiverAccountBalanceUpdated = receiverAccount.getBalance() + transaction.getAmount();
-            receiverAccount.setBalance(receiverAccountBalanceUpdated);
-            Account updateAccountsBalance = transactionDAO.updateAccountsBalance(receiverAccount);
-            System.out.println(" ------> Updated receiver account: " + updateAccountsBalance);
+                // register transaction
+                Transaction transactionToSave = new Transaction();
+                transactionToSave.setSenderAccountId(senderAccount);
+                transactionToSave.setReceiverAccountId(receiverAccount);
+                transactionToSave.setType(transaction.getType());
+                transactionToSave.setAmount(transaction.getAmount());
+                transactionToSave.setComment(transaction.getComment());
+                transactionToSave.setTimestamp(getCurrentTimeAsString());
 
-            // register transaction
-            Transaction transactionToSave = new Transaction();
-            transactionToSave.setSenderAccountId(senderAccount);
-            transactionToSave.setReceiverAccountId(receiverAccount);
-            transactionToSave.setType(transaction.getType());
-            transactionToSave.setAmount(transaction.getAmount());
-            transactionToSave.setComment(transaction.getComment());
+                Transaction addedTransaction = transactionDAO.addTransaction(transactionToSave);
 
-            Calendar calendar = Calendar.getInstance();
-            transactionToSave.setTimestamp(new Timestamp(calendar.getTime().getTime()));
-            Transaction addTransaction = transactionDAO.addTransaction(transactionToSave);
-
-            // return addTransaction;
+                return addedTransaction;
+            } else {
+                throw new Exception("Insufficient funds");
+            }
         }
+        return null;
+    }
 
-
-        return transaction;
+    private String  getCurrentTimeAsString(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MILLISECOND, 0);
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        return sdf.format(calendar.getTime());
     }
 }

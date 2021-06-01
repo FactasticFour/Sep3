@@ -150,6 +150,7 @@ namespace PersistenceServer.Networking
                 Transaction transaction = await RepositoryFactory.GetTransactionRepository()
                     .AddTransaction(ToObject<Transaction>(requestFromClient.Payload));
                 var payload = ToJson(transaction);
+                
                 Console.WriteLine($"Transaction added to DB: {payload}");
                 Reply reply = new Reply(Reply.CREATED_TRANSACTION, payload);
                 string json = ToJson(reply);
@@ -337,7 +338,7 @@ namespace PersistenceServer.Networking
 
         private string ReadFromStream()
         {
-            byte[] dataFromClient = new byte[1024];
+            byte[] dataFromClient = new byte[2048];
             int bytesRead = stream.Read(dataFromClient, 0, dataFromClient.Length);
             return Encoding.ASCII.GetString(dataFromClient, 0, bytesRead);
         }

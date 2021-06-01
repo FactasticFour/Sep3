@@ -20,22 +20,35 @@ namespace PersistenceServer.Repository.Impl
             }
             catch (Exception e)
             {
-                throw new Exception("Account could not be updated");
+                throw new Exception("Receiver could not be found");
             }
         }
 
         public async Task<Transaction> AddTransaction(Transaction transaction)
         {
-            using DataContext dataContext = new DataContext();
+            await using DataContext dataContext = new DataContext();
 
             try
             {
+                Account sender =
+                    await dataContext.Accounts.FirstOrDefaultAsync(a => a.AccountId == transaction.SenderAccount.AccountId);
+
+                Account receiver =
+                    await dataContext.Accounts.FirstOrDefaultAsync(a =>
+                        a.AccountId == transaction.ReceiverAccount.AccountId);
+
+                transaction.ReceiverAccount = receiver;
+                transaction.SenderAccount = sender;
+
                 EntityEntry<Transaction> entityEntry = await dataContext.Transactions.AddAsync(transaction);
                 Transaction transactionAdded = entityEntry.Entity;
-                return transaction;
+
+                await dataContext.SaveChangesAsync();
+                return transactionAdded;
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.InnerException);
                 throw new Exception("Transaction could not be added");
             }
         }

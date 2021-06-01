@@ -39,20 +39,20 @@ public class AccountDAOImpl implements AccountDAO {
 
         Reply reply = dataClient.handleRequest(request);
 
-        if (reply.getType().equals(reply.ACCOUNT_ADDED)){
+        if (reply.getType().equals(reply.ACCOUNT_ADDED)) {
             return accountToCreate;
         }
         return null;
-        }
-        
-        @Override
-            public Account getAccountByUsername(String username) {
-                Request request = new Request();
-                request.setPayload(Serialization.serialize(username));
-                request.setType(request.GET_ACCOUNT_BY_USERNAME);
-        
-                Reply reply = dataClient.handleRequest(request);
-                return Serialization.deserialize(reply.getPayload(), Account.class);
-            }
-        
+    }
+
+    @Override
+    public Account getAccountByUsername(String username) {
+        Request request = new Request();
+        request.setPayload(Serialization.serialize(username));
+        request.setType(request.GET_ACCOUNT_BY_USERNAME);
+
+        Reply reply = dataClient.handleRequest(request);
+        return Serialization.deserialize(reply.getPayload(), Account.class);
+    }
+
 }

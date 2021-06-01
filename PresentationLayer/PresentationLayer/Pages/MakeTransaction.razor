@@ -24,6 +24,7 @@
     <input class="d-block" @bind-value="@comment"/>
 
     <button class="d-block" @onclick="sendTransaction">Send</button>
+    <label style="color: @labelColor">@errorLabel</label>
 </AuthorizeView>
 
 @code {
@@ -32,14 +33,16 @@
     private string type = "Transfer";
     private string comment;
 
+    private string labelColor;
+    private string errorLabel;
+
     private async Task sendTransaction()
     {
-        Console.WriteLine("Executing send transaction");
         var authenticationStateAsync = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         Transaction transaction = new Transaction()
         {
             Amount = amountToSend,
-            Comment = comment,
+            Comment = comment.Trim(),
             ReceiverAccount = new Account()
             {
                 ViaEntity = new ViaEntity()
@@ -54,7 +57,18 @@
             Type = type
         };
 
-        await TransactionService.SendTransactionAsync(transaction);
+        try
+        {
+            await TransactionService.SendTransactionAsync(transaction);
+            labelColor = "green";
+            errorLabel = "Successful transaction";
+
+        }
+        catch (Exception e)
+        {
+            labelColor = "red";
+            errorLabel = e.Message;
+        }
     }
 
 }
