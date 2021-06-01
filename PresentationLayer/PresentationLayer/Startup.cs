@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using PresentationLayer.Authentication;
 using PresentationLayer.Data;
 using PresentationLayer.Data.Implementation;
-using PresentationLayer.Models;
 
 namespace PresentationLayer
 {

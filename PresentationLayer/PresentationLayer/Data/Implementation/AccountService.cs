@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -32,14 +31,14 @@ namespace PresentationLayer.Data.Implementation
 
             if (result.Contains("cpr"))
             {
-                viaEntity = JsonSerializer.Deserialize<Member>(result, new JsonSerializerOptions
+                viaEntity = JsonSerializer.Deserialize<Models.Member>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
             }
             else
             {
-                viaEntity = JsonSerializer.Deserialize<Facility>(result, new JsonSerializerOptions
+                viaEntity = JsonSerializer.Deserialize<Models.Facility>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

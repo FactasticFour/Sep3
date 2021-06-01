@@ -44,11 +44,11 @@
                     if (response.Equals(true))
                     {
                         displayMessage = "Charging account...";
-                        Console.WriteLine("It worked I think");
                         await PerformDeposit(amount);
                     }
                     else
                     {
+                        displayMessage = "";
                         displayErrorMessage = "Credit Card not assigned to the account";
                     }
         }

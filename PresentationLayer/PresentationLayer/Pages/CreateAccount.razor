@@ -1,7 +1,9 @@
 ﻿@page "/CreateAccount"
 @using PresentationLayer.Models
-@inject Data.IAccountService AccountService
-@inject Data.IRoleService RoleService
+@using PresentationLayer.Data
+
+@inject IAccountService AccountService
+@inject IRoleService RoleService
 @inject NavigationManager NavigationManager
 
 <div class="d-flex flex-column justify-content-around align-items-center">
@@ -100,8 +102,9 @@
     private ViaEntity dbViaEntity;
 
     private bool isMember = false;
-    private Member dbMember;
-    private Facility dbFacility;
+    private Models.Member dbMember;
+    private Models.Facility dbFacility;
+
 
     private List<string> accountTypes;
     string selectedAccountType = "";
@@ -125,15 +128,15 @@
             checkEntityErrorLabel = e.Message;
         }
         
-        if (dbViaEntity is Member)
+        if (dbViaEntity is Models.Member)
         {
             isMember = true;
-            dbMember = (Member) dbViaEntity;
+            dbMember = (Models.Member) dbViaEntity;
         }
-        else if (dbViaEntity is Facility)
+        else if (dbViaEntity is Models.Facility)
         {
             isMember = false;
-            dbFacility = (Facility) dbViaEntity;
+            dbFacility = (Models.Facility) dbViaEntity;
         }
 
         StateHasChanged();
@@ -141,6 +144,7 @@
 
     private async Task SubmitAccountCreation()
     {
+        createAccountErrorLabel = "";
         if (CheckAccountTypeSelected() &&
             CheckAppPasswordsMatch() &&
             CheckTermsAndConditionsChecked())
