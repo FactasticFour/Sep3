@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -59,7 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             Calendar calendar = Calendar.getInstance();
             transactionToSave.setTimestamp(new Timestamp(calendar.getTime().getTime()));
-            //Transaction addTransaction = transactionDAO.addTransaction(transactionToSave);
+            Transaction addTransaction = transactionDAO.addTransaction(transactionToSave);
 
             // return addTransaction;
         }

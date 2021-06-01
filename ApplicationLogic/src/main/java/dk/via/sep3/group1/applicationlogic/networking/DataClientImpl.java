@@ -55,7 +55,7 @@ public class DataClientImpl implements DataClient {
 
 
     private String readBytes(InputStream inputStream) {
-        byte[] readAllBytes = new byte[1024];
+        byte[] readAllBytes = new byte[2048];
         try {
             readAllBytes = inputStream.readAllBytes();
         } catch (IOException e) {
