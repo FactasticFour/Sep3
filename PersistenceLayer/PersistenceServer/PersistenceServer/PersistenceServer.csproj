@@ -31,8 +31,4 @@
       <Compile Remove="Migrations\DataContextModelSnapshot.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Migrations" />
-    </ItemGroup>
-
 </Project>

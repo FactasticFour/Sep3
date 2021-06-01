@@ -10,8 +10,8 @@ using PersistenceServer.Data;
 namespace PersistenceServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210527064515_S04_RemoveAccountFromViaEntity")]
-    partial class S04_RemoveAccountFromViaEntity
+    [Migration("20210601135102_S05_RemoveUserDbSet")]
+    partial class S05_RemoveUserDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,26 +169,6 @@ namespace PersistenceServer.Migrations
                     b.HasIndex("sender");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("PersistenceServer.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.ViaEntity", b =>

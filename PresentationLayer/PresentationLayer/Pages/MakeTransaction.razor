@@ -42,6 +42,7 @@
 
     private async Task sendTransaction()
     {
+        errorLabel = "";
         if (ValidateAmountField() && ValidateIdField())
         {
             var authenticationStateAsync = await AuthenticationStateProvider.GetAuthenticationStateAsync();
