@@ -20,7 +20,7 @@ namespace PersistenceServer.Repository.Impl
             }
             catch (Exception e)
             {
-                throw new Exception("Receiver could not be found");
+                throw new Exception("Account could not be updated");
             }
         }
 

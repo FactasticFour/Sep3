@@ -8,9 +8,11 @@
 
     <h2>Make a transfer</h2>
 
+    <label style="color: red">@amountErrorLabel</label>
     <label class="d-block">Amount to send:</label>
     <input class="d-block" @bind-value="@amountToSend"/>
 
+    <label style="color: red">@receiverIdErrorLabel</label>
     <label class="d-block">Receiver VIA ID:</label>
     <input class="d-block" @bind-value="@receiverID"/>
 
@@ -31,43 +33,76 @@
     private float amountToSend;
     private string receiverID;
     private string type = "Transfer";
-    private string comment;
+    private string comment = "";
 
     private string labelColor;
     private string errorLabel;
+    private string amountErrorLabel;
+    private string receiverIdErrorLabel;
 
     private async Task sendTransaction()
     {
-        var authenticationStateAsync = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        Transaction transaction = new Transaction()
+        if (ValidateAmountField() && ValidateIdField())
         {
-            Amount = amountToSend,
-            Comment = comment.Trim(),
-            ReceiverAccount = new Account()
+            var authenticationStateAsync = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            Transaction transaction = new Transaction()
             {
-                ViaEntity = new ViaEntity()
+                Amount = amountToSend,
+                Comment = comment.Trim(),
+                ReceiverAccount = new Account()
                 {
-                    ViaId = Int32.Parse(receiverID)
-                }
-            },
-            SenderAccount = new Account()
+                    ViaEntity = new ViaEntity()
+                    {
+                        ViaId = Int32.Parse(receiverID)
+                    }
+                },
+                SenderAccount = new Account()
+                {
+                    AccountId = Int32.Parse(authenticationStateAsync.User.Identity.Name)
+                },
+                Type = type
+            };
+
+            try
             {
-                AccountId = Int32.Parse(authenticationStateAsync.User.Identity.Name)
-            },
-            Type = type
-        };
+                await TransactionService.SendTransactionAsync(transaction);
+                labelColor = "green";
+                errorLabel = "Successful transaction";
 
-        try
-        {
-            await TransactionService.SendTransactionAsync(transaction);
-            labelColor = "green";
-            errorLabel = "Successful transaction";
-
+            }
+            catch (Exception e)
+            {
+                labelColor = "red";
+                errorLabel = e.Message;
+            }
         }
-        catch (Exception e)
+    }
+
+    private bool ValidateAmountField()
+    {
+        if (amountToSend == 0)
         {
-            labelColor = "red";
-            errorLabel = e.Message;
+            amountErrorLabel = "Enter valid amount";
+            return false;
+        }
+        else
+        {
+            amountErrorLabel = "";
+            return true;
+        }
+    }
+
+    private bool ValidateIdField()
+    {
+        if (receiverID.Length < 1 && receiverID.Length > 7)
+        {
+            receiverIdErrorLabel = "Enter valid id";
+            return true;
+        }
+        else
+        {
+            receiverIdErrorLabel = "";
+            return false;
         }
     }
 
