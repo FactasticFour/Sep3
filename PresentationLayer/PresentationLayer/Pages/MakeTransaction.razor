@@ -31,7 +31,7 @@
 
 @code {
     private float amountToSend;
-    private string receiverID;
+    private string receiverID = "";
     private string type = "Transfer";
     private string comment = "";
 
@@ -94,15 +94,18 @@
 
     private bool ValidateIdField()
     {
-        if (receiverID.Length < 1 && receiverID.Length > 7)
+        Console.WriteLine(receiverID.Length);
+        if (receiverID.Length < 1 || receiverID.Length > 7)
         {
             receiverIdErrorLabel = "Enter valid id";
-            return true;
+            Console.WriteLine(receiverIdErrorLabel);
+            return false;
         }
         else
         {
             receiverIdErrorLabel = "";
-            return false;
+            Console.WriteLine(receiverIdErrorLabel);
+            return true;
         }
     }
 
