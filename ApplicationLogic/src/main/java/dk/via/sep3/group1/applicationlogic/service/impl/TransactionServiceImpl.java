@@ -57,11 +57,11 @@ public class TransactionServiceImpl implements TransactionService {
             transactionToSave.setAmount(transaction.getAmount());
             transactionToSave.setComment(transaction.getComment());
 
-           // Calendar calendar = Calendar.getInstance();
-           // transactionToSave.setTimestamp(new Timestamp(calendar.getTime().getTime()));
+            Calendar calendar = Calendar.getInstance();
+            transactionToSave.setTimestamp(new Timestamp(calendar.getTime().getTime()));
             //Transaction addTransaction = transactionDAO.addTransaction(transactionToSave);
 
-           // return addTransaction;
+            // return addTransaction;
         }
 
 
