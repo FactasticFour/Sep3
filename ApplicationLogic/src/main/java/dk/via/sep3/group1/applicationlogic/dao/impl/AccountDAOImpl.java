@@ -46,6 +46,20 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
+    public float getAccountBalance(int accountId) {
+        Request request = new Request();
+
+        request.setPayload(Serialization.serialize(accountId));
+        request.setType(request.GET_ACCOUNT_BY_ACCOUNT_ID);
+        System.out.println(request.getPayload());
+        Reply reply = dataClient.handleRequest(request);
+        Account account = Serialization.deserialize(reply.getPayload(), Account.class);
+        System.out.println(account.getBalance());
+        return account.getBalance();
+
+    }
+
+    @Override
     public Account getAccountByUsername(String username) {
         Request request = new Request();
         request.setPayload(Serialization.serialize(username));

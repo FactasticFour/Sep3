@@ -9,5 +9,7 @@ namespace PresentationLayer.Data
         Task<ViaEntity> CheckViaAccountAsync(ViaEntity entityToCheck);
 
         Task CreateAccountAsync(Account account);
+
+        Task<float> GetAccountBalance(int accountID);
     }
 }

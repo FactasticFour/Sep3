@@ -7,4 +7,6 @@ public interface AccountService {
     ViaEntity checkViaAccount(ViaEntity entityToCheck) throws Exception;
 
     void createAccount(Account accountToCreate) throws Exception;
+
+    float checkBalance(int accountID)throws Exception;
 }

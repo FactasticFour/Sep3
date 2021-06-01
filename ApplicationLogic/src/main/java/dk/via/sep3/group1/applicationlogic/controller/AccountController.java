@@ -4,6 +4,7 @@ import dk.via.sep3.group1.applicationlogic.model.Account;
 import dk.via.sep3.group1.applicationlogic.model.Role;
 import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.service.AccountService;
+import dk.via.sep3.group1.applicationlogic.shared.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,17 @@ public class AccountController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
+    }
+    @GetMapping("/checkbalance")
+    public ResponseEntity checkBalance(@RequestParam int id){
+        System.out.println("Controller received: " + id);
+        String balance;
+        try {
+balance = Serialization.serialize(accountService.checkBalance(id));
+            return new ResponseEntity(balance, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

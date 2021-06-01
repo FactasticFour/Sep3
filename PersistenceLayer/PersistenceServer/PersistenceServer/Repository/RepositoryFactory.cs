@@ -43,9 +43,6 @@ namespace PersistenceServer.Repository
             return new TransactionRepositoryImpl();
         }
 
-        public static IAccountRepository GetAccountRepository()
-        {
-            return new AccountRepositoryImpl();
-        }
+       
     }
 }

@@ -72,4 +72,10 @@ public class AccountServiceImpl implements AccountService {
             throw new Exception("Account already exists");
         }
     }
+
+    @Override
+    public float checkBalance(int accountID) throws Exception {
+        float balance = accountDAO.getAccountBalance(accountID);
+        return balance;
+    }
 }

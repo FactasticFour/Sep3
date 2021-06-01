@@ -80,6 +80,23 @@ namespace PresentationLayer.Data.Implementation
                 throw new Exception($"{responseMessage.Content.ReadAsStringAsync().Result}");
             }
         }
+
+        public async Task<float> GetAccountBalance(int accountID)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage responseMessage =
+                await client.GetAsync($"http://localhost:8080/account/checkbalance?id={accountID}");
+            
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"{responseMessage.Content.ReadAsStringAsync().Result}");
+            }
+
+            string result = await responseMessage.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+            return JsonSerializer.Deserialize<float>(result);
+        }
     }
     
     

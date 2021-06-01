@@ -1,13 +1,29 @@
 ﻿@page "/Facility"
+@using PresentationLayer.Data
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IAccountService AccountService
 
 <h3>Facility</h3>
 
 <AuthorizeView>
     <p>Has account id @context.User.Identity.Name</p>
     <p>Role is: @context.User.FindFirst(claim => claim.Type.Equals("Role")).Value</p>
+    <p>Balance of the account: @balance kr.</p><button onclick="@getBalance()">Update</button>
 </AuthorizeView>
 
 @code {
-    
+    private float balance;
+
+    protected override async Task OnInitializedAsync()
+    {
+        getBalance();
+    }
+
+    private async Task getBalance()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        int id = Int32.Parse(user.Identity.Name);
+        balance = await AccountService.GetAccountBalance(id);
+    }
 }

@@ -8,4 +8,6 @@ public interface AccountDAO {
     boolean checkAccountWithViaId(int viaId);
 
     Account addAccount(Account accountToCreate);
+
+    float getAccountBalance(int accountId);
 }

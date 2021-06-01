@@ -65,7 +65,7 @@
         {
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-           id = Int32.Parse(user.Identity.Name);
+            id = Int32.Parse(user.Identity.Name);
             Account accountToDeposit = new Account()
             {
                  AccountId = id,
