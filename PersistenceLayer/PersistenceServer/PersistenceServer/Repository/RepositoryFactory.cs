@@ -4,11 +4,6 @@ namespace PersistenceServer.Repository
 {
     public static class RepositoryFactory
     {
-        public static IUserRepository GetUserRepository()
-        {
-            return new UserRepositoryImpl();
-        }
-
         public static IDbSeedingRepository GetDbSeedingRepository()
         {
             return new DbSeedingRepositoryImpl();
