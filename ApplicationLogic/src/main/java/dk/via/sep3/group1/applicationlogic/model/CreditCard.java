@@ -2,6 +2,7 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class CreditCard {
 
     @JsonProperty("creditCardNumber")
@@ -17,7 +18,7 @@ public class CreditCard {
     @JsonProperty("securityCode")
     private int securityCode;
     @JsonProperty("amountOfMoney")
-    private float amountOfMoney = 9000000;
+    private float amountOfMoney = 900000;
     @JsonProperty("account")
     private Account account;
 

@@ -1,36 +1,58 @@
 package dk.via.sep3.group1.applicationlogic.dao.impl;
 
 import dk.via.sep3.group1.applicationlogic.dao.AccountDAO;
-import dk.via.sep3.group1.applicationlogic.model.User;
-import dk.via.sep3.group1.applicationlogic.networking.DataClientImpl;
+import dk.via.sep3.group1.applicationlogic.model.Account;
+import dk.via.sep3.group1.applicationlogic.networking.DataClient;
 import dk.via.sep3.group1.applicationlogic.shared.Reply;
 import dk.via.sep3.group1.applicationlogic.shared.Request;
 import dk.via.sep3.group1.applicationlogic.shared.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.serializer.support.SerializationFailedException;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AccountDAOImpl implements AccountDAO {
 
     @Autowired
-    DataClientImpl dataClient;
+    DataClient dataClient;
 
-    public AccountDAOImpl() {
+    @Override
+    public boolean checkAccountWithViaId(int viaId) {
+        Request request = new Request();
+        request.setPayload(Serialization.serialize(viaId));
+        request.setType(request.GET_ACCOUNT_WITH_VIA_ID);
+
+        Reply reply = null;
+        try {
+            reply = dataClient.handleRequest(request);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
-    public float getAccountBalance(int id) {
+    public Account addAccount(Account accountToCreate) {
         Request request = new Request();
-        request.setPayload(Serialization.serialize(id));
-        request.setType(request.GET_ACCOUNT_BALANCE);
+        request.setPayload(Serialization.serialize(accountToCreate));
+        request.setType(request.ADD_ACCOUNT);
+
         Reply reply = dataClient.handleRequest(request);
-        if (reply.getType().equals(reply.SEND_ACCOUNT_BALANCE)) {
-            float balance = Serialization.deserialize(reply.getPayload(), float.class);
-            System.out.println(reply.getPayload());
-            return balance;
+
+        if (reply.getType().equals(reply.ACCOUNT_ADDED)) {
+            return accountToCreate;
         }
-        else {
-            throw new NullPointerException(reply.BAD_REQUEST);
-        }
+        return null;
     }
+
+    @Override
+    public Account getAccountByUsername(String username) {
+        Request request = new Request();
+        request.setPayload(Serialization.serialize(username));
+        request.setType(request.GET_ACCOUNT_BY_USERNAME);
+
+        Reply reply = dataClient.handleRequest(request);
+        return Serialization.deserialize(reply.getPayload(), Account.class);
+    }
+
 }

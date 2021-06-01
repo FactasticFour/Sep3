@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PersistenceServer.Migrations
 {
-    public partial class S04OverallUpdate : Migration
+    public partial class S05_RemoveUserDbSet : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,63 +36,12 @@ namespace PersistenceServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserName = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CreditCards",
-                columns: table => new
-                {
-                    CreditCardNumber = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    ExpirationMonth = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
-                    ExpirationYear = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
-                    SecurityCode = table.Column<int>(type: "integer", nullable: false),
-                    AmountOfMoney = table.Column<float>(type: "real", nullable: false),
-                    accountId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CreditCards", x => x.CreditCardNumber);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    receiver = table.Column<int>(type: "integer", nullable: false),
-                    sender = table.Column<int>(type: "integer", nullable: false),
-                    Amount = table.Column<float>(type: "real", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<string>(type: "text", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ViaEntities",
                 columns: table => new
                 {
                     ViaId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Password = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    accountId = table.Column<int>(type: "integer", nullable: true)
+                    Password = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,6 +125,60 @@ namespace PersistenceServer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CreditCards",
+                columns: table => new
+                {
+                    CreditCardNumber = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
+                    fname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    lname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    ExpirationMonth = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
+                    ExpirationYear = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
+                    SecurityCode = table.Column<int>(type: "integer", nullable: false),
+                    AmountOfMoney = table.Column<float>(type: "real", nullable: false),
+                    accountId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CreditCards", x => x.CreditCardNumber);
+                    table.ForeignKey(
+                        name: "FK_CreditCards_Accounts_accountId",
+                        column: x => x.accountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    receiver = table.Column<int>(type: "integer", nullable: false),
+                    sender = table.Column<int>(type: "integer", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Accounts_receiver",
+                        column: x => x.receiver,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Accounts_sender",
+                        column: x => x.sender,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_type",
                 table: "Accounts",
@@ -205,55 +208,10 @@ namespace PersistenceServer.Migrations
                 name: "IX_Transactions_sender",
                 table: "Transactions",
                 column: "sender");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ViaEntities_accountId",
-                table: "ViaEntities",
-                column: "accountId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CreditCards_Accounts_accountId",
-                table: "CreditCards",
-                column: "accountId",
-                principalTable: "Accounts",
-                principalColumn: "AccountId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Transactions_Accounts_receiver",
-                table: "Transactions",
-                column: "receiver",
-                principalTable: "Accounts",
-                principalColumn: "AccountId",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Transactions_Accounts_sender",
-                table: "Transactions",
-                column: "sender",
-                principalTable: "Accounts",
-                principalColumn: "AccountId",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ViaEntities_Accounts_accountId",
-                table: "ViaEntities",
-                column: "accountId",
-                principalTable: "Accounts",
-                principalColumn: "AccountId",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Accounts_Roles_type",
-                table: "Accounts");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Accounts_ViaEntities_viaId",
-                table: "Accounts");
-
             migrationBuilder.DropTable(
                 name: "CreditCards");
 
@@ -267,19 +225,16 @@ namespace PersistenceServer.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Campuses");
 
             migrationBuilder.DropTable(
-                name: "Campuses");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "ViaEntities");
-
-            migrationBuilder.DropTable(
-                name: "Accounts");
         }
     }
 }

@@ -2,9 +2,13 @@ package dk.via.sep3.group1.applicationlogic.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Transaction {
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("receiverAccount")
     private Account receiverAccountId;
     @JsonProperty("senderAccount")
@@ -16,7 +20,7 @@ public class Transaction {
     @JsonProperty("type")
     private String type;
     @JsonProperty("timestamp")
-    private Timestamp timestamp;
+    private String timestamp;
 
     public Transaction() {
     }
@@ -61,11 +65,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }

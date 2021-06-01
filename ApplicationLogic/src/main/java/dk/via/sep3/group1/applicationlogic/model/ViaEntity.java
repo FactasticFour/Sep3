@@ -7,10 +7,13 @@ public class ViaEntity {
     private int viaId;
     @JsonProperty("password")
     private String password;
-    @JsonProperty("account")
-    private Account account;
 
     public ViaEntity() {
+    }
+
+    public ViaEntity(int viaId, String password) {
+        this.viaId = viaId;
+        this.password = password;
     }
 
     public int getViaId() {
@@ -29,11 +32,12 @@ public class ViaEntity {
         this.password = password;
     }
 
-    public Account getAccount() {
-        return account;
+    @Override
+    public String toString() {
+        return "ViaEntity{" +
+                "viaId=" + viaId +
+                ", password='" + password + '\'' +
+                '}';
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 }

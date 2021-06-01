@@ -3,8 +3,8 @@ using PresentationLayer.Models;
 
 namespace PresentationLayer.Data
 {
-    public interface IUserService
+    public interface ITransactionService
     {
-        Task<User> GetUserByIdAsync(int id);
+        Task<Transaction> SendTransactionAsync(Transaction transaction);
     }
 }

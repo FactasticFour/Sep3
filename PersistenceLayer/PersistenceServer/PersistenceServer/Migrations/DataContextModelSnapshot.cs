@@ -169,26 +169,6 @@ namespace PersistenceServer.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("PersistenceServer.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("PersistenceServer.Models.ViaEntity", b =>
                 {
                     b.Property<int>("ViaId")
@@ -201,14 +181,9 @@ namespace PersistenceServer.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<int>("accountId")
-                        .HasColumnType("integer");
-
                     b.HasKey("ViaId");
 
-                    b.HasIndex("accountId");
-
-                    b.ToTable("ViaEntity");
+                    b.ToTable("ViaEntities");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>
@@ -302,17 +277,6 @@ namespace PersistenceServer.Migrations
                     b.Navigation("ReceiverAccount");
 
                     b.Navigation("SenderAccount");
-                });
-
-            modelBuilder.Entity("PersistenceServer.Models.ViaEntity", b =>
-                {
-                    b.HasOne("PersistenceServer.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("accountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("PersistenceServer.Models.Facility", b =>

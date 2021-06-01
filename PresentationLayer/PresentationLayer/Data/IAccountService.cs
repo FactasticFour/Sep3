@@ -1,9 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using PresentationLayer.Models;
 
 namespace PresentationLayer.Data
 {
     public interface IAccountService
     {
-        Task<float> getAccountBalance(int id);
+        Task<ViaEntity> CheckViaAccountAsync(ViaEntity entityToCheck);
+
+        Task CreateAccountAsync(Account account);
     }
 }

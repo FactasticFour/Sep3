@@ -1,12 +1,15 @@
 package dk.via.sep3.group1.applicationlogic.controller;
 
+import dk.via.sep3.group1.applicationlogic.model.Account;
+import dk.via.sep3.group1.applicationlogic.model.Role;
+import dk.via.sep3.group1.applicationlogic.model.ViaEntity;
 import dk.via.sep3.group1.applicationlogic.service.AccountService;
-import dk.via.sep3.group1.applicationlogic.service.DbSeedingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/account")
@@ -15,9 +18,27 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+    @GetMapping
+    public ResponseEntity checkViaEntity(@RequestParam int id, @RequestParam String password){
+        System.out.println("Controller received: " + id+ "      " + password);
 
-    @GetMapping("{id}")
-    public float getAccountBalance(@PathVariable int id){
-        return accountService.getAccountBalance(id);
+        try {
+            ViaEntity viaEntity = accountService.checkViaAccount(new ViaEntity(id, password));
+            return new ResponseEntity(viaEntity, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity createAccount(@RequestBody Account account){
+        System.out.println("creating account: " + account);
+        try {
+            accountService.createAccount(account);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 }
