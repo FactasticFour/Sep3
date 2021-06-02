@@ -9,14 +9,14 @@
     <p>Has account id @context.User.Identity.Name</p>
     <p>Role is: @context.User.FindFirst(claim => claim.Type.Equals("Role")).Value</p>
 </AuthorizeView>
-    <p>Balance of the account: @balance kr.</p><button onclick="@getBalance()">Update</button>
+    <p>Balance of the account: @balance kr.</p><button @onclick="getBalance">Update</button>
 
 @code {
     private string balance;
 
     protected override async Task OnInitializedAsync()
     {
-        getBalance();
+        await getBalance();
     }
 
     private async Task getBalance()
@@ -25,6 +25,6 @@
         var user = authState.User;
         int id = Int32.Parse(user.Identity.Name);
         balance = await AccountService.GetAccountBalance(id);
-        StateHasChanged();
+       
     }
 }
