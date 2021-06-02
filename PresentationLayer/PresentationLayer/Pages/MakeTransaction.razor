@@ -39,6 +39,7 @@
     private string errorLabel;
     private string amountErrorLabel;
     private string receiverIdErrorLabel;
+    private Transaction registeredTransaction;
 
     private async Task sendTransaction()
     {
@@ -66,9 +67,9 @@
 
             try
             {
-                await TransactionService.SendTransactionAsync(transaction);
+                registeredTransaction = await TransactionService.SendTransactionAsync(transaction);
                 labelColor = "green";
-                errorLabel = "Successful transaction";
+                errorLabel = $"Successful transaction create at {registeredTransaction.Timestamp}";
 
             }
             catch (Exception e)
