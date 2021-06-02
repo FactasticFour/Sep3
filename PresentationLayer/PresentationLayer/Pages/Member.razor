@@ -8,11 +8,12 @@
 <AuthorizeView>
     <p>Has account id @context.User.Identity.Name</p>
     <p>Role is: @context.User.FindFirst(claim => claim.Type.Equals("Role")).Value</p>
-    <p>Balance of the account: @balance kr.</p><button onclick="@getBalance()">Update</button>
 </AuthorizeView>
+    <label>Balance of the account: @balance kr.</label><button onclick="@getBalance()">Update</button>
 
 @code {
-    private float balance;
+    
+    private string balance = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,6 +27,6 @@
         var user = authState.User;
         int id = Int32.Parse(user.Identity.Name);
         balance = await AccountService.GetAccountBalance(id);
-        Console.WriteLine(balance + "xddd");
+        StateHasChanged();
     }
 }

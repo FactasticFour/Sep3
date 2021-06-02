@@ -81,7 +81,7 @@ namespace PresentationLayer.Data.Implementation
             }
         }
 
-        public async Task<float> GetAccountBalance(int accountID)
+        public async Task<string> GetAccountBalance(int accountID)
         {
             HttpClient client = new HttpClient();
             HttpResponseMessage responseMessage =
@@ -93,9 +93,8 @@ namespace PresentationLayer.Data.Implementation
                 throw new Exception($"{responseMessage.Content.ReadAsStringAsync().Result}");
             }
 
-            string result = await responseMessage.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
-            return JsonSerializer.Deserialize<float>(result);
+            return await responseMessage.Content.ReadAsStringAsync();
+         
         }
     }
     

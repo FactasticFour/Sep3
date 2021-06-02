@@ -10,6 +10,6 @@ namespace PresentationLayer.Data
 
         Task CreateAccountAsync(Account account);
 
-        Task<float> GetAccountBalance(int accountID);
+        Task<string> GetAccountBalance(int accountID);
     }
 }
