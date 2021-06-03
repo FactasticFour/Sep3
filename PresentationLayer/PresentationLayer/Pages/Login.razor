@@ -25,9 +25,11 @@
         </div>
     </NotAuthorized>
     <Authorized>
-        <button class="btn btn-outline-dark" @onclick="PerformLogout">
-            Log out
-        </button>
+      <div class="d-flex flex-column justify-content-around align-items-center">
+      <button class="btn btn-outline-dark" @onclick="PerformLogout">
+          Log out
+      </button>
+       </div>
     </Authorized>
 </AuthorizeView>
 
