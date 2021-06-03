@@ -69,7 +69,7 @@
             {
                 registeredTransaction = await TransactionService.SendTransactionAsync(transaction);
                 labelColor = "green";
-                errorLabel = $"Successful transaction create at {registeredTransaction.Timestamp}";
+                errorLabel = $"Successful transaction created at {registeredTransaction.Timestamp}";
 
             }
             catch (Exception e)
