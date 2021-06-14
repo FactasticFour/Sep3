@@ -18,9 +18,6 @@ public class LoginController {
 
     @GetMapping()
     public ResponseEntity validateUser(@RequestParam("username") String username, @RequestParam("password") String password) {
-        System.out.println("Controller - Username from client: " + username);
-        System.out.println("Controller - Password from client: " + password);
-
         try {
             Account account = loginService.validateAccount(password, username);
             return new ResponseEntity(account, HttpStatus.OK);
